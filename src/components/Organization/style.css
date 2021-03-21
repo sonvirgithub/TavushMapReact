@@ -1,0 +1,84 @@
+.org_title {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 42px 32px 42px 32px;
+}
+.org_title_txt {
+  font-size: 26px;
+  color: #858282;
+}
+
+  .org_icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.button_add {
+  border: none;
+  background: none;
+  /* width: 200px; */
+  height: 30px;
+  font-family: Mardoto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 30px;
+  color: #05558f;
+  display: inline-block;
+  /* margin-top: 40px; */
+  /* margin-right: 50px; */
+  outline: none !important;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #05558f;
+  border-color: #05558f;
+  border-radius: 4px;
+}
+.btn-secondary {
+  color: #db0909;
+  background-color: #ffffff;
+  border-color: #db0909;
+  border-radius: 4px;
+}
+.modal-body {
+  align-self: center;
+  position: relative;
+  flex: 1 1 auto;
+  padding: 4rem 4rem 1rem 4rem;
+}
+.modal-footer {
+  display: flex;
+  /* flex-wrap: wrap; */
+  /* flex-shrink: 0; */
+  align-items: center;
+  justify-content: space-around;
+  padding: 0rem 6rem 4rem 6rem;
+  border-top: none;
+  /* border-top: 1px solid #dee2e6; */
+  /* border-bottom-right-radius: calc(0.3rem - 1px); */
+  /* border-bottom-left-radius: calc(0.3rem - 1px); */
+}
+.btn-primary :hover {
+  color: #fff;
+  background-color: red !important;
+  border-color: #05558f;
+  border-radius: 4px;
+}
+table,
+th,
+td {
+  border-bottom: 1px solid #e5e5e5;
+}
+tr {
+  height: 56px;
+}
+th,
+td {
+  padding: 0px 0px 0px 32px;
+  color: #433f3f;
+}

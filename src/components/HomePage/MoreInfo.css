@@ -1,0 +1,23 @@
+.info_row {
+    padding: 5px 0;
+    display: flex;
+    cursor: pointer;
+    color: #433f3f;
+}
+
+.paragraph {
+    margin: 0;
+    font-size: 14px;
+}
+.det_icon {
+    padding-right: 8px;
+    width: 16px;
+}
+.sideBar1 {
+    
+    overflow-y: scroll;
+   
+  }
+  .desc {
+      color: red;
+  }
