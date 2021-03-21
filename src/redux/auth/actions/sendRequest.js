@@ -4,7 +4,6 @@ import axios from "axios";
 export default async function sendRequest(url) {
   const response = await axios(url);
 
-  // console.log(response.data.success);
   if (!response.data.success) {
     if (window.location.pathname !== "/admin/login") {
       axios

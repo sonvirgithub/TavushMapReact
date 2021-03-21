@@ -28,6 +28,11 @@ function Routes({
   successPage,
   setSuccessPage,
   setFailPage,
+  moreInfoStartDate,
+  moreInfoEndDate,
+  setMoreInfoStartDate,
+  setMoreInfoEndDate,
+
 }) {
 
   // console.log(showResults, "showResults rout");
@@ -35,11 +40,14 @@ function Routes({
     // console.log(isLoggedIn);
     return (
       <>
+
         {/* <SideBar /> */}
         {showResults ? (
           <MoreInfo
             setShowResults={setShowResults}
             prog={prog}
+            moreInfoStartDate={moreInfoStartDate}
+            moreInfoEndDate={moreInfoEndDate}
           // programsList={programsList}
           />
         ) : (
@@ -60,9 +68,13 @@ function Routes({
             path="/admin/program"
             render={() => (
               <ProgramsPage
-                setProg={setProg}
                 showResults={showResults}
                 setShowResults={setShowResults}
+                setProg={setProg}
+                moreInfoStartDate={moreInfoStartDate}
+                moreInfoEndDate={moreInfoEndDate}
+                setMoreInfoEndDate={setMoreInfoEndDate}
+                setMoreInfoStartDate={setMoreInfoStartDate}
               />
             )}
           />

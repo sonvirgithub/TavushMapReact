@@ -5,7 +5,6 @@ import { Modal, Button } from "react-bootstrap";
 import { SupportContext } from "../../pages/SupportTypesPage";
 
 function DeleteSupportType({ supType, setSuccessPage, setFailPage }) {
-  //   console.log(supType, "supType");
   const supportCont = useContext(SupportContext);
 
   const [show, setShow] = useState(false);

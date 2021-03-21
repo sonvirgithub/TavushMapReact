@@ -137,22 +137,34 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
 
   const handleClose = () => {
     setShow(false)
+    setIsSelect([])
+    console.log("programs[index].support2",prog.support);
+    if (prog.status === 1) {
+      prog.status = "ընթացիկ"
+    }
+    if (prog.status === 2) {
+      prog.status = "ավարտված"
+    }
     
+
   };
 
-
-  const handleSubmit = (evt) => {
-
+  
+  const handleSubmit = (evt) => { 
+  
     const year = prog.startDate.getFullYear()
     const month = prog.startDate.getMonth() + 1
     const day = prog.startDate.getDate()
     prog.startDate = `${year}-${month}-${day}`
-
+    
+    
     const year1 = prog.endDate.getFullYear()
     const month1 = prog.endDate.getMonth() + 1
     const day1 = prog.endDate.getDate()
     prog.endDate = `${year1}-${month1}-${day1}`
     
+
+    prog.support = isSelect
 
     axios
       .put(`/api/editProgram`, {

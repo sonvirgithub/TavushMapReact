@@ -8,19 +8,19 @@ import "./Program.css"
 import moment from 'moment'
 
 
-function Program({ programs, showResults, setShowResults, setProg }) {
+function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEndDate,setMoreInfoStartDate }) {
 
   const [item, setItem] = useState({})
   const [itemDelete, setItemDelete] = useState({})
   const [itemMoreInfo, setItemMoreInfo] = useState({})
   const [editShow, setEditShow] = useState(false)
   const [deleteShow, setDeleteShow] = useState(false)
-  // const [showResults, setShowResults] = useState([])
-  let [isSelect, setIsSelect] = useState([])
+  
+
+  let [isSelect, setIsSelect] = useState([{}])
 
 
   const handleShowEdit = (index) => {
-
 
     if (programs[index].status === "ընթացիկ") {
       programs[index].status = 1
@@ -32,18 +32,20 @@ function Program({ programs, showResults, setShowResults, setProg }) {
     const startDate = moment(programs[index].startDate).toDate()
     const endDate = moment(programs[index].endDate).toDate()
 
-    programs[index].support.map((item) => {
 
-      item.supports.map((support) => {
-        isSelect.push({
-          supportid: support.supportid
+    programs[index].support.map((item) => {
+      if (item.supports.length > 0 || item.supports.length != undefined) {
+        item.supports.map((support) => {
+          isSelect.push({
+            supportid: support.supportid
+          })
         })
-      })
+      }
     })
 
     programs[index].startDate = startDate
     programs[index].endDate = endDate
-    //  programs[index].support = isSelect
+    // programs[index].support = isSelect
     setItem(programs[index])
     setEditShow(true)
 
@@ -55,10 +57,19 @@ function Program({ programs, showResults, setShowResults, setProg }) {
   }
 
   const handleShowMoreInfo = (index) => {
+
+    setMoreInfoStartDate(moment(programs[index].startDate).format('DD.MM.YYYY'))
+    setMoreInfoEndDate(moment(programs[index].endDate).format('DD.MM.YYYY'))
+    if(programs[index].status === 1 ){
+      programs[index].status ="ընթացիկ"
+    }
+    if(programs[index].status === 2 ){
+      programs[index].status ="ավարտված"
+    }
     setProg(programs[index])
+
     setShowResults(true)
   }
-
 
 
   return (
@@ -108,13 +119,13 @@ function Program({ programs, showResults, setShowResults, setProg }) {
                     </td>
                     <td>{prog.manager_arm}</td>
                     <td>
-                      <div style={{ display: "flex" }}>
-                        <div style={{ marginLeft: "10px", width: "30px",marginRight: "10px" }} onClick={() => {
+                      <div style={{ display: "flex" ,}}>
+                        <div style={{  width: "30px", marginRight: "10px" }} onClick={() => {
                           handleShowMoreInfo(index)
 
                         }}>
                           <img
-                          style={{ width: "25px" }}
+                            style={{ width: "25px" }}
                             className="org_icon"
                             src={require("../../img/eye.svg").default}
                           />
@@ -128,12 +139,12 @@ function Program({ programs, showResults, setShowResults, setProg }) {
                             <img className="org_icon" src={require("../../img/edit.svg").default} />
                           </div>
                         </div>
-                        <div style={{ marginLeft: "5px" }} onClick={() => {
+                        <div  onClick={() => {
                           handleShowDelete(prog.id);
 
                         }}>
                           <img
-                           style={{ width: "17px" }}
+                            style={{ width: "17px" }}
                             className="org_icon"
                             src={require("../../img/remove.svg").default}
                           />
@@ -152,18 +163,6 @@ function Program({ programs, showResults, setShowResults, setProg }) {
           </tbody>
           <EditProgram prog={item} setProg={setItem} show={editShow} setShow={setEditShow} isSelect={isSelect} setIsSelect={setIsSelect} />
           <DeleteProgram id={itemDelete} show={deleteShow} setShow={setDeleteShow} />
-
-          {/* {showResults ? (
-            <MoreInfo
-
-              prog={itemMoreInfo}
-
-              showResults={showResults}
-              setShowResults={setShowResults}
-            />
-          ) : (
-            <div></div>
-          )} */}
 
         </table>
       </div>

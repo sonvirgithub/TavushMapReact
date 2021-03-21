@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import React from "react";
 import "./MoreInfo.css"
 
-function MoreInfo({ prog, showResults, setShowResults }) {
+function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInfoEndDate}) {
   let [supports2, setSupports2] = useState([])
+
 
   const closeMore = () => {
     setShowResults(false);
@@ -67,7 +68,7 @@ function MoreInfo({ prog, showResults, setShowResults }) {
             className="org_icon"
             src={require("../../img/time.svg").default}
           />
-          {prog.startDate} - {prog.endDate}
+          {moreInfoStartDate} - {moreInfoEndDate}
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>

@@ -59,13 +59,13 @@
   height: 36px;
   width: 100px;
   border: none;
-  font-family: Mardoto;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
   line-height: 27px;
   background: #fbfbfb;
 }
+
 
 .logout {
   position: absolute;

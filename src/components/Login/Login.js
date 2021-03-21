@@ -36,10 +36,7 @@ function Login() {
 
         
         if (res.status == 200) {
-            // console.log(res.json());
-            //let data = await res.json()
-
-           // console.log(data);
+           
 
            history.push('/admin/program')
             window.location.reload()

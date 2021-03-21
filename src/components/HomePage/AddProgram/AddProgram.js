@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Route, useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useRef,useContext } from 'react'
 import './AddProgram.css'
 import { Modal, Form, } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../UseOutSideClick"
+import { ProgramContext } from "../../../pages/ProgramsPage";
+
 
 function AddProgram() {
 
+  const programCont = useContext(ProgramContext);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,7 +29,7 @@ function AddProgram() {
   const [manager_eng, setManager_eng] = useState("")
   const [contactPerson_arm, setContactPerson_arm] = useState("")
   const [contactPerson_eng, setContactPerson_eng] = useState("")
-  const [organizationid, setOrganization] = useState([2,3])
+  const [organizationid, setOrganization] = useState([])
   const [description_arm, setDescription_arm] = useState("")
   const [description_eng, setDescription_eng] = useState("")
   const [statusid, setStatus] = useState("")
@@ -68,7 +69,6 @@ function AddProgram() {
 
       .then(res => res.json())
       .then(data => {
-        // console.log("organizations", data.data);
         setOrganizations(data.data)
 
       }).catch(err => {
@@ -136,6 +136,12 @@ function AddProgram() {
 
     if (res.status == 200) {
       handleClose()
+      const prog = {
+        id: res.data.id,
+        name_arm: name_arm,
+        name_eng: name_eng,
+      };
+      // programCont.AddProgram(prog);
 
     } else {
       // console.log(res);
@@ -198,11 +204,9 @@ function AddProgram() {
       openCategory.push(id)
       setOpenCategory([...openCategory])
     }
-    // console.log(openCategory);
   }
 
   const selectCommunity = (cityid) => {
-    // console.log(id);
     if (communityid.some(item => item === cityid)) {
       let index = communityid.findIndex(item => item === cityid);
       communityid.splice(index, 1)
@@ -212,7 +216,6 @@ function AddProgram() {
       setCommunity([...communityid])
 
     }
-    // console.log(communityid);
   }
 
   const selectOrganization = (orgid) => {

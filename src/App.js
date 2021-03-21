@@ -13,6 +13,8 @@ function App({ token, ready, fetchUser, loading }) {
   const [successPage, setSuccessPage] = useState(false);
   const [failPage, setFailPage] = useState(false);
   const [prog, setProg] = useState({})
+  const [moreInfoStartDate, setMoreInfoStartDate] = useState("")
+  const [moreInfoEndDate, setMoreInfoEndDate] = useState("")
 
   useEffect(() => {
     fetchUser();
@@ -42,6 +44,10 @@ function App({ token, ready, fetchUser, loading }) {
           successPage={successPage}
           setSuccessPage={setSuccessPage}
           setFailPage={setFailPage}
+          moreInfoStartDate={moreInfoStartDate}
+          moreInfoEndDate={moreInfoEndDate}
+          setMoreInfoEndDate={setMoreInfoEndDate}
+          setMoreInfoStartDate={setMoreInfoStartDate}
         />
       </Router>
     </div>

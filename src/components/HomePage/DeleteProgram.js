@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { ProgramContext } from "../../pages/ProgramsPage";
 
 function DeleteProgram({ id, show, setShow }) {
@@ -19,6 +18,7 @@ function DeleteProgram({ id, show, setShow }) {
       .then(res => {
         if (res.data.success) {
           toast.success("Ծրագիրը հեռացված է")
+          programCont.deleteProgram(id);
           handleClose()
 
         } else {
