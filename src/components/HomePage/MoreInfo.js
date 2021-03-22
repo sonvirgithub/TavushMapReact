@@ -6,6 +6,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
   let [supports2, setSupports2] = useState([])
 
 
+
   const closeMore = () => {
     setShowResults(false);
 

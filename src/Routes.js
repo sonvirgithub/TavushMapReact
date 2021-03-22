@@ -75,6 +75,8 @@ function Routes({
                 moreInfoEndDate={moreInfoEndDate}
                 setMoreInfoEndDate={setMoreInfoEndDate}
                 setMoreInfoStartDate={setMoreInfoStartDate}
+                setSuccessPage={setSuccessPage}
+                setFailPage={setFailPage}
               />
             )}
           />
@@ -154,7 +156,7 @@ function Routes({
 
     return (
       <Switch>
-        <Route exact path="/admin/login" render={() => <Login />} />
+        <Route exact path="/admin/login" component={Login} />
         {/* <RouteWithLayout
           component={Login}
           exact
@@ -162,7 +164,7 @@ function Routes({
           path="/login"
         /> */}
 
-        <Redirect to="/admin/login" />
+        {/* <Redirect to="/admin/login" /> */}
       </Switch>
     );
   }

@@ -8,7 +8,7 @@ import UseOutSideClick from "../UseOutSideClick"
 import { ProgramContext } from "../../../pages/ProgramsPage";
 
 
-function AddProgram() {
+function AddProgram({ setSuccessPage, setFailPage }) {
 
   const programCont = useContext(ProgramContext);
   const [show, setShow] = useState(false);
@@ -85,6 +85,7 @@ function AddProgram() {
 
       .then(res => res.json())
       .then(data => {
+        console.log(data.data);
         setCommunities(data.data)
 
       }).catch(err => {
@@ -101,14 +102,12 @@ function AddProgram() {
 
       .then(res => res.json())
       .then(data => {
+        console.log("support",data.data);
         setCategores(data.data)
 
       }).catch(err => {
         // console.log(err);
       })
-
-
-
 
   }, [])
 
@@ -135,16 +134,29 @@ function AddProgram() {
     });
 
     if (res.status == 200) {
+      setSuccessPage(true);
       handleClose()
       const prog = {
-        id: res.data.id,
-        name_arm: name_arm,
-        name_eng: name_eng,
+        
+        ProgramName_arm: name_arm,
+        ProgramName_eng: name_eng,
+        budget: budget,
+        startDdate: start_date,
+        endDate: end_date,
+        manager_arm: manager_arm,
+        manager_eng: manager_eng,
+        contact_arm: contactPerson_arm,
+        contact_eng : contactPerson_eng,
+        description_arm: description_arm,
+        description_eng: description_eng,
+        isDonor: isdonor,
       };
       // programCont.AddProgram(prog);
 
     } else {
-      // console.log(res);
+      setFailPage(true);
+      // handleClose()
+      // console.log("աաաա",res);
     }
 
     setName_arm("")
@@ -314,7 +326,7 @@ function AddProgram() {
                 <div ref={ref} className="NestedSelect">
 
                   {communities.map((city,index) => (
-                    <div className='list city' key={index}>
+                    <div className='list city radio' key={index}>
                       <li style={{
                         backgroundColor: communityid.some(item => item === city.id) ?
                           '#A4C2D8' : '#FAFAFA'
@@ -384,7 +396,7 @@ function AddProgram() {
               arrow_icon_org && (
                 <div ref={ref} className="NestedSelect">
                   {organizations.map((organization) => (
-                    <div className='list city' key={organization.id}>
+                    <div className='list city radio' key={organization.id}>
 
                       <li className='li1' style={{
                         backgroundColor: organizationid.some(item => item === organization.id) ?

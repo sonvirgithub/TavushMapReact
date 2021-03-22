@@ -7,7 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../HomePage/UseOutSideClick"
 import moment from 'moment'
 
-function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
+function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
+   }) {
  
   const selected = moment(prog.startDate).toDate()
 
@@ -42,8 +43,10 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
     })
       .then(res => res.json())
       .then(data => {
+        
         setOrganizations(data.data)
       }).catch(err => {
+
         // console.log(err);
       })
 
@@ -56,6 +59,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
     })
       .then(res => res.json())
       .then(data => {
+        console.log("city",data.data);
         setCommunities(data.data)
       }).catch(err => {
         // console.log(err);
@@ -78,8 +82,6 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
 
 
   }, []);
-
-
 
 
   const selectCommunity = (city) => {
@@ -139,6 +141,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
     setShow(false)
     setIsSelect([])
     console.log("programs[index].support2",prog.support);
+    console.log("prog.status",prog.status);
     if (prog.status === 1) {
       prog.status = "ընթացիկ"
     }
@@ -172,12 +175,14 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect }) {
       })
       .then((res) => {
         if (res.data.success) {
-
+          // setSuccessPage(true);
           handleClose();
+         
           // console.log("Կատարված է");
         } else {
+          
           handleClose();
-
+          // setFailPage(true);
         }
       })
       .catch((e) => {

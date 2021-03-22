@@ -8,7 +8,7 @@ import "./Program.css"
 import moment from 'moment'
 
 
-function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEndDate,setMoreInfoStartDate }) {
+function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEndDate,setMoreInfoStartDate,setSuccessPage, setFailPage }) {
 
   const [item, setItem] = useState({})
   const [itemDelete, setItemDelete] = useState({})
@@ -16,7 +16,8 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
   const [editShow, setEditShow] = useState(false)
   const [deleteShow, setDeleteShow] = useState(false)
   
-
+ 
+console.log("pr",programs);
   let [isSelect, setIsSelect] = useState([{}])
 
 
@@ -80,7 +81,10 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
         <div className="org_title">
           <div className="org_title_txt">Ծրագրեր</div>
           <div>
-            <AddProgram />
+            <AddProgram  
+            setSuccessPage={setSuccessPage}
+          setFailPage={setFailPage}
+          />
           </div>
         </div>
 
@@ -157,11 +161,12 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
               })
             ) : (
               <tr>
-                <td colSpan="5">Տվյալներ չկան</td>
+                <td colSpan="6">Տվյալներ չկան</td>
               </tr>
             )}
           </tbody>
-          <EditProgram prog={item} setProg={setItem} show={editShow} setShow={setEditShow} isSelect={isSelect} setIsSelect={setIsSelect} />
+          <EditProgram prog={item} setProg={setItem} show={editShow} setShow={setEditShow} isSelect={isSelect} setIsSelect={setIsSelect}/>
+          
           <DeleteProgram id={itemDelete} show={deleteShow} setShow={setDeleteShow} />
 
         </table>

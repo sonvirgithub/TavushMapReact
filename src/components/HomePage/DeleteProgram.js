@@ -19,6 +19,7 @@ function DeleteProgram({ id, show, setShow }) {
         if (res.data.success) {
           toast.success("Ծրագիրը հեռացված է")
           programCont.deleteProgram(id);
+         
           handleClose()
 
         } else {

@@ -51,7 +51,7 @@
   position: absolute;
   width: 26px;
   height: 26px;
-  margin-left: 100px;
+  margin-left: 10px;
 }
 
 .btn_logout {
@@ -68,11 +68,17 @@
 
 
 .logout {
-  position: absolute;
+  /* position: absolute;
   display: inline-block;
   color: #433f3f;
   margin-top: 200px;
-  margin-left: 96px;
+  margin-left: 96px; */
+  position: fixed;
+    display: inline-block;
+    color: #433f3f;
+    margin-left: 96px;
+    padding-bottom: -20px;
+    bottom: 50px;
 }
 .properties {
   display: block;
