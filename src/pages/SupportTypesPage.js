@@ -15,19 +15,22 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
   };
 
   const editSupport = (sup) => {
-    categoryType.map((catType) => {
-      if (catType.id == sup.categoryid_new) {
-        supportTypes.map((supType) => {
-          supType.category_arm = catType.name_arm;
-        });
-      }
-    });
+    console.log(sup, "sup");
+    // categoryType.map((catType) => {
+    //   if (catType.id == sup.categoryid_new) {
+    //     supportTypes.map((supType) => {
+    //       supType.categoryName = catType.name_arm;
+    //     });
+    //   }
+    // });
 
     supportTypes.map((supType) => {
-      if (supType.supportid == sup.id) {
-        supType.support_eng = sup.support_eng;
-        supType.support_arm = sup.support_arm;
-        supType.categoryid = sup.categoryid_new;
+      // console.log(supType, "supType");
+      if (supType.id == sup.id) {
+        supType.name_eng = sup.support_eng;
+        supType.name_arm = sup.support_arm;
+        supType.categoryId = sup.categoryid_new;
+        supType.categoryName = sup.category_name;
         // supType.category_arm = sup.ca;
 
         setSupportTypes([...supportTypes]);
@@ -37,7 +40,7 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
 
   const deleteSupport = (id) => {
     supportTypes.map((supType) => {
-      if (supType.supportid == id) {
+      if (supType.id == id) {
         const index = supportTypes.indexOf(supType);
         supportTypes.splice(index, 1);
 
@@ -50,10 +53,11 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios("/api/supports");
-     
+      const result = await axios("/api/supportsForAdmin");
+      console.log(result, "****************************");
       setSupportTypes(result.data.data);
       const catresult = await axios("/api/categories");
+      console.log(catresult, "999999");
       setCategoryType(catresult.data.data);
     };
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import { SupportContext } from "../../pages/SupportTypesPage";
 
 function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
+  // console.log(categoryType, "categoryType");
 
   const supportCont = useContext(SupportContext);
 
@@ -20,12 +21,13 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
     categoryType.map((type) => {
       if (type.id == categoryid) {
         setCategoryName(type.name_arm);
+        console.log("object");
       }
     });
   });
 
   const handleSubmit = (evt) => {
- 
+    console.log(categoryid, support_eng, support_arm);
     axios
       .post(`/api/addSupport`, {
         support_eng,
@@ -35,10 +37,10 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
       .then((response) => {
         if (response.data.success) {
           const sup = {
-            supportid: response.data.id,
-            category_arm: categoryName,
-            support_eng: support_eng,
-            support_arm: support_arm,
+            id: response.data.id,
+            categoryName: categoryName,
+            name_eng: support_eng,
+            name_arm: support_arm,
           };
           supportCont.addSupport(sup);
           setSuccessPage(true);
@@ -62,10 +64,13 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
         </button>
       </div>
 
-      <Modal show={show} onHide={handleClose} style={{ display:"none" }}>
+      <Modal show={show} onHide={handleClose} style={{ display: "none" }}>
         <Modal.Body>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <Form.Label style={{ display:"flex" }}>Ոլորտ</Form.Label>
+          <Form.Group
+            onSubmit={handleSubmit}
+            style={{ display: "inline-block" }}
+          >
+            <Form.Label style={{ display: "flex" }}>Ոլորտ</Form.Label>
             <Form.Control
               as="select"
               onChange={(e) => setCategoryId(e.target.value)}
@@ -86,14 +91,18 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
               )}
             </Form.Control>
 
-            <FormLabel style={{ display:"flex" }}>Աջակցության տեսակ (Հայերեն)</FormLabel>
+            <FormLabel style={{ display: "flex" }}>
+              Աջակցության տեսակ (Հայերեն)
+            </FormLabel>
             <Form.Control
               type="text"
               placeholder="Աջակցության տեսակ "
               onChange={(e) => setSupportArm(e.target.value)}
             />
             <br />
-            <FormLabel style={{ display:"flex" }}>Աջակցության տեսակ (Enlglish)</FormLabel>
+            <FormLabel style={{ display: "flex" }}>
+              Աջակցության տեսակ (Enlglish)
+            </FormLabel>
 
             <Form.Control
               type="text"

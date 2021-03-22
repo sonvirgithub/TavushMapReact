@@ -53,9 +53,15 @@ function Organization({
             organizations.map((org, index) => {
               return (
                 <tr key={org.id}>
-                  <td>{org.name}</td>
-                  <td>{org.name_eng}</td>
-                  <td>{org.person}</td>
+                  <td>{org.nameArm}</td>
+                  <td>{org.nameEng}</td>
+                  {/* <td>
+                    {org.contactPersonArm.map((person, index) => {
+                      return <div> {person.contactPerson} </div>;
+                    })}
+                  </td> */}
+
+                  <td>{org.contactPersonArm}</td>
                   {/* <td>{org.name_eng}</td> */}
                   <td
                   //   style={{ display: "flex" }}

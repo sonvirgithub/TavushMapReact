@@ -15,13 +15,15 @@ function DeleteCategory({ cat, setSuccessPage, setFailPage }) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    setId(cat.id);
+    setId(Number(cat.id));
   }, []);
 
   const handleSubmit = (evt) => {
+    console.log(id);
     axios
-      .delete(`api/deleteCategory/${id}`)
+      .delete(`/api/deleteCategory/${id}`)
       .then((response) => {
+        console.log(response);
         if (response.data.success) {
           categoryCont.deleteCategory(id);
           setSuccessPage(true);
@@ -60,6 +62,7 @@ function DeleteCategory({ cat, setSuccessPage, setFailPage }) {
             onClick={() => {
               handleSubmit();
               handleClose();
+              // console.log("object");
             }}
           >
             Հաստատել
