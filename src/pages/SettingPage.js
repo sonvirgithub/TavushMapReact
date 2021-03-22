@@ -34,14 +34,22 @@ function SettingPage({ setSuccessPage, setFailPage }) {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("/api/settings");
-      console.log(result);
-      setSettings(result.data.data);
-    };
+  // useEffect(() => {
+    // const fetchData = async () => {
+    //   const result = await axios("/api/settings");
+    //   console.log(result);
+    //   setSettings(result.data.data);
+    // };
 
-    fetchData();
+    // fetchData();
+
+    useEffect(() => {
+      axios("/api/settings").then(res => {
+        setSettings(res.data.data)
+  //   };
+      
+    })
+
   }, []);
   return (
     <div

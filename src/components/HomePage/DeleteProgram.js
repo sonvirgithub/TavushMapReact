@@ -10,8 +10,6 @@ function DeleteProgram({ id, show, setShow }) {
 
   const handleClose = () => setShow(false);
 
-
-
   const handleSubmit = () => {
     axios
       .delete(`/api/deleteProgram/${id}`)

@@ -188,8 +188,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       isSelect.splice(index, 1)
 
       for (let i = 0; i < categoryid_supportid.length; i++) {
-        if (categoryid_supportid[i].supportid === supportId &&
-          categoryid_supportid[i].categoryid === categoryId) {
+        if (categoryid_supportid[i].supportid === supportId ) {
           categoryid_supportid.splice(i, 1)
         }
       }
@@ -203,6 +202,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
     }
     setIsSelect([...isSelect])
+    console.log(categoryid_supportid);
 
   }
 
@@ -257,26 +257,26 @@ function AddProgram({ setSuccessPage, setFailPage }) {
     }
 
     if (checkedCategory.some(item => item === category.categoryid)) {
-      for (let i = 0; i < category.items.length; i++) {
-        if (isSelect.some(item => item.Id === category.categoryid && item.supportid === category.items[i].supportid)) {
+      for (let i = 0; i < category.support.length; i++) {
+        if (isSelect.some(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid)) {
 
         }
         else {
           isSelect.push({
             Id: category.categoryid,
-            supportid: category.items[i].supportid
+            supportid: category.support[i].supportid
           })
           categoryid_supportid.push({
             categoryid: category.categoryid,
-            supportid: category.items[i].supportid
+            supportid: category.support[i].supportid
           })
         }
       }
     } else {
-      for (let i = 0; i < category.items.length; i++) {
-        if (isSelect.some(item => item.Id === category.categoryid && item.supportid === category.items[i].supportid)) {
+      for (let i = 0; i < category.support.length; i++) {
+        if (isSelect.some(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid)) {
 
-          let index = isSelect.findIndex(item => item.Id === category.categoryid && item.supportid === category.items[i].supportid);
+          let index = isSelect.findIndex(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid);
           isSelect.splice(index, 1)
           categoryid_supportid.splice(index, 1)
 
@@ -434,7 +434,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
                           />
                         </div>
 
-                        <label className="category_name">{categore.category} ({categore.items.length})</label>
+                        <label className="category_name">{categore.category} ({categore.support.length})</label>
 
                         <img className='arrowSelect' src={require("../AdminIcons/arrow.svg").default} onClick={(e) => openCategores(categore.categoryid)} />
                         {
@@ -442,7 +442,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
                             <div className="support_types" >
 
 
-                              {categore.items.map(support => (
+                              {categore.support.map(support => (
                                 <li style={{
                                   backgroundColor: isSelect.some(item => item.supportid === support.supportid) ? '#A4C2D8' : '#FAFAFA',
 

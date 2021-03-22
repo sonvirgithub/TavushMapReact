@@ -177,7 +177,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
         if (res.data.success) {
           // setSuccessPage(true);
           handleClose();
-         
+         window.location.reload()
           // console.log("Կատարված է");
         } else {
           
@@ -222,22 +222,22 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
     }
 
     if (checkedCategory.some(item => item === category.id)) {
-      for (let i = 0; i < category.items.length; i++) {
-        if (isSelect.some(item => item.supportid === category.items[i].supportid)) {
+      for (let i = 0; i < category.support.length; i++) {
+        if (isSelect.some(item => item.supportid === category.support[i].supportid)) {
 
         }
         else {
           isSelect.push({
-            supportid: category.items[i].supportid
+            supportid: category.support[i].supportid
           })
 
         }
       }
     } else {
-      for (let i = 0; i < category.items.length; i++) {
-        if (isSelect.some(item => item.supportid === category.items[i].supportid)) {
+      for (let i = 0; i < category.support.length; i++) {
+        if (isSelect.some(item => item.supportid === category.support[i].supportid)) {
 
-          let index = isSelect.findIndex(item => item.supportid === category.items[i].supportid);
+          let index = isSelect.findIndex(item => item.supportid === category.support[i].supportid);
           isSelect.splice(index, 1)
 
         }
@@ -393,7 +393,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
                             />
                           </div>
 
-                          <label className="category_name">{categore.category} ({categore.items.length})</label>
+                          <label className="category_name">{categore.category} ({categore.support.length})</label>
 
                           <img className='arrowSelect' src={require("./AdminIcons/arrow.svg").default} onClick={(e) => openCategores(categore.categoryid)} />
                           {
@@ -401,7 +401,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
                               <div className="support_types" >
 
 
-                                {categore.items.map((support,index) => (
+                                {categore.support.map((support,index) => (
                                   <li style={{
                                     backgroundColor: isSelect.some(item => item.supportid === support.supportid) ? '#A4C2D8' : '#FAFAFA',
 

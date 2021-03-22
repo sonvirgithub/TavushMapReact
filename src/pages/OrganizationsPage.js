@@ -4,9 +4,8 @@ import axios from "axios";
 
 export const OrganizationContext = React.createContext();
 function OrganizationsPage({ setSuccessPage, successPage, setFailPage }) {
-  const [organizations, setOrganizations] = useState("");
+  const [organizations, setOrganizations] = useState([]);
   const [language, setLanguage] = useState("arm");
-
 
   const addOrganization = (org) => {
     organizations.push(org);
@@ -36,19 +35,21 @@ function OrganizationsPage({ setSuccessPage, successPage, setFailPage }) {
     });
   };
 
+  // console.log("object");
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("/api/organizationsForAdmin");
-      console.log("res", result);
-      setOrganizations(result.data.all);
-    };
+    axios("/api/organizationsForAdmin").then(res => {
+      setOrganizations(res.data.all);
+    
+    })
+      
+     
 
-    fetchData();
+    // fetchData();
   }, []);
   return (
     <div
       style={{
-        //  position: "absolute",
+        // position: "absolute",
         width: "100%",
       }}
     >

@@ -17,7 +17,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
 
     prog.support.map((item) => {
       item.supports.map((support) => {
-        supports2.push(support.support_arm)
+        supports2.push(support.name)
       })
 
     })

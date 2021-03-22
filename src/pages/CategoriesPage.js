@@ -33,14 +33,22 @@ function CategoriesPage({ setSuccessPage, setFailPage }) {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios("/api/categories");
-      setCategories(result.data.data);
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios("/api/categories");
+  //     setCategories(result.data.data);
+  //   };
 
-    fetchData();
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    axios("/api/categories").then(res => {
+      setCategories(res.data.data);
+    
+    })
   }, []);
+  
   return (
     <div
       style={{
