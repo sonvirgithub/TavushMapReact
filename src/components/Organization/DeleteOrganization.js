@@ -6,6 +6,7 @@ import { Modal, Button } from "react-bootstrap";
 import { OrganizationContext } from "../../pages/OrganizationsPage";
 
 function DeleteOrganization({ org, setSuccessPage, setFailPage }) {
+  // console.log(org, "org");
   const organizationCont = useContext(OrganizationContext);
 
   const [show, setShow] = useState(false);
@@ -20,7 +21,7 @@ function DeleteOrganization({ org, setSuccessPage, setFailPage }) {
 
   const handleSubmit = (evt) => {
     axios
-      .delete(`api/deleteOrganization/${id}`)
+      .delete(`/api/deleteOrganization/${id}`)
       .then((response) => {
         if (response.data.success) {
           organizationCont.deleteOrganization(id);

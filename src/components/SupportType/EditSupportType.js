@@ -9,10 +9,11 @@ function EditSupportType({
   setSuccessPage,
   setFailPage,
 }) {
+  // console.log(categoryType, "categoryType");
   // const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
 
   const categoryTypesSelect = categoryType.filter(
-    (typeik) => typeik.id != supType.categoryid
+    (typeik) => typeik.id != supType.categoryId
   );
 
   const supportCont = useContext(SupportContext);
@@ -22,23 +23,33 @@ function EditSupportType({
   const [support_eng, setSupportEng] = useState("");
   const [categoryid_old, setCategoryId] = useState("");
   const [categoryid_new, setCategoryIdNew] = useState("");
-  const [person, setPerson] = useState("");
+  const [category_name, setCategory_name] = useState("");
 
   const newDataFunc = () => {
-    setId(supType.supportid);
-    setSupportArm(supType.support_arm);
-    setSupportEng(supType.support_eng);
-    setCategoryId(Number(supType.categoryid));
+    setId(supType.id);
+    setSupportArm(supType.name_arm);
+    setSupportEng(supType.name_eng);
+    setCategoryId(Number(supType.categoryId));
   };
 
   useEffect(() => {
     setId(supType.supportid);
   }, []);
 
+  useEffect(() => {
+    categoryType.map((category) => {
+      if (category.id == categoryid_new) {
+        setCategory_name(category.name_arm);
+        console.log(category.name_arm);
+      }
+    });
+  });
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSubmit = (evt) => {
+    console.log(id, support_eng, support_arm, categoryid_old, categoryid_new);
     axios
       .put(`/api/editSupport`, {
         id,
@@ -55,7 +66,9 @@ function EditSupportType({
             support_arm,
             categoryid_old,
             categoryid_new,
+            category_name,
           };
+          console.log(sup.category_name, "category_name");
           handleClose();
           supportCont.editSupport(sup);
           setSuccessPage(true);
@@ -81,19 +94,27 @@ function EditSupportType({
         <img className="org_icon" src={require("../../img/edit.svg").default} />
       </div>
 
-      <Modal show={show} onHide={handleClose} animation={false} style={{  display:"none"  }}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        animation={false}
+        style={{ display: "none" }}
+      >
         {/* <Modal.Header closeButton>
           <Modal.Title>Խմբագրել</Modal.Title>
         </Modal.Header> */}
         <Modal.Body>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <Form.Label style={{  display:"flex"  }}>Ոլորտ</Form.Label>
+          <Form.Group
+            onSubmit={handleSubmit}
+            style={{ display: "inline-block" }}
+          >
+            <Form.Label style={{ display: "flex" }}>Ոլորտ</Form.Label>
             <Form.Control
               as="select"
               onChange={(e) => setCategoryIdNew(Number(e.target.value))}
             >
               <option hidden value="">
-                {supType.category_arm}
+                {supType.categoryName}
               </option>
               {categoryTypesSelect.length > 0 ? (
                 categoryTypesSelect.map((cat) => (
@@ -107,7 +128,10 @@ function EditSupportType({
                 </option>
               )}
             </Form.Control>
-            <Form.Label style={{  display:"flex"  }}> Կազմակերպության անվանումը (Հայերեն)</Form.Label>
+            <Form.Label style={{ display: "flex" }}>
+              {" "}
+              Կազմակերպության անվանումը (Հայերեն)
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder=""
@@ -115,7 +139,9 @@ function EditSupportType({
               onChange={(e) => setSupportArm(e.target.value)}
             />
             <br />
-            <Form.Label style={{  display:"flex"  }}>Կազմակերպության անվանումը ( Enlglish)</Form.Label>
+            <Form.Label style={{ display: "flex" }}>
+              Կազմակերպության անվանումը ( Enlglish)
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder=""

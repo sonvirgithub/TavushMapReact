@@ -17,6 +17,7 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
   const [person, setPerson] = useState("");
 
   const handleSubmit = (evt) => {
+    console.log(nameArm, nameEng, person);
     axios
       .post(`/api/addOrganization`, {
         nameArm,
@@ -24,12 +25,13 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
         person,
       })
       .then((response) => {
+        console.log(response);
         if (response.data.success) {
           const org = {
             id: response.data.id,
-            name_eng: nameEng,
-            name_arm: nameArm,
-            person: person,
+            nameEng: nameEng,
+            nameArm: nameArm,
+            contactPersonArm: person,
           };
           organizationCont.addOrganization(org);
           // setSuccess(true);
@@ -66,20 +68,27 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
           Ավելացնել կազմակերպություն
         </Button> */}
 
-      <Modal show={show} onHide={handleClose} style={{  display:"none"  }}>
+      <Modal show={show} onHide={handleClose} style={{ display: "none" }}>
         {/* <Modal.Header> */}
         {/* <Modal.Title>Ավելացնել կազմակերպություն</Modal.Title> */}
         {/* </Modal.Header> */}
         <Modal.Body>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <FormLabel style={{ display:"flex" }}>Կազմակերպության անվանումը (Հայերեն)</FormLabel>
+          <Form.Group
+            onSubmit={handleSubmit}
+            style={{ display: "inline-block" }}
+          >
+            <FormLabel style={{ display: "flex" }}>
+              Կազմակերպության անվանումը (Հայերեն)
+            </FormLabel>
             <Form.Control
               type="text"
               placeholder="Կազմակերպության անվանումը"
               onChange={(e) => setNameArm(e.target.value)}
             />
             <br />
-            <FormLabel style={{ display:"flex" }}>Կազմակերպության անվանումը (Enlglish)</FormLabel>
+            <FormLabel style={{ display: "flex" }}>
+              Կազմակերպության անվանումը (Enlglish)
+            </FormLabel>
 
             <Form.Control
               type="text"
@@ -88,7 +97,7 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
               //   className={error}
             />
             <br />
-            <FormLabel style={{ display:"flex" }}>Կոնտակտ անձ</FormLabel>
+            <FormLabel style={{ display: "flex" }}>Կոնտակտ անձ</FormLabel>
 
             <Form.Control
               type="text"

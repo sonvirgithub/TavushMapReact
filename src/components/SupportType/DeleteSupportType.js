@@ -5,7 +5,7 @@ import { Modal, Button } from "react-bootstrap";
 import { SupportContext } from "../../pages/SupportTypesPage";
 
 function DeleteSupportType({ supType, setSuccessPage, setFailPage }) {
-  //   console.log(supType, "supType");
+  console.log(supType, "supType");
   const supportCont = useContext(SupportContext);
 
   const [show, setShow] = useState(false);
@@ -15,12 +15,13 @@ function DeleteSupportType({ supType, setSuccessPage, setFailPage }) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    setId(supType.supportid);
+    setId(supType.id);
   }, []);
 
   const handleSubmit = (evt) => {
+    console.log(id, "55555555555");
     axios
-      .delete(`api/deleteSupport/${id}`)
+      .delete(`/api/deleteSupport/${id}`)
       .then((response) => {
         if (response.data.success) {
           supportCont.deleteSupport(id);
@@ -29,8 +30,7 @@ function DeleteSupportType({ supType, setSuccessPage, setFailPage }) {
           setFailPage(true);
         }
       })
-      .catch((e) => {
-      });
+      .catch((e) => {});
   };
 
   return (

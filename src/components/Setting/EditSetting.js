@@ -23,6 +23,7 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (evt) => {
+    console.log(id, firstName, lastName);
     axios
       .put(`/api/editUserInfo`, {
         id,
@@ -30,6 +31,7 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
         lastName,
       })
       .then((response) => {
+        console.log(response);
         if (response.data.success) {
           const user = {
             id: id,
@@ -61,7 +63,12 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
         <img className="org_icon" src={require("../../img/edit.svg").default} />
       </div>
 
-      <Modal show={show} onHide={handleClose} animation={false} style={{  display:"none"  }}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        animation={false}
+        style={{ display: "none" }}
+      >
         {/* <Modal.Header closeButton> */}
         {/* <Modal.Title>Փոխել անունը</Modal.Title> */}
         {/* </Modal.Header> */}
@@ -72,15 +79,18 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
               Փոխել անունը
             </span>
           </div>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <FormLabel style={{  display:"flex"  }}>Անուն</FormLabel>
+          <Form.Group
+            onSubmit={handleSubmit}
+            style={{ display: "inline-block" }}
+          >
+            <FormLabel style={{ display: "flex" }}>Անուն</FormLabel>
             <Form.Control
               type="text"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <br />
-            <FormLabel style={{  display:"flex"  }}>Ազգանուն</FormLabel>
+            <FormLabel style={{ display: "flex" }}>Ազգանուն</FormLabel>
 
             <Form.Control
               type="text"

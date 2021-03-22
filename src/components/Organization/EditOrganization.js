@@ -13,9 +13,9 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
 
   const newDataFunc = () => {
     setId(org.id);
-    setNameArm(org.name_arm);
-    setNameEng(org.name_eng);
-    setPerson(org.person);
+    setNameArm(org.nameArm);
+    setNameEng(org.nameEng);
+    setPerson(org.contactPersonArm);
   };
 
   useEffect(() => {
@@ -25,6 +25,7 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (evt) => {
+    console.log(id, nameArm, nameEng, person);
     axios
       .put(`/api/editOrganization`, {
         id,
@@ -36,9 +37,10 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
         if (response.data.success) {
           const org = {
             id: id,
-            name_eng: nameEng,
-            name_arm: nameArm,
-            person: person,
+            nameArm: nameArm,
+            nameEng: nameEng,
+
+            contactPersonArm: person,
           };
           handleClose();
           organizationCont.editOrganization(org);
@@ -65,13 +67,24 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
         <img className="org_icon" src={require("../../img/edit.svg").default} />
       </div>
 
-      <Modal show={show} onHide={handleClose} animation={false} style={{  display:"none"  }}>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        animation={false}
+        style={{ display: "none" }}
+      >
         {/* <Modal.Header closeButton>
           <Modal.Title>Խմբագրել</Modal.Title>
         </Modal.Header> */}
         <Modal.Body>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <Form.Label style={{  display:"flex"  }}> Կազմակերպության անվանումը (Հայերեն)</Form.Label>
+          <Form.Group
+            onSubmit={handleSubmit}
+            style={{ display: "inline-block" }}
+          >
+            <Form.Label style={{ display: "flex" }}>
+              {" "}
+              Կազմակերպության անվանումը (Հայերեն)
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder=""
@@ -79,7 +92,9 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
               onChange={(e) => setNameArm(e.target.value)}
             />
             <br />
-            <Form.Label  style={{  display:"flex"  }}>Կազմակերպության անվանումը (Enlglish)</Form.Label>
+            <Form.Label style={{ display: "flex" }}>
+              Կազմակերպության անվանումը (Enlglish)
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder=""
@@ -87,7 +102,7 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
               onChange={(e) => setNameEng(e.target.value)}
             />
             <br />
-            <Form.Label  style={{  display:"flex"  }}>Կոնտակտ անձ</Form.Label>
+            <Form.Label style={{ display: "flex" }}>Կոնտակտ անձ</Form.Label>
             <Form.Control
               type="text"
               placeholder=""
