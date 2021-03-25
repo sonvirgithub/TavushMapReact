@@ -25,7 +25,6 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (evt) => {
-    console.log(id, nameArm, nameEng, person);
     axios
       .put(`/api/editOrganization`, {
         id,

@@ -3,14 +3,14 @@ import Program from "../components/HomePage/Program";
 
 
 export const ProgramContext = React.createContext();
-function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate, moreInfoEndDate, setMoreInfoEndDate,setMoreInfoStartDate, setSuccessPage, setFailPage }) {
+function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate, moreInfoEndDate, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage }) {
   const [programs, setPrograms] = useState([])
 
 
   const addProgram = (prog) => {
     // programs.push(prog);
     // setPrograms([...programs]);
-    // console.log("programs",programs);
+
   };
 
 
@@ -25,7 +25,7 @@ function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
     });
   };
 
-  
+
   useEffect(() => {
     fetch("/api/programsForAdmin")
       .then((res) => res.json())
@@ -35,7 +35,6 @@ function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
 
       })
       .catch((err) => {
-        // console.log(err);
       });
   }, []);
 

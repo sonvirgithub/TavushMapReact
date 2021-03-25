@@ -26,33 +26,33 @@ function App({ token, ready, fetchUser, loading }) {
 
 
 
-  // if (!loading && !ready && !token) {
-  //   return <p>Loading...</p>;
-  // } else {
-  return (
-    <div>
-      {/* {showResults ? <MoreInfo /> : null} */}
-      {successPage ? <SuccessPage setSuccessPage={setSuccessPage} /> : null}
-      {failPage ? <FailPage setFailPage={setFailPage} /> : null}
-      <Router>
-        <Routes
-          isLoggedIn={token}
-          prog={prog}
-          setProg={setProg}
-          showResults={showResults}
-          setShowResults={setShowResults}
-          successPage={successPage}
-          setSuccessPage={setSuccessPage}
-          setFailPage={setFailPage}
-          moreInfoStartDate={moreInfoStartDate}
-          moreInfoEndDate={moreInfoEndDate}
-          setMoreInfoEndDate={setMoreInfoEndDate}
-          setMoreInfoStartDate={setMoreInfoStartDate}
-        />
-      </Router>
-    </div>
-  );
-  // }
+  if (!loading && !ready && !token) {
+    return <p>Loading...</p>;
+  } else {
+    return (
+      <div>
+        {/* {showResults ? <MoreInfo /> : null} */}
+        {successPage ? <SuccessPage setSuccessPage={setSuccessPage} /> : null}
+        {failPage ? <FailPage setFailPage={setFailPage} /> : null}
+        <Router>
+          <Routes
+            isLoggedIn={token}
+            prog={prog}
+            setProg={setProg}
+            showResults={showResults}
+            setShowResults={setShowResults}
+            successPage={successPage}
+            setSuccessPage={setSuccessPage}
+            setFailPage={setFailPage}
+            moreInfoStartDate={moreInfoStartDate}
+            moreInfoEndDate={moreInfoEndDate}
+            setMoreInfoEndDate={setMoreInfoEndDate}
+            setMoreInfoStartDate={setMoreInfoStartDate}
+          />
+        </Router>
+      </div>
+    );
+  }
 }
 const mapStateToProps = (state) => {
   return {

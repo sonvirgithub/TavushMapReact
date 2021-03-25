@@ -4,8 +4,6 @@ import axios from "axios";
 import { SupportContext } from "../../pages/SupportTypesPage";
 
 function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
-  // console.log(categoryType, "categoryType");
-
   const supportCont = useContext(SupportContext);
 
   const [show, setShow] = useState(false);
@@ -21,13 +19,12 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
     categoryType.map((type) => {
       if (type.id == categoryid) {
         setCategoryName(type.name_arm);
-        console.log("object");
+
       }
     });
   });
 
   const handleSubmit = (evt) => {
-    console.log(categoryid, support_eng, support_arm);
     axios
       .post(`/api/addSupport`, {
         support_eng,

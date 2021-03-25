@@ -9,68 +9,61 @@ function EditSupportType({
   setSuccessPage,
   setFailPage,
 }) {
-  // console.log(categoryType, "categoryType");
-  // const words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
-
   const categoryTypesSelect = categoryType.filter(
     (typeik) => typeik.id != supType.categoryId
   );
 
   const supportCont = useContext(SupportContext);
   const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const [support_arm, setSupportArm] = useState("");
   const [support_eng, setSupportEng] = useState("");
-  const [categoryid_old, setCategoryId] = useState("");
-  const [categoryid_new, setCategoryIdNew] = useState("");
+  const [categoryId, setCategoryId] = useState("");
   const [category_name, setCategory_name] = useState("");
 
   const newDataFunc = () => {
-    setId(supType.id);
+    // setId(supType.id);
     setSupportArm(supType.name_arm);
     setSupportEng(supType.name_eng);
     setCategoryId(Number(supType.categoryId));
   };
 
   useEffect(() => {
-    setId(supType.supportid);
+    // setId(supType.supportid);
   }, []);
 
   useEffect(() => {
-    categoryType.map((category) => {
-      if (category.id == categoryid_new) {
-        setCategory_name(category.name_arm);
-        console.log(category.name_arm);
-      }
-    });
+    // categoryType.map((category) => {
+    //   if (category.id == categoryid_new) {
+    //     setCategory_name(category.name_arm);
+    //   }
+    // });
   });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSubmit = (evt) => {
-    console.log(id, support_eng, support_arm, categoryid_old, categoryid_new);
+    console.log(supType.id, support_eng, support_arm, categoryId);
     axios
       .put(`/api/editSupport`, {
-        id,
+        id: supType.id,
         support_eng,
         support_arm,
-        categoryid_old,
-        categoryid_new,
+        categoryId
       })
       .then((response) => {
+        console.log("r", response);
         if (response.data.success) {
-          const sup = {
-            id,
-            support_eng,
-            support_arm,
-            categoryid_old,
-            categoryid_new,
-            category_name,
-          };
-          console.log(sup.category_name, "category_name");
+          // const sup = {
+          //   id,
+          //   support_eng,
+          //   support_arm,
+          //   categoryId,
+          //   category_name,
+          // };
           handleClose();
-          supportCont.editSupport(sup);
+          // supportCont.editSupport(sup);
           setSuccessPage(true);
         } else {
           handleClose();
@@ -111,7 +104,7 @@ function EditSupportType({
             <Form.Label style={{ display: "flex" }}>Ոլորտ</Form.Label>
             <Form.Control
               as="select"
-              onChange={(e) => setCategoryIdNew(Number(e.target.value))}
+              onChange={(e) => setCategoryId(Number(e.target.value))}
             >
               <option hidden value="">
                 {supType.categoryName}
@@ -130,7 +123,7 @@ function EditSupportType({
             </Form.Control>
             <Form.Label style={{ display: "flex" }}>
               {" "}
-              Կազմակերպության անվանումը (Հայերեն)
+              Աջակցության անվանումը (Հայերեն)
             </Form.Label>
             <Form.Control
               type="text"
@@ -140,7 +133,7 @@ function EditSupportType({
             />
             <br />
             <Form.Label style={{ display: "flex" }}>
-              Կազմակերպության անվանումը ( Enlglish)
+              Աջակցության անվանումը ( Enlglish)
             </Form.Label>
             <Form.Control
               type="text"

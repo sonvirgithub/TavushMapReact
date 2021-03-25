@@ -23,7 +23,6 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleSubmit = (evt) => {
-    console.log(id, firstName, lastName);
     axios
       .put(`/api/editUserInfo`, {
         id,
@@ -31,7 +30,6 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
         lastName,
       })
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           const user = {
             id: id,

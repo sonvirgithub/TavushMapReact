@@ -5,12 +5,12 @@ export default async function sendRequest(url) {
   const response = await axios(url);
 
   if (!response.data.success) {
-    if (window.location.pathname !== "/admin/login") {
+    if (window.location.pathname !== "/dmn/login") {
       axios
         .get(`/api/logout`)
         .then((res) => {
           if (res.data.success) {
-            toast.error(res.data);
+            // toast.error(res.data);
             window.location.reload();
           } else {
             toast.error(res.data);

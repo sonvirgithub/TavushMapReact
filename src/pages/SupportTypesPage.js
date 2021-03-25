@@ -15,7 +15,7 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
   };
 
   const editSupport = (sup) => {
-    console.log(sup, "sup");
+
     // categoryType.map((catType) => {
     //   if (catType.id == sup.categoryid_new) {
     //     supportTypes.map((supType) => {
@@ -25,7 +25,6 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
     // });
 
     supportTypes.map((supType) => {
-      // console.log(supType, "supType");
       if (supType.id == sup.id) {
         supType.name_eng = sup.support_eng;
         supType.name_arm = sup.support_arm;
@@ -49,37 +48,22 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
     });
   };
 
-  //   console.log("object");
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await axios("/api/supportsForAdmin");
-  //     console.log(result, "****************************");
-  //     setSupportTypes(result.data.data);
-
-      
-  //     const catresult = await axios("/api/categories");
-  //     console.log(catresult, "999999");
-  //     setCategoryType(catresult.data.data);
-  //   };
-
-  //   fetchData();
-  // }, []);
   useEffect(() => {
     axios("/api/supportsForAdmin").then(res => {
       setSupportTypes(res.data.data)
-//   };
-    
-  })
-  axios("/api/categories").then(res => {
-    setCategoryType(res.data.data)
-//   };
-  
-})
+      //   };
 
-}, []);
+    })
+    axios("/api/categories").then(res => {
+      setCategoryType(res.data.data)
+      //   };
 
-  //   console.log(organizations, "organizationsorganizations");
+    })
+
+  }, []);
+
+
   return (
     <div
       style={{

@@ -17,7 +17,6 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
   const [person, setPerson] = useState("");
 
   const handleSubmit = (evt) => {
-    console.log(nameArm, nameEng, person);
     axios
       .post(`/api/addOrganization`, {
         nameArm,
@@ -25,7 +24,6 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
         person,
       })
       .then((response) => {
-        console.log(response);
         if (response.data.success) {
           const org = {
             id: response.data.id,
@@ -58,7 +56,7 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
       >
         <img
           src={require("../HomePage/AdminIcons/add.svg").default}
-          //   className="add_icon"
+        //   className="add_icon"
         />
         <button variant="primary" className="button_add" onClick={handleShow}>
           Ավելացնել
@@ -94,7 +92,7 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
               type="text"
               placeholder="Organization name "
               onChange={(e) => setNameEng(e.target.value)}
-              //   className={error}
+            //   className={error}
             />
             <br />
             <FormLabel style={{ display: "flex" }}>Կոնտակտ անձ</FormLabel>
@@ -103,7 +101,7 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
               type="text"
               placeholder="Անուն Ազգանուն"
               onChange={(e) => setPerson(e.target.value)}
-              //   className={error}
+            //   className={error}
             />
           </Form.Group>
         </Modal.Body>

@@ -34,15 +34,13 @@ function OrganizationsPage({ setSuccessPage, successPage, setFailPage }) {
       }
     });
   };
-
-  // console.log("object");
   useEffect(() => {
     axios("/api/organizationsForAdmin").then(res => {
       setOrganizations(res.data.all);
-    
+
     })
-      
-     
+
+
 
     // fetchData();
   }, []);

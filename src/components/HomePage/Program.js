@@ -8,16 +8,15 @@ import "./Program.css"
 import moment from 'moment'
 
 
-function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEndDate,setMoreInfoStartDate,setSuccessPage, setFailPage }) {
+function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage }) {
 
   const [item, setItem] = useState({})
   const [itemDelete, setItemDelete] = useState({})
   const [itemMoreInfo, setItemMoreInfo] = useState({})
   const [editShow, setEditShow] = useState(false)
   const [deleteShow, setDeleteShow] = useState(false)
-  
- 
-console.log("pr",programs);
+
+
   let [isSelect, setIsSelect] = useState([{}])
 
 
@@ -61,11 +60,11 @@ console.log("pr",programs);
 
     setMoreInfoStartDate(moment(programs[index].startDate).format('DD.MM.YYYY'))
     setMoreInfoEndDate(moment(programs[index].endDate).format('DD.MM.YYYY'))
-    if(programs[index].status === 1 ){
-      programs[index].status ="ընթացիկ"
+    if (programs[index].status === 1) {
+      programs[index].status = "ընթացիկ"
     }
-    if(programs[index].status === 2 ){
-      programs[index].status ="ավարտված"
+    if (programs[index].status === 2) {
+      programs[index].status = "ավարտված"
     }
     setProg(programs[index])
 
@@ -81,10 +80,10 @@ console.log("pr",programs);
         <div className="org_title">
           <div className="org_title_txt">Ծրագրեր</div>
           <div>
-            <AddProgram  
-            setSuccessPage={setSuccessPage}
-          setFailPage={setFailPage}
-          />
+            <AddProgram
+              setSuccessPage={setSuccessPage}
+              setFailPage={setFailPage}
+            />
           </div>
         </div>
 
@@ -123,8 +122,8 @@ console.log("pr",programs);
                     </td>
                     <td>{prog.manager_arm}</td>
                     <td>
-                      <div style={{ display: "flex" ,}}>
-                        <div style={{  width: "30px", marginRight: "10px" }} onClick={() => {
+                      <div style={{ display: "flex", }}>
+                        <div style={{ width: "30px", marginRight: "10px" }} onClick={() => {
                           handleShowMoreInfo(index)
 
                         }}>
@@ -143,7 +142,7 @@ console.log("pr",programs);
                             <img className="org_icon" src={require("../../img/edit.svg").default} />
                           </div>
                         </div>
-                        <div  onClick={() => {
+                        <div onClick={() => {
                           handleShowDelete(prog.id);
 
                         }}>
@@ -165,8 +164,8 @@ console.log("pr",programs);
               </tr>
             )}
           </tbody>
-          <EditProgram prog={item} setProg={setItem} show={editShow} setShow={setEditShow} isSelect={isSelect} setIsSelect={setIsSelect}/>
-          
+          <EditProgram prog={item} setProg={setItem} show={editShow} setShow={setEditShow} isSelect={isSelect} setIsSelect={setIsSelect} />
+
           <DeleteProgram id={itemDelete} show={deleteShow} setShow={setDeleteShow} />
 
         </table>

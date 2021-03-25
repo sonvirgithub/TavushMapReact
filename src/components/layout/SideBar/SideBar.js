@@ -3,78 +3,27 @@ import { Route, useHistory, NavLink } from "react-router-dom";
 import "./SideBar.css";
 
 function Sidebar() {
-  // const [nameArm, setNameArm] = useState("");
-  // const [nameEng, setNameEng] = useState("");
-  // const [startDate, setStartDate] = useState("");
-  // const [endDate, setEndDate] = useState("");
-  // const [cityArm, setCityArm] = useState("");
-  // const [cityEng, setCityEng] = useState("");
-  // const [responsiblePersonArm, setResponsiblePersonArm] = useState("");
-  // const [responsiblePersonEng, setResponsiblePersonEng] = useState("");
-  // const [contactPersonArm, setContactPersonArm] = useState("");
-  // const [contactPersonEng, setContactPersonEng] = useState("");
-  // const [categoryArm, setCategoryArm] = useState([
-  //   "category1",
-  //   "category2",
-  //   "category3",
-  // ]);
-  // const [support_typeArm, setSupportArm] = useState([
-  //   "support_type 1",
-  //   "support_type 2",
-  //   "support_type 3",
-  // ]);
 
-  // async function createProgress() {
+  const history = useHistory();
 
-  //   let body = {
-  //     nameArm,
-  //     startDate,
-  //     endDate,
-  //     cityArm,
-  //     responsiblePersonArm,
-  //     contactPersonArm,
-  //     categoryArm,
-  //     support_typeArm,
-  //   };
+  async function log_out() {
 
-  //   body = JSON.stringify(body);
-  //   const headers = {};
-  //   headers["Content-Type"] = "application/json";
-  //   const res = await fetch("/createProject", {
-  //     method: "POST",
-  //     body,
-  //     headers,
-  //   });
-  //   if (res.status == 200) {
-  //     let data = await res.json();
-  //   }
-
-    const history = useHistory();
-
-    async function log_out() {
-
-        const headers = {}
-        headers["Content-Type"] = "application/json"
-        const res = await fetch('/api/logout', {
-            method:
-                "GET",
-            headers
-        })
-      
-        if (res.status == 200) {
-
-            history.push("/admin/login")
-           window.location.reload()
-
-        } else {
-            // console.log("data chka")
-
+    const headers = {}
+    headers["Content-Type"] = "application/json"
+    fetch('/api/logout', {
+      method:
+        "GET",
+      headers
+    }).then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.reload()
+          history.push("/dmn/login")
         }
-        // window.location.reload()
+      })
+  }
 
-    }
-    // window.location.reload()
-  
+
 
   return (
     <div className="sideBar">
@@ -86,7 +35,7 @@ function Sidebar() {
             className="icon_program"
           />
           <NavLink
-            to="/admin/program"
+            to="/dmn/program"
             className="btn_projects div_projects"
             activeClassName="activeclass"
           >
@@ -97,7 +46,7 @@ function Sidebar() {
         <div
         >
           <NavLink
-            to="/admin/organization"
+            to="/dmn/organization"
             className="btn_projects div_projects"
             activeClassName="activeclass"
           >
@@ -111,7 +60,7 @@ function Sidebar() {
         <div
         >
           <NavLink
-            to="/admin/category"
+            to="/dmn/category"
             className="btn_projects div_projects"
             activeClassName="activeclass"
           >
@@ -126,7 +75,7 @@ function Sidebar() {
         //  className="div_projects"
         >
           <NavLink
-            to="/admin/supportType"
+            to="/dmn/supportType"
             className="btn_projects div_projects"
             activeClassName="activeclass"
           >
@@ -141,7 +90,7 @@ function Sidebar() {
         //  className="div_projects"
         >
           <NavLink
-            to="/admin/settings"
+            to="/dmn/settings"
             className="btn_projects div_projects"
             activeClassName="activeclass"
           >
@@ -157,7 +106,7 @@ function Sidebar() {
       <div className="logout">
         <button
           className="btn_logout"
-           onClick={log_out}
+          onClick={log_out}
         >
           Դուրս գալ{" "}
           <img

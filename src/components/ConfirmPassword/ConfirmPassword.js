@@ -29,27 +29,26 @@ function ConfirmPassword() {
     body = JSON.stringify(body);
     const headers = {};
     headers["Content-Type"] = "application/json";
-    const res = await fetch("/api/login", {
+    fetch("/api/login", {
       method: "POST",
       body,
       headers,
-    });
+    }).then(res => res.json())
+      .then(data => {
+        if (data.status == 200) {
 
-    if (res.status == 200) {
-      // console.log(res.json());
-      //let data = await res.json()
+          history.push("/dmn/program");
+          window.location.reload();
+        } else {
+          setIncorrect(false);
+          setChangeColorEmailLabel("red_email_address_label");
+          setChangeColorEmailInput("red_email_address_input");
+          setIncorrect(true);
+          setEyeVisible("password");
+        }
+      })
 
-      // console.log(data);
 
-      history.push("/admin/program");
-      window.location.reload();
-    } else {
-      setIncorrect(false);
-      setChangeColorEmailLabel("red_email_address_label");
-      setChangeColorEmailInput("red_email_address_input");
-      setIncorrect(true);
-      setEyeVisible("password");
-    }
     //window.location.reload()
   }
 

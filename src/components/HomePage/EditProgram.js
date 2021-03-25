@@ -8,15 +8,15 @@ import UseOutSideClick from "../HomePage/UseOutSideClick"
 import moment from 'moment'
 
 function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
-   }) {
- 
+}) {
+
   const selected = moment(prog.startDate).toDate()
 
   const [communities, setCommunities] = useState([])
   const [organizations, setOrganizations] = useState([])
   const [categores, setCategores] = useState([])
   const [language, setLanguage] = useState("arm")
- 
+
   const [arrow_icon_city, setArrow_iconCity] = useState(true)
   const [arrow_icon_org, setArrow_iconOrg] = useState(true)
   const [arrow_icon_status, setArrow_iconStatus] = useState(true)
@@ -43,11 +43,10 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
     })
       .then(res => res.json())
       .then(data => {
-        
+
         setOrganizations(data.data)
       }).catch(err => {
 
-        // console.log(err);
       })
 
     fetch('/api/communities', {
@@ -59,10 +58,8 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
     })
       .then(res => res.json())
       .then(data => {
-        console.log("city",data.data);
         setCommunities(data.data)
       }).catch(err => {
-        // console.log(err);
       })
 
     fetch('/api/supportsList', {
@@ -76,7 +73,6 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
       .then(data => {
         setCategores(data.data)
       }).catch(err => {
-        // console.log(err);
       })
 
 
@@ -87,7 +83,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
   const selectCommunity = (city) => {
     let index = prog.community.findIndex(item => item.communityId === city.id);
     let arr = prog.community;
-  
+
 
     if (index < 0) {
       arr.push(
@@ -140,32 +136,30 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
   const handleClose = () => {
     setShow(false)
     setIsSelect([])
-    console.log("programs[index].support2",prog.support);
-    console.log("prog.status",prog.status);
     if (prog.status === 1) {
       prog.status = "ընթացիկ"
     }
     if (prog.status === 2) {
       prog.status = "ավարտված"
     }
-    
+
 
   };
 
-  
-  const handleSubmit = (evt) => { 
-  
+
+  const handleSubmit = (evt) => {
+
     const year = prog.startDate.getFullYear()
     const month = prog.startDate.getMonth() + 1
     const day = prog.startDate.getDate()
     prog.startDate = `${year}-${month}-${day}`
-    
-    
+
+
     const year1 = prog.endDate.getFullYear()
     const month1 = prog.endDate.getMonth() + 1
     const day1 = prog.endDate.getDate()
     prog.endDate = `${year1}-${month1}-${day1}`
-    
+
 
     prog.support = isSelect
 
@@ -177,20 +171,18 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
         if (res.data.success) {
           // setSuccessPage(true);
           handleClose();
-         window.location.reload()
-          // console.log("Կատարված է");
+          window.location.reload()
         } else {
-          
+
           handleClose();
           // setFailPage(true);
         }
       })
       .catch((e) => {
         handleClose();
-        // console.log("error", e);
       });
 
-     
+
 
   };
 
@@ -283,7 +275,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
                       <div className='list city' key={city.id}>
                         <li style={{
                           backgroundColor: prog.community.some(item => item.communityId === city.id) ?
-                          '#A4C2D8' : '#FAFAFA'
+                            '#A4C2D8' : '#FAFAFA'
                         }} className='li1' onClick={() => selectCommunity(city)} >{city.name}</li>
                       </div>
                     ))}
@@ -382,14 +374,14 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
               {
                 arrow_icon_category && (
                   <div ref={ref} className="nested">
-                    {categores.map((categore,index) => (
+                    {categores.map((categore, index) => (
 
                       <div className='list' key={index}>
 
                         <ul className='ul' >
 
                           <div className='supportList'>
-                            <input type="checkbox"  className="checkbox"  onClick={(e) => checkCategory(e, categore)}
+                            <input type="checkbox" className="checkbox" onClick={(e) => checkCategory(e, categore)}
                             />
                           </div>
 
@@ -401,7 +393,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
                               <div className="support_types" >
 
 
-                                {categore.support.map((support,index) => (
+                                {categore.support.map((support, index) => (
                                   <li style={{
                                     backgroundColor: isSelect.some(item => item.supportid === support.supportid) ? '#A4C2D8' : '#FAFAFA',
 

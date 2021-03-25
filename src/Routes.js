@@ -34,10 +34,7 @@ function Routes({
   setMoreInfoEndDate,
 
 }) {
-
-  // console.log(showResults, "showResults rout");
   if (isLoggedIn) {
-    // console.log(isLoggedIn);
     return (
       <>
 
@@ -65,7 +62,7 @@ function Routes({
           /> */}
           <Route
             exact
-            path="/admin/program"
+            path="/dmn/program"
             render={() => (
               <ProgramsPage
                 showResults={showResults}
@@ -82,7 +79,7 @@ function Routes({
           />
           <Route
             exact
-            path="/admin/organization"
+            path="/dmn/organization"
             render={() => (
               <OrganizationsPage
                 setSuccessPage={setSuccessPage}
@@ -93,7 +90,7 @@ function Routes({
           />
           <Route
             exact
-            path="/admin/category"
+            path="/dmn/category"
             render={() => (
               <CategoriesPage
                 setSuccessPage={setSuccessPage}
@@ -104,7 +101,7 @@ function Routes({
           />
           <Route
             exact
-            path="/admin/supportType"
+            path="/dmn/supportType"
             render={() => (
               <SupportTypesPage
                 setSuccessPage={setSuccessPage}
@@ -114,7 +111,7 @@ function Routes({
           />
           <Route
             exact
-            path="/admin/settings"
+            path="/dmn/settings"
             render={() => (
               <SettingPage
                 setSuccessPage={setSuccessPage}
@@ -147,7 +144,7 @@ function Routes({
             path="/settings"
           /> */}
 
-          <Redirect to="/admin/program" />
+          <Redirect to="/dmn/program" />
         </Switch>
       </>
     );
@@ -156,7 +153,7 @@ function Routes({
 
     return (
       <Switch>
-        <Route exact path="/admin/login" component={Login} />
+        <Route exact path="/dmn/login" component={Login} />
         {/* <RouteWithLayout
           component={Login}
           exact
@@ -164,7 +161,7 @@ function Routes({
           path="/login"
         /> */}
 
-        {/* <Redirect to="/admin/login" /> */}
+        <Redirect to="/dmn/login" />
       </Switch>
     );
   }

@@ -6,7 +6,6 @@ import { Modal, Button } from "react-bootstrap";
 import { OrganizationContext } from "../../pages/OrganizationsPage";
 
 function DeleteOrganization({ org, setSuccessPage, setFailPage }) {
-  // console.log(org, "org");
   const organizationCont = useContext(OrganizationContext);
 
   const [show, setShow] = useState(false);

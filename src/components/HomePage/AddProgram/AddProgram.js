@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef,useContext } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import './AddProgram.css'
 import { Modal, Form, } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
@@ -72,7 +72,6 @@ function AddProgram({ setSuccessPage, setFailPage }) {
         setOrganizations(data.data)
 
       }).catch(err => {
-        // console.log(err);
       })
 
     fetch('/api/communities', {
@@ -85,11 +84,9 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
       .then(res => res.json())
       .then(data => {
-        console.log(data.data);
         setCommunities(data.data)
 
       }).catch(err => {
-        // console.log(err);
       })
 
     fetch('/api/supportsList', {
@@ -102,11 +99,9 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
       .then(res => res.json())
       .then(data => {
-        console.log("support",data.data);
         setCategores(data.data)
 
       }).catch(err => {
-        // console.log(err);
       })
 
   }, [])
@@ -121,43 +116,44 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       categoryid_supportid, description_arm, description_eng, statusid, isdonor, language
     }
 
-    // console.log(name_arm, name_eng, communityid, budget, start_date, end_date, manager_arm, manager_eng, contactPerson_arm, contactPerson_eng, organizationid,
-    //   categoryid_supportid, description_arm, description_eng, statusid, isdonor);
 
     body = JSON.stringify(body)
     const headers = {}
     headers["Content-Type"] = "application/json"
-    const res = await fetch('/api/addProgram', {
+    fetch('/api/addProgram', {
       method: 'POST',
       body,
       headers
-    });
+    }).then(res => res.json())
+      .then(data => {
+        if (data.status == 200) {
+          setSuccessPage(true);
+          handleClose()
+          const prog = {
 
-    if (res.status == 200) {
-      setSuccessPage(true);
-      handleClose()
-      const prog = {
-        
-        ProgramName_arm: name_arm,
-        ProgramName_eng: name_eng,
-        budget: budget,
-        startDdate: start_date,
-        endDate: end_date,
-        manager_arm: manager_arm,
-        manager_eng: manager_eng,
-        contact_arm: contactPerson_arm,
-        contact_eng : contactPerson_eng,
-        description_arm: description_arm,
-        description_eng: description_eng,
-        isDonor: isdonor,
-      };
-      // programCont.AddProgram(prog);
+            ProgramName_arm: name_arm,
+            ProgramName_eng: name_eng,
+            budget: budget,
+            startDdate: start_date,
+            endDate: end_date,
+            manager_arm: manager_arm,
+            manager_eng: manager_eng,
+            contact_arm: contactPerson_arm,
+            contact_eng: contactPerson_eng,
+            description_arm: description_arm,
+            description_eng: description_eng,
+            isDonor: isdonor,
+          };
+          // programCont.AddProgram(prog);
 
-    } else {
-      setFailPage(true);
-      // handleClose()
-      // console.log("աաաա",res);
-    }
+        } else {
+          setFailPage(true);
+          // handleClose()
+        }
+      })
+
+
+
 
     setName_arm("")
     setName_eng("")
@@ -188,7 +184,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       isSelect.splice(index, 1)
 
       for (let i = 0; i < categoryid_supportid.length; i++) {
-        if (categoryid_supportid[i].supportid === supportId ) {
+        if (categoryid_supportid[i].supportid === supportId) {
           categoryid_supportid.splice(i, 1)
         }
       }
@@ -202,7 +198,6 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
     }
     setIsSelect([...isSelect])
-    console.log(categoryid_supportid);
 
   }
 
@@ -231,7 +226,6 @@ function AddProgram({ setSuccessPage, setFailPage }) {
   }
 
   const selectOrganization = (orgid) => {
-    // console.log(id);
     if (organizationid.some(item => item === orgid)) {
       let index = organizationid.findIndex(item => item === orgid);
       organizationid.splice(index, 1)
@@ -241,7 +235,6 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       setOrganization([...organizationid])
 
     }
-    // console.log(organizationid);
   }
 
   const checkCategory = (e, category) => {
@@ -289,7 +282,6 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
   }
 
-  // console.log("categoryid_supportid", categoryid_supportid);
   return (
     <div>
       <div >
@@ -325,7 +317,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
                 <div ref={ref} className="NestedSelect">
 
-                  {communities.map((city,index) => (
+                  {communities.map((city, index) => (
                     <div className='list city radio' key={index}>
                       <li style={{
                         backgroundColor: communityid.some(item => item === city.id) ?
@@ -341,7 +333,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
           {/* budget-i inputnery */}
           <div className="project_name">
             <label className="budge_name">Բյուջե</label>
-            <input  className="budge_input" placeholder="10 000"  onChange={e => setBudge(e.target.value)} />
+            <input className="budge_input" placeholder="10 000" onChange={e => setBudge(e.target.value)} />
             <div className="usd_input">
               USD
             </div>
@@ -423,7 +415,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
             {
               arrow_icon_category && (
                 <div ref={ref} className="nested">
-                  {categores.map((categore,index) => (
+                  {categores.map((categore, index) => (
 
                     <div className='list' key={index} >
 
