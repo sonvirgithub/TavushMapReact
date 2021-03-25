@@ -19,7 +19,6 @@ function EditSupportType({
   const [support_arm, setSupportArm] = useState("");
   const [support_eng, setSupportEng] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [category_name, setCategory_name] = useState("");
 
   const newDataFunc = () => {
     // setId(supType.id);
@@ -30,6 +29,7 @@ function EditSupportType({
 
   useEffect(() => {
     // setId(supType.supportid);
+    console.log(supType);
   }, []);
 
   useEffect(() => {

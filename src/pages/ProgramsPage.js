@@ -31,8 +31,6 @@ function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
       .then((res) => res.json())
       .then((res) => {
         setPrograms(res.data);
-
-
       })
       .catch((err) => {
       });

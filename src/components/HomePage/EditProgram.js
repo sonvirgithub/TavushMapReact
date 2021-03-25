@@ -241,6 +241,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
     setProg({ ...prog, support: isSelect })
   }
 
+  console.log(prog);
   return (
     <>
 
@@ -442,16 +443,16 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
                       <div className="radio">
 
                         <li style={{
-                          backgroundColor: prog.status === 1 ?
+                          backgroundColor: prog.statusId == 1 ?
                             '#A4C2D8' : '#FAFAFA'
-                        }} className='li1' onClick={() => setProg({ ...prog, status: 1, })}>Ընթացիկ</li>
+                        }} className='li1' onClick={() => setProg({ ...prog, statusId: 1, })}>Ընթացիկ</li>
                       </div>
                       <div className="radio">
 
                         <li className='li1' style={{
-                          backgroundColor: prog.status === 2 ?
+                          backgroundColor: prog.statusId === 2 ?
                             '#A4C2D8' : '#FAFAFA'
-                        }} onClick={() => setProg({ ...prog, status: 2, })}>Ավարտված</li>
+                        }} onClick={() => setProg({ ...prog, statusId: 2, })}>Ավարտված</li>
                       </div>
                     </div>
 

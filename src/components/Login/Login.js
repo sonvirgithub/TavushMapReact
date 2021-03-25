@@ -23,8 +23,7 @@ function Login() {
         }
 
         let body = { email, password }
-        setEmail('')
-        setPassword('')
+
         body = JSON.stringify(body)
         const headers = {}
         headers["Content-Type"] = "application/json"
@@ -37,6 +36,8 @@ function Login() {
                 if (data.success) {
                     history.push('/dmn/program')
                     window.location.reload()
+                    setEmail('')
+                    setPassword('')
                 } else {
                     setIncorrect(false)
                     setChangeColorEmailLabel("red_email_address_label")

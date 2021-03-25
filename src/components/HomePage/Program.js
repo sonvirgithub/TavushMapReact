@@ -22,12 +22,12 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
 
   const handleShowEdit = (index) => {
 
-    if (programs[index].status === "ընթացիկ") {
-      programs[index].status = 1
-    }
-    if (programs[index].status === "ավարտված") {
-      programs[index].status = 2
-    }
+    // if (programs[index].status === "ընթացիկ") {
+    //   programs[index].status = 1
+    // }
+    // if (programs[index].status === "ավարտված") {
+    //   programs[index].status = 2
+    // }
 
     const startDate = moment(programs[index].startDate).toDate()
     const endDate = moment(programs[index].endDate).toDate()
