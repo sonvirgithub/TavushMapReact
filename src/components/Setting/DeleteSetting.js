@@ -1,32 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {  useContext } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
-
 import { SettingContext } from "../../pages/SettingPage";
+import { connect,useDispatch } from "react-redux";
+import { succeeded,failed, deleteShow,userDeleteSuccess} from "../../redux";
 
-function DeleteSetting({ set, setSuccessPage, setFailPage }) {
+function DeleteSetting({ show, setShow, setSuccessPage, setFailPage,user,showDelete,userDeleteSuccess }) {
   const settingCont = useContext(SettingContext);
 
-  const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  useEffect(() => {
-    setId(set.id);
-  }, []);
-
+  const handleClose = () => dispatch(deleteShow());
+ 
+  const dispatch = useDispatch()
   const handleSubmit = (evt) => {
     axios
-      .delete(`/api/deleteUser/${id}`)
+      .delete(`/api/deleteUser/${user.id}`)
       .then((response) => {
         if (response.data.success) {
-          settingCont.deleteUser(id);
-          setSuccessPage(true);
+         
+          userDeleteSuccess(user.id)
+          
+          dispatch(succeeded(true))
           //   toast.success("Կատարված է");
         } else {
-          setFailPage(true);
+          
+          dispatch(failed(true))
           //   toast.error(response.data.errorMessage);
         }
       })
@@ -37,21 +34,14 @@ function DeleteSetting({ set, setSuccessPage, setFailPage }) {
 
   return (
     <>
-      <div style={{ marginRight: "15px" }} onClick={handleShow}>
-        <img
-          className="org_icon"
-          src={require("../../img/remove.svg").default}
-        />
-      </div>
+      
 
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal show={showDelete} onHide={handleClose} animation={false}>
         {/* <Modal.Header closeButton>
           <Modal.Title>Համոզվա՞ծ եք</Modal.Title>
         </Modal.Header> */}
         <Modal.Body>
-          Դուք ցանկանում եք հեռացնել
-          {/* {cat.name_arm} */}
-          կազմակերպությունը
+          Դուք ցանկանում եք հեռացնել {user.firstname} {user.lastname} - ին
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -72,4 +62,18 @@ function DeleteSetting({ set, setSuccessPage, setFailPage }) {
   );
 }
 
-export default DeleteSetting;
+const mapStateToProps = (state) => {
+  return {
+    
+    user: state.set.user,
+    showDelete: state.org.showDelete
+    
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      userDeleteSuccess: (id) => dispatch(userDeleteSuccess(id))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(DeleteSetting);

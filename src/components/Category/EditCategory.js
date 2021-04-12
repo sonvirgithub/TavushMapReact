@@ -1,47 +1,36 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, {  useContext } from "react";
 import { Modal, Button, Form, FormLabel } from "react-bootstrap";
 import axios from "axios";
 import { CategoryContext } from "../../pages/CategoriesPage";
+import { succeeded, failed, editShow,editCategory,categoryEditSuccess } from "../../redux";
+import { connect, useDispatch } from "react-redux";
 
-function EditCategory({ cat, setSuccessPage, setFailPage }) {
-  const categoryCont = useContext(CategoryContext);
-  const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
-  const [category_eng, setCategoryEng] = useState("");
-  const [category_arm, setCategoryArm] = useState("");
+function EditCategory({ category, showEdit,categoryEditSuccess }) {
 
-  const newDataFunc = () => {
-    setId(cat.id);
-    setCategoryArm(cat.name_arm);
-    setCategoryEng(cat.name_eng);
+  // const categoryCont = useContext(CategoryContext);
+  const dispatch = useDispatch()
+ 
+  console.log("edit category");
+  const handleClose = () => {
+    dispatch(editShow())
   };
 
-  useEffect(() => {
-    setId(cat.id);
-  }, []);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleSubmit = (evt) => {
+
     axios
       .put(`/api/editCategory `, {
-        id,
-        category_eng,
-        category_arm,
+        category
       })
       .then((response) => {
         if (response.data.success) {
-          const cat = {
-            id: id,
-            name_eng: category_eng,
-            name_arm: category_arm,
-          };
+
           handleClose();
-          categoryCont.editCategory(cat);
-          setSuccessPage(true);
+          // categoryCont.editCat(category);
+          categoryEditSuccess(category)
+          dispatch(succeeded(true))
         } else {
           handleClose();
-          setFailPage(true);
+          dispatch(failed(true))
         }
       })
       .catch((e) => {
@@ -51,35 +40,23 @@ function EditCategory({ cat, setSuccessPage, setFailPage }) {
 
   return (
     <>
-      <div
-        variant="primary"
-        onClick={() => {
-          handleShow();
-          newDataFunc();
-        }}
-      >
-        <img className="org_icon" src={require("../../img/edit.svg").default} />
-      </div>
 
-      <Modal show={show} onHide={handleClose} animation={false} style={{  display:"none"  }}>
-        {/* <Modal.Header closeButton>
-          <Modal.Title>Խմբագրել</Modal.Title>
-        </Modal.Header> */}
+
+      <Modal show={showEdit} onHide={handleClose} animation={false} style={{ display: "none" }}>
         <Modal.Body>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <FormLabel style={{  display:"flex"  }}>Ոլորտի անվանումը (Հայերեն)</FormLabel>
+          <Form.Group onSubmit={handleSubmit} style={{ display: "inline-block" }}>
+            <FormLabel style={{ display: "flex" }}>Ոլորտի անվանումը (Հայերեն)</FormLabel>
             <Form.Control
               type="text"
-              value={category_arm}
-              onChange={(e) => setCategoryArm(e.target.value)}
+              value={category.name_arm}
+              onChange={(e) => dispatch(editCategory({ ...category, name_arm: e.target.value }))}
             />
             <br />
-            <FormLabel style={{  display:"flex"  }}>Ոլորտի անվանումը (Enlglish)</FormLabel>
-
+            <FormLabel style={{ display: "flex" }}>Ոլորտի անվանումը (Enlglish)</FormLabel>
             <Form.Control
               type="text"
-              value={category_eng}
-              onChange={(e) => setCategoryEng(e.target.value)}
+              value={category.name_eng}
+              onChange={(e) => dispatch(editCategory({ ...category, name_eng: e.target.value }))}
             />
           </Form.Group>
         </Modal.Body>
@@ -91,7 +68,7 @@ function EditCategory({ cat, setSuccessPage, setFailPage }) {
             variant="primary"
             onClick={() => {
               handleSubmit();
-              // handleClose();
+
             }}
           >
             Հաստատել
@@ -102,4 +79,20 @@ function EditCategory({ cat, setSuccessPage, setFailPage }) {
   );
 }
 
-export default EditCategory;
+const mapStateToProps = (state) => {
+  return {
+   
+    category: state.cat.category,
+    showEdit: state.cat.showEdit
+
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      categoryEditSuccess: (category) => dispatch(categoryEditSuccess(category))
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditCategory);

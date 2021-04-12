@@ -3,18 +3,18 @@ import { Modal, Button, Form, FormLabel } from "react-bootstrap";
 import axios from "axios";
 import { OrganizationContext } from "../../pages/OrganizationsPage";
 import SuccessPage from "../../pages/SuccessPage";
+import { succeeded, failed, addShow,orgAddSuccess } from "../../redux";
+import { connect, useDispatch } from "react-redux";
 
-function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
-  const organizationCont = useContext(OrganizationContext);
+function AddOrganization({ showAdd, orgAddSuccess }) {
+ 
+  const handleClose = () => dispatch(addShow());
+  const handleShow = () => dispatch(addShow());
 
-  const [show, setShow] = useState(false);
-  // const [success, setSuccess] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [nameArm, setNameArm] = useState("");
   const [nameEng, setNameEng] = useState("");
   const [person, setPerson] = useState("");
+  const dispatch = useDispatch()
 
   const handleSubmit = (evt) => {
     axios
@@ -31,14 +31,15 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
             nameArm: nameArm,
             contactPersonArm: person,
           };
-          organizationCont.addOrganization(org);
-          // setSuccess(true);
-          setSuccessPage(true);
-          // setSuccessPage(successPage);
+          // organizationCont.addOrganization(org);
+          orgAddSuccess(org)
+          // setSuccessPage(true);
+          dispatch(succeeded(true))
           handleClose();
         } else {
           handleClose();
-          setFailPage(true);
+          // setFailPage(true);
+          dispatch(failed(true))
         }
       })
       .catch((e) => {
@@ -66,7 +67,7 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
           Ավելացնել կազմակերպություն
         </Button> */}
 
-      <Modal show={show} onHide={handleClose} style={{ display: "none" }}>
+      <Modal show={showAdd} onHide={handleClose} style={{ display: "none" }}>
         {/* <Modal.Header> */}
         {/* <Modal.Title>Ավելացնել կազմակերպություն</Modal.Title> */}
         {/* </Modal.Header> */}
@@ -125,4 +126,17 @@ function AddOrganization({ successPage, setSuccessPage, setFailPage }) {
   // }
 }
 
-export default AddOrganization;
+const mapStateToProps = (state) => {
+  return {
+
+    showAdd: state.org.showAdd
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    orgAddSuccess: (org) => dispatch(orgAddSuccess(org))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddOrganization);

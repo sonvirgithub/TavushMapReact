@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
-function FailPage({ setFailPage }) {
+function FailPage() {
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
     setShow(false);
-    setFailPage(false);
+    // setFailPage(false);
   };
 
-  const handleShow = () => setShow(true);
-
+  
   return (
     <>
       <Modal show={show} onHide={handleClose}>

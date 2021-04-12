@@ -35,6 +35,7 @@ function Routes({
 
 }) {
   if (isLoggedIn) {
+   
     return (
       <>
 
@@ -51,15 +52,7 @@ function Routes({
           <SideBar />
         )}
         <Switch>
-          {/* <RouteWithLayout
-            component={ProgramsPage}
-            render={() => <ProgramsPage showResults={showResults} />}
-            exact
-            showResults={showResults}
-            setShowResults={setShowResults}
-            layout={MainLayout}
-            path="/program"
-          /> */}
+          
           <Route
             exact
             path="/dmn/program"
@@ -81,22 +74,14 @@ function Routes({
             exact
             path="/dmn/organization"
             render={() => (
-              <OrganizationsPage
-                setSuccessPage={setSuccessPage}
-                successPage={successPage}
-                setFailPage={setFailPage}
-              />
+              <OrganizationsPage />
             )}
           />
           <Route
             exact
             path="/dmn/category"
             render={() => (
-              <CategoriesPage
-                setSuccessPage={setSuccessPage}
-                successPage={successPage}
-                setFailPage={setFailPage}
-              />
+              <CategoriesPage/>
             )}
           />
           <Route
@@ -104,8 +89,7 @@ function Routes({
             path="/dmn/supportType"
             render={() => (
               <SupportTypesPage
-                setSuccessPage={setSuccessPage}
-                setFailPage={setFailPage}
+              
               />
             )}
           />
@@ -119,30 +103,6 @@ function Routes({
               />
             )}
           />
-          {/* <RouteWithLayout
-            component={OrganizationsPage}
-            exact
-            layout={MainLayout}
-            path="/organization"
-          /> */}
-          {/* <RouteWithLayout
-            component={CategoriesPage}
-            exact
-            layout={MainLayout}
-            path="/category"
-          />
-          <RouteWithLayout
-            component={SupportTypesPage}
-            exact
-            layout={MainLayout}
-            path="/supportType"
-          />
-          <RouteWithLayout
-            component={SettingPage}
-            exact
-            layout={MainLayout}
-            path="/settings"
-          /> */}
 
           <Redirect to="/dmn/program" />
         </Switch>
@@ -154,13 +114,6 @@ function Routes({
     return (
       <Switch>
         <Route exact path="/dmn/login" component={Login} />
-        {/* <RouteWithLayout
-          component={Login}
-          exact
-          layout={LoginLayout}
-          path="/login"
-        /> */}
-
         <Redirect to="/dmn/login" />
       </Switch>
     );

@@ -2,51 +2,33 @@ import React, { useState, useContext, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { OrganizationContext } from "../../pages/OrganizationsPage";
+import { succeeded, failed, editOrg,editShow, orgEditSuccess } from "../../redux";
+import { connect, useDispatch } from "react-redux";
 
-function EditOrganization({ org, setSuccessPage, setFailPage }) {
-  const organizationCont = useContext(OrganizationContext);
-  const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
-  const [nameArm, setNameArm] = useState("");
-  const [nameEng, setNameEng] = useState("");
-  const [person, setPerson] = useState("");
+function EditOrganization({ org, showEdit, orgEditSuccess }) {
+  
+  // const organizationCont = useContext(OrganizationContext);
+  const dispatch = useDispatch()
 
-  const newDataFunc = () => {
-    setId(org.id);
-    setNameArm(org.nameArm);
-    setNameEng(org.nameEng);
-    setPerson(org.contactPersonArm);
-  };
-
-  useEffect(() => {
-    setId(org.id);
-  }, []);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () =>  dispatch(editShow());
+  
   const handleSubmit = (evt) => {
+    
     axios
       .put(`/api/editOrganization`, {
-        id,
-        nameArm,
-        nameEng,
-        person,
+       org
       })
       .then((response) => {
         if (response.data.success) {
-          const org = {
-            id: id,
-            nameArm: nameArm,
-            nameEng: nameEng,
-
-            contactPersonArm: person,
-          };
           handleClose();
-          organizationCont.editOrganization(org);
-          setSuccessPage(true);
+          // organizationCont.editOrganization(org);
+          // setSuccessPage(true);
+          orgEditSuccess(org)
+          dispatch(succeeded(true))
         } else {
           handleClose();
-          setFailPage(true);
+          // setFailPage(true);
+          dispatch(failed(true))
         }
       })
       .catch((e) => {
@@ -56,18 +38,8 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
 
   return (
     <>
-      <div
-        variant="primary"
-        onClick={() => {
-          handleShow();
-          newDataFunc();
-        }}
-      >
-        <img className="org_icon" src={require("../../img/edit.svg").default} />
-      </div>
-
       <Modal
-        show={show}
+        show={showEdit}
         onHide={handleClose}
         animation={false}
         style={{ display: "none" }}
@@ -87,8 +59,8 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
             <Form.Control
               type="text"
               placeholder=""
-              value={nameArm}
-              onChange={(e) => setNameArm(e.target.value)}
+              value={org.nameArm}
+              onChange={(e) => dispatch(editOrg({ ...org, nameArm: e.target.value }))}
             />
             <br />
             <Form.Label style={{ display: "flex" }}>
@@ -97,16 +69,16 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
             <Form.Control
               type="text"
               placeholder=""
-              value={nameEng}
-              onChange={(e) => setNameEng(e.target.value)}
+              value={org.nameEng}
+              onChange={(e) => dispatch(editOrg({ ...org, nameEng: e.target.value }))}
             />
             <br />
             <Form.Label style={{ display: "flex" }}>Կոնտակտ անձ</Form.Label>
             <Form.Control
               type="text"
               placeholder=""
-              value={person}
-              onChange={(e) => setPerson(e.target.value)}
+              value={org.contactPersonArm}
+              onChange={(e) => dispatch(editOrg({ ...org, contactPersonArm: e.target.value }))}
             />
           </Form.Group>
         </Modal.Body>
@@ -129,4 +101,20 @@ function EditOrganization({ org, setSuccessPage, setFailPage }) {
   );
 }
 
-export default EditOrganization;
+const mapStateToProps = (state) => {
+  return {
+    
+    org: state.org.org,
+    showEdit: state.org.showEdit
+
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      orgEditSuccess: (org) => dispatch(orgEditSuccess(org))
+  }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditOrganization);

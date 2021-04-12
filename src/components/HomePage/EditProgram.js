@@ -241,7 +241,7 @@ function EditProgram({ prog, setProg, show, setShow, isSelect, setIsSelect,
     setProg({ ...prog, support: isSelect })
   }
 
-  console.log(prog);
+ 
   return (
     <>
 

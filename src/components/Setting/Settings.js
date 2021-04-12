@@ -3,8 +3,33 @@ import { Table } from "react-bootstrap";
 import AddSetting from "./AddSetting";
 import DeleteSetting from "./DeleteSetting";
 import EditSetting from "./EditSetting";
+import { connect, useDispatch } from "react-redux";
+import { editUser, deleteUser,getUsers,editShow,deleteShow } from "../../redux";
 
-function Settings({ settings, setSuccessPage, setFailPage }) {
+function Settings({ settings, setSuccessPage, setFailPage,getUsers,users }) {
+
+  const [settingEditShow, setSettingEditShow] = useState(false)
+  const [settingDeleteShow, setSettingDeleteShow] = useState(false)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    getUsers()
+  }, [])
+  
+  const handleShowEdit = (index) => {
+
+    dispatch(editUser(users[index]))
+    // setSettingEditShow(true)
+    dispatch(editShow())
+  }
+
+  const handleShowDelete = (index) => {
+
+    dispatch(deleteUser(users[index]))
+    // setSettingDeleteShow(true)
+    dispatch(deleteShow())
+  }
+
   return (
     <div style={{ marginLeft: "328px" }}>
       <div className="org_title">
@@ -29,8 +54,8 @@ function Settings({ settings, setSuccessPage, setFailPage }) {
         </thead>
 
         <tbody>
-          {settings.length > 0 ? (
-            settings.map((set, index) => {
+          {users.length > 0 ? (
+            users.map((set, index) => {
               return (
                 <tr key={set.id}>
                   <td>{set.firstname}</td>
@@ -41,16 +66,22 @@ function Settings({ settings, setSuccessPage, setFailPage }) {
                     <div
                       style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <EditSetting
-                        set={set}
-                        setSuccessPage={setSuccessPage}
-                        setFailPage={setFailPage}
-                      />
-                      <DeleteSetting
-                        set={set}
-                        setSuccessPage={setSuccessPage}
-                        setFailPage={setFailPage}
-                      />
+                      <div
+                        variant="primary"
+                        onClick={() => {
+                          handleShowEdit(index);
+                        }}
+                      >
+                        <img className="org_icon" src={require("../../img/edit.svg").default} />
+                      </div>
+                      <div style={{ marginRight: "15px" }} onClick={() => {
+                        handleShowDelete(index);
+                      }}>
+                        <img
+                          className="org_icon"
+                          src={require("../../img/remove.svg").default}
+                        />
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -62,9 +93,34 @@ function Settings({ settings, setSuccessPage, setFailPage }) {
             </tr>
           )}
         </tbody>
+        {/* <EditSetting
+          show={settingEditShow}
+          setShow={setSettingEditShow}
+          setSuccessPage={setSuccessPage}
+          setFailPage={setFailPage}
+        />
+        <DeleteSetting
+          show={settingDeleteShow}
+          setShow={setSettingDeleteShow}
+          setSuccessPage={setSuccessPage}
+          setFailPage={setFailPage}
+        /> */}
       </table>
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
 
-export default Settings;
+    users: state.set.users,
+    
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUsers: () => dispatch(getUsers())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Settings);

@@ -3,26 +3,38 @@ import { Table } from "react-bootstrap";
 import AddOrganization from "./AddOrganization";
 import DeleteOrganization from "./DeleteOrganization";
 import EditOrganization from "./EditOrganization";
-import MoreInfoOrganization from "./MoreInfoOrganization";
 import "./style.css";
-import axios from "axios";
+import { useDispatch,connect } from "react-redux";
+import { deleteOrg ,editOrg,deleteShow,editShow,getOrganizations} from "../../redux";
 
-function Organization({
-  organizations,
-  setSuccessPage,
-  successPage,
-  setFailPage,
-}) {
+function Organization({ organizations,getOrganizations }) {
+  
+  useEffect(() => {
+    getOrganizations()
+  }, [])
+
+
+  const dispatch = useDispatch()
+
+  console.log("organizations");
+  const handleShowEdit = (index) => {
+
+    dispatch(editOrg(organizations[index]))
+    dispatch(editShow())
+
+  }
+
+  const handleShowDelete = (index) => {
+    dispatch(deleteOrg(organizations[index]))
+    dispatch(deleteShow())
+
+  }
   return (
     <div style={{ marginLeft: "328px" }}>
       <div className="org_title">
         <div className="org_title_txt">Կազմակերպություններ</div>
         <div>
-          <AddOrganization
-            successPage={successPage}
-            setSuccessPage={setSuccessPage}
-            setFailPage={setFailPage}
-          />
+          <AddOrganization />
         </div>
       </div>
 
@@ -55,11 +67,7 @@ function Organization({
                 <tr key={org.id}>
                   <td>{org.nameArm}</td>
                   <td>{org.nameEng}</td>
-                  {/* <td>
-                    {org.contactPersonArm.map((person, index) => {
-                      return <div> {person.contactPerson} </div>;
-                    })}
-                  </td> */}
+                 
 
                   <td>{org.contactPersonArm}</td>
                   {/* <td>{org.name_eng}</td> */}
@@ -69,17 +77,23 @@ function Organization({
                     <div
                       style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      {/* <MoreInfoOrganization org={org} /> */}
-                      <EditOrganization
-                        setSuccessPage={setSuccessPage}
-                        org={org}
-                        setFailPage={setFailPage}
-                      />
-                      <DeleteOrganization
-                        setSuccessPage={setSuccessPage}
-                        org={org}
-                        setFailPage={setFailPage}
-                      />
+                        <div
+                        variant="primary"
+                        onClick={() => {
+                          handleShowEdit(index);
+                        }}
+                      >
+                        <img className="org_icon" src={require("../../img/edit.svg").default} />
+                      </div>
+                      <div style={{ marginLeft: "5px" }} onClick={() => {
+                          handleShowDelete(index);
+                        }}>
+                        <img
+                          className="org_icon"
+                          src={require("../../img/remove.svg").default}
+                        />
+                      </div>
+
                     </div>
                   </td>
                 </tr>
@@ -87,13 +101,28 @@ function Organization({
             })
           ) : (
             <tr>
-              <td colSpan="5">Տվյաներ չկան</td>
+              <td colSpan="5">Տվյալներ չկան</td>
             </tr>
           )}
         </tbody>
+        {/* <EditOrganization/>
+        <DeleteOrganization /> */}
       </table>
     </div>
   );
 }
 
-export default Organization;
+const mapStateToProps = (state) => {
+  return {
+
+    organizations: state.org.organizations,
+    
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getOrganizations: () => dispatch(getOrganizations())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Organization);

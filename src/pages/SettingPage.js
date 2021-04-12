@@ -2,37 +2,39 @@ import React, { useEffect, useState } from "react";
 import Categories from "../components/Category/Categories";
 import axios from "axios";
 import Settings from "../components/Setting/Settings";
+import EditSetting from "../components/Setting/EditSetting";
+import DeleteSetting from "../components/Setting/DeleteSetting";
 
 export const SettingContext = React.createContext();
-function SettingPage({ setSuccessPage, setFailPage }) {
+function SettingPage() {
   const [settings, setSettings] = useState("");
 
-  const addUser = (user) => {
-    settings.push(user);
-    setSettings([...settings]);
-  };
+  // const addUser = (user) => {
+  //   settings.push(user);
+  //   setSettings([...settings]);
+  // };
 
-  const editUser = (user) => {
-    settings.map((set) => {
-      if (set.id == user.id) {
-        set.firstname = user.firstname;
-        set.lastname = user.lastname;
+  // const editUser = (user) => {
+  //   settings.map((set) => {
+  //     if (set.id == user.id) {
+  //       set.firstname = user.firstname;
+  //       set.lastname = user.lastname;
 
-        setSettings([...settings]);
-      }
-    });
-  };
+  //       setSettings([...settings]);
+  //     }
+  //   });
+  // };
 
-  const deleteUser = (id) => {
-    settings.map((set) => {
-      if (set.id == id) {
-        const index = settings.indexOf(set);
-        settings.splice(index, 1);
+  // const deleteUser = (id) => {
+  //   settings.map((set) => {
+  //     if (set.id == id) {
+  //       const index = settings.indexOf(set);
+  //       settings.splice(index, 1);
 
-        setSettings([...settings]);
-      }
-    });
-  };
+  //       setSettings([...settings]);
+  //     }
+  //   });
+  // };
 
   // useEffect(() => {
     // const fetchData = async () => {
@@ -43,14 +45,14 @@ function SettingPage({ setSuccessPage, setFailPage }) {
 
     // fetchData();
 
-    useEffect(() => {
-      axios("/api/settings").then(res => {
-        setSettings(res.data.data)
-  //   };
+  //   useEffect(() => {
+  //     axios("/api/settings").then(res => {
+  //       setSettings(res.data.data)
+ 
       
-    })
+  //   })
 
-  }, []);
+  // }, []);
   return (
     <div
       style={{
@@ -59,20 +61,14 @@ function SettingPage({ setSuccessPage, setFailPage }) {
       }}
     >
       <SettingContext.Provider
-        value={{
-          //   settings,
-          setSettings,
-          addUser,
-          deleteUser,
-          editUser,
-          //   editCategory,
-        }}
       >
         <Settings
-          settings={settings}
-          setSuccessPage={setSuccessPage}
-          setFailPage={setFailPage}
+          // settings={settings}
+          // setSuccessPage={setSuccessPage}
+          // setFailPage={setFailPage}
         />
+        <EditSetting/>
+        <DeleteSetting/>
       </SettingContext.Provider>
     </div>
   );

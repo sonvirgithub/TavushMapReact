@@ -2,72 +2,48 @@ import React, { useState, useContext, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { SupportContext } from "../../pages/SupportTypesPage";
+import { succeeded, failed, editSupportType, editShow,supportEditSuccess } from "../../redux";
+import { connect, useDispatch } from "react-redux";
 
-function EditSupportType({
-  supType,
-  categoryType,
-  setSuccessPage,
-  setFailPage,
-}) {
-  const categoryTypesSelect = categoryType.filter(
-    (typeik) => typeik.id != supType.categoryId
-  );
+function EditSupportType({ supportType, categories, showEdit,supportEditSuccess }) {
 
+  const dispatch = useDispatch()
   const supportCont = useContext(SupportContext);
-  const [show, setShow] = useState(false);
-  // const [id, setId] = useState("");
-  const [support_arm, setSupportArm] = useState("");
-  const [support_eng, setSupportEng] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+console.log("kkkkkkkk",supportType);
 
-  const newDataFunc = () => {
-    // setId(supType.id);
-    setSupportArm(supType.name_arm);
-    setSupportEng(supType.name_eng);
-    setCategoryId(Number(supType.categoryId));
-  };
+  const handleClose = () => dispatch(editShow());
 
-  useEffect(() => {
-    // setId(supType.supportid);
-    console.log(supType);
-  }, []);
+  const changeCategory = (event) => {
+    const id = Number(event.target.value)
+    categories.map((category) => {
+      if (category.id == id) {
+        dispatch(editSupportType({ ...supportType, categoryId: id, categoryName: category.name_arm }))
 
-  useEffect(() => {
-    // categoryType.map((category) => {
-    //   if (category.id == categoryid_new) {
-    //     setCategory_name(category.name_arm);
-    //   }
-    // });
-  });
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+      }
+    });
+  }
 
   const handleSubmit = (evt) => {
-    console.log(supType.id, support_eng, support_arm, categoryId);
+
     axios
       .put(`/api/editSupport`, {
-        id: supType.id,
-        support_eng,
-        support_arm,
-        categoryId
+        supportType
+
       })
       .then((response) => {
-        console.log("r", response);
+
         if (response.data.success) {
-          // const sup = {
-          //   id,
-          //   support_eng,
-          //   support_arm,
-          //   categoryId,
-          //   category_name,
-          // };
+
           handleClose();
-          // supportCont.editSupport(sup);
-          setSuccessPage(true);
+
+          // supportCont.editSupport(supportType);
+          supportEditSuccess(supportType)
+          // setSuccessPage(true);
+          dispatch(succeeded(true))
         } else {
+          dispatch(failed(true))
           handleClose();
-          setFailPage(true);
+          // setFailPage(true);
         }
       })
       .catch((e) => {
@@ -77,18 +53,9 @@ function EditSupportType({
 
   return (
     <>
-      <div
-        variant="primary"
-        onClick={() => {
-          handleShow();
-          newDataFunc();
-        }}
-      >
-        <img className="org_icon" src={require("../../img/edit.svg").default} />
-      </div>
 
       <Modal
-        show={show}
+        show={showEdit}
         onHide={handleClose}
         animation={false}
         style={{ display: "none" }}
@@ -104,14 +71,16 @@ function EditSupportType({
             <Form.Label style={{ display: "flex" }}>Ոլորտ</Form.Label>
             <Form.Control
               as="select"
-              onChange={(e) => setCategoryId(Number(e.target.value))}
+              onChange={changeCategory}
             >
               <option hidden value="">
-                {supType.categoryName}
+                {supportType.categoryName}
               </option>
-              {categoryTypesSelect.length > 0 ? (
-                categoryTypesSelect.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
+              {categories.length > 0 ? (
+                categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}
+
+                  >
                     {cat.name_arm}
                   </option>
                 ))
@@ -128,8 +97,8 @@ function EditSupportType({
             <Form.Control
               type="text"
               placeholder=""
-              value={support_arm}
-              onChange={(e) => setSupportArm(e.target.value)}
+              value={supportType.name_arm}
+              onChange={(e) => dispatch(editSupportType({ ...supportType, name_arm: e.target.value }))}
             />
             <br />
             <Form.Label style={{ display: "flex" }}>
@@ -138,8 +107,8 @@ function EditSupportType({
             <Form.Control
               type="text"
               placeholder=""
-              value={support_eng}
-              onChange={(e) => setSupportEng(e.target.value)}
+              value={supportType.name_eng}
+              onChange={(e) => dispatch(editSupportType({ ...supportType, name_eng: e.target.value }))}
             />
           </Form.Group>
         </Modal.Body>
@@ -162,4 +131,20 @@ function EditSupportType({
   );
 }
 
-export default EditSupportType;
+const mapStateToProps = (state) => {
+  return {
+   
+    supportType: state.support.supportType,
+    showEdit: state.support.showEdit,
+    categories: state.cat.categories
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    supportEditSuccess: (sup) => dispatch(supportEditSuccess(sup)),
+   
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(EditSupportType);

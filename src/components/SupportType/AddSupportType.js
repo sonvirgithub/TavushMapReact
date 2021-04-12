@@ -2,21 +2,28 @@ import React, { useState, useContext, useEffect } from "react";
 import { Modal, Button, Form, FormLabel } from "react-bootstrap";
 import axios from "axios";
 import { SupportContext } from "../../pages/SupportTypesPage";
+import {
+  succeeded, failed, addShow, supportAddSuccess,
+ 
+} from "../../redux";
+import { connect, useDispatch } from "react-redux";
 
-function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
+function AddSupportType({ showAdd, supportAddSuccess,categories }) {
   const supportCont = useContext(SupportContext);
 
-  const [show, setShow] = useState(false);
+  const handleClose = () => dispatch(addShow());
+  const handleShow = () => dispatch(addShow());
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [support_eng, setSupportEng] = useState("");
   const [support_arm, setSupportArm] = useState("");
   const [categoryid, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    categoryType.map((type) => {
+ 
+    categories.map((type) => {
       if (type.id == categoryid) {
         setCategoryName(type.name_arm);
 
@@ -39,12 +46,15 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
             name_eng: support_eng,
             name_arm: support_arm,
           };
-          supportCont.addSupport(sup);
-          setSuccessPage(true);
+          // supportCont.addSupport(sup);
+          supportAddSuccess(sup)
+          // setSuccessPage(true);
+          dispatch(succeeded(true))
           handleClose();
         } else {
+          dispatch(failed(true))
           handleClose();
-          setFailPage(true);
+          // setFailPage(true);
         }
       })
       .catch((e) => {
@@ -61,7 +71,7 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
         </button>
       </div>
 
-      <Modal show={show} onHide={handleClose} style={{ display: "none" }}>
+      <Modal show={showAdd} onHide={handleClose} style={{ display: "none" }}>
         <Modal.Body>
           <Form.Group
             onSubmit={handleSubmit}
@@ -75,8 +85,8 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
               <option hidden value="">
                 Ոլորտ
               </option>
-              {categoryType.length > 0 ? (
-                categoryType.map((cat) => (
+              {categories.length > 0 ? (
+                categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name_arm}
                   </option>
@@ -127,4 +137,18 @@ function AddSupportType({ categoryType, setSuccessPage, setFailPage }) {
   );
 }
 
-export default AddSupportType;
+const mapStateToProps = (state) => {
+  return {
+
+    showAdd: state.support.showAdd,
+    categories: state.cat.categories
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    supportAddSuccess: (sup) => dispatch(supportAddSuccess(sup)),
+   
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddSupportType);

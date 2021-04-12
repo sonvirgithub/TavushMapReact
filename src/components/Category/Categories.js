@@ -1,19 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
 import AddCategory from "./AddCategory";
-import DeleteCategory from "./DeleteCategory";
-import EditCategory from "./EditCategory";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector,connect } from "react-redux";
+import { deleteCategory, editCategory, deleteShow, editShow ,getCategories} from "../../redux";
 
-function Organization({ categories, setSuccessPage, setFailPage }) {
+function Categories({getCategories}) {
+
+  useEffect(() => {
+    getCategories()
+  }, [])
+
+  
+  const dispatch = useDispatch()
+  console.log("category");
+  const categories = useSelector(state => state.cat.categories)
+  const handleShowEdit = (index) => {
+
+    dispatch(editCategory(categories[index]))
+    dispatch(editShow())
+  }
+
+  const handleShowDelete = (index) => {
+
+    dispatch(deleteCategory(categories[index]))
+    dispatch(deleteShow())
+  }
+
   return (
     <div style={{ marginLeft: "328px" }}>
       <div className="org_title">
         <div className="org_title_txt">Ոլորտներ</div>
         <div>
-          <AddCategory
-            setSuccessPage={setSuccessPage}
-            setFailPage={setFailPage}
-          />
+          <AddCategory />
         </div>
       </div>
 
@@ -43,16 +60,24 @@ function Organization({ categories, setSuccessPage, setFailPage }) {
                     <div
                       style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <EditCategory
-                        cat={cat}
-                        setSuccessPage={setSuccessPage}
-                        setFailPage={setFailPage}
-                      />
-                      <DeleteCategory
-                        cat={cat}
-                        setSuccessPage={setSuccessPage}
-                        setFailPage={setFailPage}
-                      />
+                      <div
+                        variant="primary"
+                        onClick={() => {
+                          handleShowEdit(index);
+                        }}
+                      >
+                        <img className="org_icon" src={require("../../img/edit.svg").default} />
+                      </div>
+                      <div style={{ marginRight: "15px" }}
+                        onClick={() => {
+                          handleShowDelete(index);
+                        }}>
+                        <img
+                          className="org_icon"
+                          src={require("../../img/remove.svg").default}
+                        />
+                      </div>
+
                     </div>
                   </td>
                 </tr>
@@ -64,9 +89,17 @@ function Organization({ categories, setSuccessPage, setFailPage }) {
             </tr>
           )}
         </tbody>
+        {/* <EditCategory />
+        <DeleteCategory /> */}
       </table>
     </div>
   );
 }
 
-export default Organization;
+const mapDispatchToProps = dispatch => {
+  return {
+      getCategories: () => dispatch(getCategories())
+  }
+}
+
+export default connect(null,mapDispatchToProps)(Categories);

@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import { succeeded,failed } from "../redux";
+import { connect,useDispatch } from "react-redux";
 
-function SuccessPage({ setSuccessPage }) {
+function SuccessPage() {
   const [show, setShow] = useState(true);
+  const dispatch = useDispatch()
 
   const handleClose = () => {
     setShow(false);
-    setSuccessPage(false);
+  //  setSuccessPage(false);
+  dispatch(succeeded(false))
+
   };
 
   const handleShow = () => setShow(true);
@@ -40,12 +45,26 @@ function SuccessPage({ setSuccessPage }) {
               }}
               src={require("../img/success.svg").default}
             />
-            <p> Կատարված է</p>
+            <p> Փոփոխությունները պահպանված են</p>
           </div>
         </Modal.Body>
       </Modal>
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    success: state.answer.success,
+    
+   
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    succeeded: () => dispatch(succeeded()),
+    
+   
+  };
+};
 
 export default SuccessPage;

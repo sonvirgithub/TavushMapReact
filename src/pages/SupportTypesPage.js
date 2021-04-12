@@ -1,67 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Organization from "../components/Organization/Organization";
-import axios from "axios";
+import DeleteSupportType from "../components/SupportType/DeleteSupportType";
+import EditSupportType from "../components/SupportType/EditSupportType";
 import SupportType from "../components/SupportType/SupportType";
-
 export const SupportContext = React.createContext();
 
-function SupportTypesPage({ setSuccessPage, setFailPage }) {
-  const [supportTypes, setSupportTypes] = useState("");
-  const [categoryType, setCategoryType] = useState([]);
+function SupportTypesPage() {
+ 
 
-  const addSupport = (sup) => {
-    supportTypes.push(sup);
-    setSupportTypes([...supportTypes]);
-  };
+  
+  // const addSupport = (sup) => {
+  //   supportTypes.push(sup);
+  //   dispatch(getSupportTypes([...supportTypes]));
+  // };
 
-  const editSupport = (sup) => {
+  // const editSupport = (support) => {
 
-    // categoryType.map((catType) => {
-    //   if (catType.id == sup.categoryid_new) {
-    //     supportTypes.map((supType) => {
-    //       supType.categoryName = catType.name_arm;
-    //     });
-    //   }
-    // });
+  //   supportTypes.map((supType) => {
+  //     if (supType.id == support.id) {
+       
+  //       supType.name_eng = support.name_eng;
+  //       supType.name_arm = support.name_arm;
+  //       supType.categoryId = support.categoryId;
+  //       supType.categoryName = support.categoryName;
+  //       dispatch(getSupportTypes([...supportTypes]));
+  //     }
+  //   });
+  // };
 
-    supportTypes.map((supType) => {
-      if (supType.id == sup.id) {
-        supType.name_eng = sup.support_eng;
-        supType.name_arm = sup.support_arm;
-        supType.categoryId = sup.categoryid_new;
-        supType.categoryName = sup.category_name;
-        // supType.category_arm = sup.ca;
+  // const deleteSupport = (id) => {
+  //   supportTypes.map((supType) => {
+  //     if (supType.id == id) {
+  //       const index = supportTypes.indexOf(supType);
+  //       supportTypes.splice(index, 1);
 
-        setSupportTypes([...supportTypes]);
-      }
-    });
-  };
-
-  const deleteSupport = (id) => {
-    supportTypes.map((supType) => {
-      if (supType.id == id) {
-        const index = supportTypes.indexOf(supType);
-        supportTypes.splice(index, 1);
-
-        setSupportTypes([...supportTypes]);
-      }
-    });
-  };
-
-
-  useEffect(() => {
-    axios("/api/supportsForAdmin").then(res => {
-      setSupportTypes(res.data.data)
-      //   };
-
-    })
-    axios("/api/categories").then(res => {
-      setCategoryType(res.data.data)
-      //   };
-
-    })
-
-  }, []);
+  //       dispatch(getSupportTypes([...supportTypes]));
+  //     }
+  //   });
+  // };
 
 
   return (
@@ -71,24 +47,15 @@ function SupportTypesPage({ setSuccessPage, setFailPage }) {
         width: "100%",
       }}
     >
-      <SupportContext.Provider
-        value={{
-          supportTypes,
-          setSupportTypes,
-          addSupport,
-          deleteSupport,
-          editSupport,
-        }}
-      >
-        <SupportType
-          supportTypes={supportTypes}
-          categoryType={categoryType}
-          setSuccessPage={setSuccessPage}
-          setFailPage={setFailPage}
-        />
-      </SupportContext.Provider>
+     
+        <SupportType/>
+        <EditSupportType />
+        <DeleteSupportType />
+          
+        
     </div>
   );
 }
+
 
 export default SupportTypesPage;

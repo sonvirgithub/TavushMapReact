@@ -4,30 +4,27 @@ import { Modal, Button } from "react-bootstrap";
 // import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import { OrganizationContext } from "../../pages/OrganizationsPage";
+import { succeeded,failed, deleteShow, orgDeleteSuccess} from "../../redux";
+import { connect,useDispatch } from "react-redux";
 
-function DeleteOrganization({ org, setSuccessPage, setFailPage }) {
-  const organizationCont = useContext(OrganizationContext);
+function DeleteOrganization({ org, showDelete,orgDeleteSuccess}) {
+  // const organizationCont = useContext(OrganizationContext);
 
-  const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  useEffect(() => {
-    setId(org.id);
-  }, []);
+  const handleClose = () => dispatch(deleteShow());
+  const dispatch = useDispatch()
 
   const handleSubmit = (evt) => {
     axios
-      .delete(`/api/deleteOrganization/${id}`)
+      .delete(`/api/deleteOrganization/${org.id}`)
       .then((response) => {
         if (response.data.success) {
-          organizationCont.deleteOrganization(id);
-          setSuccessPage(true);
+        
+          orgDeleteSuccess(org.id)
+          dispatch(succeeded(true))
           //   toast.success("Կատարված է");
         } else {
-          setFailPage(true);
+         
+          dispatch(failed(true))
           //   toast.error(response.data.errorMessage);
         }
       })
@@ -38,19 +35,9 @@ function DeleteOrganization({ org, setSuccessPage, setFailPage }) {
 
   return (
     <>
-      <div style={{ marginLeft: "5px" }} onClick={handleShow}>
-        <img
-          className="org_icon"
-          src={require("../../img/remove.svg").default}
-        />
-      </div>
-
-      <Modal show={show} onHide={handleClose} animation={false}>
-        {/* <Modal.Header closeButton>
-          <Modal.Title>Համոզվա՞ծ եք</Modal.Title>
-        </Modal.Header> */}
+      <Modal show={showDelete} onHide={handleClose} animation={false}>
         <Modal.Body>
-          Դուք ցանկանում եք հեռացնել {org.name_arm} կազմակերպությունը
+          Դուք ցանկանում եք հեռացնել {org.nameArm} կազմակերպությունը
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -70,5 +57,19 @@ function DeleteOrganization({ org, setSuccessPage, setFailPage }) {
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    
+    org: state.org.org,
+    showDelete: state.org.showDelete
+    
+  };
+};
 
-export default DeleteOrganization;
+const mapDispatchToProps = dispatch => {
+  return {
+      orgDeleteSuccess: (id) => dispatch(orgDeleteSuccess(id))
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(DeleteOrganization);

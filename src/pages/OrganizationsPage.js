@@ -1,49 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Organization from "../components/Organization/Organization";
 import axios from "axios";
+import { connect, useDispatch } from "react-redux";
+import { getOrganizations } from "../redux";
+import EditOrganization from "../components/Organization/EditOrganization"
+import DeleteOrganization from "../components/Organization/DeleteOrganization"
 
 export const OrganizationContext = React.createContext();
-function OrganizationsPage({ setSuccessPage, successPage, setFailPage }) {
-  const [organizations, setOrganizations] = useState([]);
-  const [language, setLanguage] = useState("arm");
+function OrganizationsPage() {
 
-  const addOrganization = (org) => {
-    organizations.push(org);
-    setOrganizations([...organizations]);
-  };
-
-  const editOrganization = (org) => {
-    organizations.map((organization) => {
-      if (organization.id == org.id) {
-        organization.nameEng = org.nameEng;
-        organization.nameArm = org.nameArm;
-        organization.contactPersonArm = org.contactPersonArm;
-
-        setOrganizations([...organizations]);
-      }
-    });
-  };
-
-  const deleteOrganization = (id) => {
-    organizations.map((organization) => {
-      if (organization.id == id) {
-        const index = organizations.indexOf(organization);
-        organizations.splice(index, 1);
-
-        setOrganizations([...organizations]);
-      }
-    });
-  };
-  useEffect(() => {
-    axios("/api/organizationsForAdmin").then(res => {
-      setOrganizations(res.data.all);
-
-    })
-
-
-
-    // fetchData();
-  }, []);
+  
   return (
     <div
       style={{
@@ -51,24 +17,16 @@ function OrganizationsPage({ setSuccessPage, successPage, setFailPage }) {
         width: "100%",
       }}
     >
-      <OrganizationContext.Provider
-        value={{
-          organizations,
-          setOrganizations,
-          addOrganization,
-          deleteOrganization,
-          editOrganization,
-        }}
-      >
-        <Organization
-          organizations={organizations}
-          successPage={successPage}
-          setSuccessPage={setSuccessPage}
-          setFailPage={setFailPage}
-        />
-      </OrganizationContext.Provider>
+      
+        <Organization />
+        <EditOrganization />
+        <DeleteOrganization />
+     
     </div>
   );
 }
+
+
+
 
 export default OrganizationsPage;

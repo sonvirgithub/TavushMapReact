@@ -5,8 +5,6 @@ import "./MoreInfo.css"
 function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInfoEndDate}) {
   let [supports2, setSupports2] = useState([])
 
-
-
   const closeMore = () => {
     setShowResults(false);
 
@@ -19,7 +17,6 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
       item.supports.map((support) => {
         supports2.push(support.name)
       })
-
     })
     setSupports2([...supports2])
   }, [prog])

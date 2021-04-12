@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./Routes";
 import { connect } from "react-redux";
-import { fetchUser } from "./redux";
+import { fetchUser,succeeded,failed } from "./redux";
 import axios from "axios";
 import MoreInfo from "./components/HomePage/MoreInfo";
 import SuccessPage from "./pages/SuccessPage";
 import FailPage from "./pages/FailPage";
 
-function App({ token, ready, fetchUser, loading }) {
+function App({ token, ready, fetchUser, loading, success,fail }) {
   const [showResults, setShowResults] = useState(false);
   const [successPage, setSuccessPage] = useState(false);
   const [failPage, setFailPage] = useState(false);
@@ -20,20 +20,14 @@ function App({ token, ready, fetchUser, loading }) {
     fetchUser();
   }, []);
 
-  // useEffect(() => {
-  //   setSuccessPage(true);
-  // }, [setSuccessPage]);
-
-
-
   if (!loading && !ready && !token) {
     return <p>Loading...</p>;
   } else {
     return (
       <div>
         {/* {showResults ? <MoreInfo /> : null} */}
-        {successPage ? <SuccessPage setSuccessPage={setSuccessPage} /> : null}
-        {failPage ? <FailPage setFailPage={setFailPage} /> : null}
+        {success ? <SuccessPage  /> : null}
+        {fail ? <FailPage  /> : null}
         <Router>
           <Routes
             isLoggedIn={token}
@@ -56,14 +50,19 @@ function App({ token, ready, fetchUser, loading }) {
 }
 const mapStateToProps = (state) => {
   return {
-    ready: state.ready,
-    token: state.token,
-    loading: state.loading,
+    ready: state.auth.ready,
+    token: state.auth.token,
+    loading: state.auth.loading,
+    success: state.answer.success,
+    fail: state.answer.fail
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchUser: () => dispatch(fetchUser()),
+    succeeded: () => dispatch(succeeded()),
+    failed: () => dispatch(succeeded())
+
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

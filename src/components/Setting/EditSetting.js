@@ -2,46 +2,33 @@ import React, { useState, useContext, useEffect } from "react";
 import { Modal, Button, Form, FormLabel } from "react-bootstrap";
 import axios from "axios";
 import { SettingContext } from "../../pages/SettingPage";
+import { succeeded, failed, editUser,editShow, userEditSuccess } from "../../redux";
+import { connect,useDispatch } from "react-redux";
 
-function EditSetting({ set, setSuccessPage, setFailPage }) {
+
+function EditSetting({ show,setShow, setSuccessPage, setFailPage,user, showEdit,userEditSuccess }) {
+  
   const settingCont = useContext(SettingContext);
-  const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const handleClose = () => dispatch(editShow());
+  const dispatch = useDispatch()
 
-  const newDataFunc = () => {
-    setId(set.id);
-    setFirstName(set.firstname);
-    setLastName(set.lastname);
-  };
-
-  useEffect(() => {
-    setId(set.id);
-  }, []);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleSubmit = (evt) => {
+console.log("edituser ",user);
     axios
       .put(`/api/editUserInfo`, {
-        id,
-        firstName,
-        lastName,
+        user
       })
       .then((response) => {
         if (response.data.success) {
-          const user = {
-            id: id,
-            firstname: firstName,
-            lastname: lastName,
-          };
+          userEditSuccess(user)
+          dispatch(succeeded(true))
           handleClose();
-          settingCont.editUser(user);
-          setSuccessPage(true);
+          // settingCont.editUser(user);
+          // setSuccessPage(true);
         } else {
           handleClose();
-          setFailPage(true);
+          // setFailPage(true);
+          dispatch(failed(true))
         }
       })
       .catch((e) => {
@@ -51,18 +38,9 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
 
   return (
     <>
-      <div
-        variant="primary"
-        onClick={() => {
-          handleShow();
-          newDataFunc();
-        }}
-      >
-        <img className="org_icon" src={require("../../img/edit.svg").default} />
-      </div>
 
       <Modal
-        show={show}
+        show={showEdit}
         onHide={handleClose}
         animation={false}
         style={{ display: "none" }}
@@ -84,16 +62,16 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
             <FormLabel style={{ display: "flex" }}>Անուն</FormLabel>
             <Form.Control
               type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={user.firstname}
+              onChange={(e) => dispatch(editUser({ ...user, firstname: e.target.value }))}
             />
             <br />
             <FormLabel style={{ display: "flex" }}>Ազգանուն</FormLabel>
 
             <Form.Control
               type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={user.lastname}
+              onChange={(e) =>  dispatch(editUser({ ...user, lastname: e.target.value }))}
             />
           </Form.Group>
         </Modal.Body>
@@ -115,5 +93,18 @@ function EditSetting({ set, setSuccessPage, setFailPage }) {
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    success: state.answer.success,
+    fail: state.answer.fail,
+    user: state.set.user,
+    showEdit: state.org.showEdit
 
-export default EditSetting;
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+      userEditSuccess: (user) => dispatch(userEditSuccess(user))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(EditSetting);

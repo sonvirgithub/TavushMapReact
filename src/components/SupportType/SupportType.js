@@ -1,25 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
 import AddSupportType from "./AddSupportType";
+import React, { useEffect } from "react";
 import DeleteSupportType from "./DeleteSupportType";
 import EditSupportType from "./EditSupportType";
+import { connect,useDispatch } from "react-redux";
+import { deleteSupportType, editSupportType, deleteShow, editShow,getSupportTypes,getCategories } from "../../redux";
 
-function SupportType({
-  supportTypes,
-  categoryType,
-  setSuccessPage,
-  setFailPage,
-}) {
+function SupportType({ supportTypes,getSupportTypes,getCategories }) {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    getSupportTypes()
+    getCategories()
+  }, [])
+
+ 
+  const handleShowEdit = (index) => {
+
+    dispatch(editSupportType(supportTypes[index]))
+    dispatch(editShow())
+  }
+
+  const handleShowDelete = (index) => {
+
+    dispatch(deleteSupportType(supportTypes[index]))
+    dispatch(deleteShow())
+  }
+
   return (
     <div style={{ marginLeft: "328px" }}>
       <div className="org_title">
         <div className="org_title_txt">Աջակցության տեսակներ</div>
         <div>
-          <AddSupportType
-            setSuccessPage={setSuccessPage}
-            categoryType={categoryType}
-            setFailPage={setFailPage}
-          />
+          <AddSupportType />
         </div>
       </div>
 
@@ -59,17 +72,22 @@ function SupportType({
                     <div
                       style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      <EditSupportType
-                        supType={supType}
-                        categoryType={categoryType}
-                        setSuccessPage={setSuccessPage}
-                        setFailPage={setFailPage}
-                      />
-                      <DeleteSupportType
-                        supType={supType}
-                        setSuccessPage={setSuccessPage}
-                        setFailPage={setFailPage}
-                      />
+                      <div
+                        variant="primary"
+                        onClick={() => {
+                          handleShowEdit(index);
+                        }}
+                      >
+                        <img className="org_icon" src={require("../../img/edit.svg").default} />
+                      </div>
+                      <div style={{ marginLeft: "5px" }} onClick={() => {
+                        handleShowDelete(index);
+                      }}>
+                        <img
+                          className="org_icon"
+                          src={require("../../img/remove.svg").default}
+                        />
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -81,9 +99,26 @@ function SupportType({
             </tr>
           )}
         </tbody>
+        
       </table>
     </div>
   );
 }
 
-export default SupportType;
+const mapStateToProps = (state) => {
+  return {
+
+    supportTypes: state.support.supportTypes,
+    
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+
+    getSupportTypes: () => dispatch(getSupportTypes()),
+    getCategories: () => dispatch(getCategories())
+    
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SupportType);

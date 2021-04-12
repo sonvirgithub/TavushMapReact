@@ -2,20 +2,23 @@ import React, { useState, useContext } from "react";
 import { Modal, Button, Form, FormLabel } from "react-bootstrap";
 import axios from "axios";
 import { CategoryContext } from "../../pages/CategoriesPage";
+import { succeeded, failed, addShow, categoryAddSuccess} from "../../redux";
+import { connect, useDispatch } from "react-redux";
 
-function AddCategory({ setSuccessPage, setFailPage }) {
-  const categoryCont = useContext(CategoryContext);
 
-  const [show, setShow] = useState(false);
+function AddCategory({ showAdd , categoryAddSuccess}) {
+  // const categoryCont = useContext(CategoryContext);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => dispatch(addShow());
+  const handleShow = () => dispatch(addShow());
+
   const [category_eng, setCategoryEng] = useState("");
   const [category_arm, setCategoryArm] = useState("");
-  // const [person, setPerson] = useState("");
 
+  const dispatch = useDispatch()
+  console.log("add category");
   const handleSubmit = (evt) => {
-   
+
     axios
       .post(`/api/addCategory`, {
         category_eng,
@@ -28,12 +31,19 @@ function AddCategory({ setSuccessPage, setFailPage }) {
             name_eng: category_eng,
             name_arm: category_arm,
           };
-          categoryCont.addCategory(cat);
-          setSuccessPage(true);
+          // categoryCont.addCategory(cat);
+          categoryAddSuccess(cat)
+          //  setSuccessPage(true);
+          dispatch(succeeded(true))
+
           handleClose();
         } else {
           handleClose();
-          setFailPage(true);
+          //  setFailPage(true);
+
+
+          dispatch(failed(true))
+
         }
       })
       .catch((e) => {
@@ -50,17 +60,17 @@ function AddCategory({ setSuccessPage, setFailPage }) {
         </button>
       </div>
 
-      <Modal show={show} onHide={handleClose} style={{ display:"none" }}>
+      <Modal show={showAdd} onHide={handleClose} style={{ display: "none" }}>
         <Modal.Body>
-          <Form.Group onSubmit={handleSubmit} style={{  display:"inline-block"  }}>
-            <FormLabel style={{ display:"flex" }}>Ոլորտի անվանումը (Հայերեն)</FormLabel>
+          <Form.Group onSubmit={handleSubmit} style={{ display: "inline-block" }}>
+            <FormLabel style={{ display: "flex" }}>Ոլորտի անվանումը (Հայերեն)</FormLabel>
             <Form.Control
               type="text"
               placeholder="Ոլորտի անվանումը"
               onChange={(e) => setCategoryArm(e.target.value)}
             />
             <br />
-            <FormLabel style={{ display:"flex" }}>Ոլորտի անվանումը (Enlglish)</FormLabel>
+            <FormLabel style={{ display: "flex" }}>Ոլորտի անվանումը (Enlglish)</FormLabel>
 
             <Form.Control
               type="text"
@@ -87,5 +97,16 @@ function AddCategory({ setSuccessPage, setFailPage }) {
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return {
 
-export default AddCategory;
+    showAdd: state.cat.showAdd
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+      categoryAddSuccess: (category) => dispatch(categoryAddSuccess(category))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AddCategory);
