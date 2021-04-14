@@ -470,9 +470,10 @@ border-radius: 4px;
 
 .category_name{
   margin-top: -38px;
-  display: flex;
-  margin-left: 30px;
-  font-weight: 500;
+    display: flex;
+    margin-left: 30px;
+    font-weight: 500;
+    width: 250px;
 }
 
 .react-datepicker__input-container {
@@ -678,3 +679,14 @@ color: #FFFFFF;
   margin-left: -51px;
 }
 
+.city_checkbox {
+  display: flex;
+    margin-left: 15px;
+    font-weight: 500
+}
+
+.all_cities{
+  margin-top: 13px;
+    padding-left: 15px;
+    font-weight: 500
+}

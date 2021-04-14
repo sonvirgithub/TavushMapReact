@@ -5,7 +5,9 @@ import {
     ADD_SHOW, ADD_SUCCESS, 
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
-    FETCH_PROGRAMS_FAILURE
+    FETCH_PROGRAMS_FAILURE,
+    CHANGE_ISSELECT,
+    SELECTED_SUPPORTS
 } from './programTypes'
 import axios from 'axios'
 
@@ -32,10 +34,10 @@ export const fetchProgramsFailure = error => {
     }
 }
 
-export const deleteProg = prog => {
+export const deleteProg = id => {
     return {
         type: DELETE_PROGRAM,
-        payload: prog
+        payload: id
     }
 }
 
@@ -86,15 +88,36 @@ export const addShow = () => {
     }
 }
 
+export const changeIsSelect = isSelect => {
+
+    return {
+        type: CHANGE_ISSELECT,
+        payload: isSelect
+
+    }
+}
+export const selectedSupports = prog => {
+
+    return {
+        type: SELECTED_SUPPORTS,
+        payload: prog
+       
+
+    }
+}
+
+
 export const getPrograms = () => {
     return (dispatch) => {
         dispatch(fetchProgramsRequest)
-        axios("/api/organizationsForAdmin").then(res => {
+        fetch("/api/programsForAdmin")
+            .then((res) => res.json())
+            .then((res) => {
+              const programs = res.data
+            
+              dispatch(fetchProgramsSuccess(programs))
+            })
 
-            const programs = res.data.all
-            dispatch(fetchProgramsSuccess(programs))
-
-        })
             .catch(err => {
                 const errorMsg = err.message
                 dispatch(fetchProgramsFailure(errorMsg))

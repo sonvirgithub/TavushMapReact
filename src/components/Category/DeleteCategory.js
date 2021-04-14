@@ -18,7 +18,7 @@ function DeleteCategory({ category, showDelete,categoryDeleteSuccess }) {
   }
 
   const dispatch = useDispatch()
-  console.log("delete category");
+ 
 
   const handleSubmit = (evt) => {
     axios

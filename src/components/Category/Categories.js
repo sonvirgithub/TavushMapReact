@@ -9,9 +9,9 @@ function Categories({getCategories}) {
     getCategories()
   }, [])
 
-  
+
   const dispatch = useDispatch()
-  console.log("category");
+ 
   const categories = useSelector(state => state.cat.categories)
   const handleShowEdit = (index) => {
 

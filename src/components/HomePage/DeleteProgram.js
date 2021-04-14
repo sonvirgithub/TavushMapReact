@@ -3,25 +3,29 @@ import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { ProgramContext } from "../../pages/ProgramsPage";
+import { connect, useDispatch } from "react-redux";
+import { succeeded, failed, deleteShow, progDeleteSuccess } from "../../redux";
 
-function DeleteProgram({ id, show, setShow }) {
+function DeleteProgram({  progDeleteSuccess, program, showDelete}) {
   const programCont = useContext(ProgramContext);
 
-
-  const handleClose = () => setShow(false);
+  const handleClose = () => dispatch(deleteShow());
+  const dispatch = useDispatch()
 
   const handleSubmit = () => {
     axios
-      .delete(`/api/deleteProgram/${id}`)
+      .delete(`/api/deleteProgram/${program.id}`)
       .then(res => {
         if (res.data.success) {
           toast.success("Ծրագիրը հեռացված է")
-          programCont.deleteProgram(id);
+          // programCont.deleteProgram(id);
+          progDeleteSuccess(program.id)
          
           handleClose()
-
+          dispatch(succeeded(true))
         } else {
           toast.error(res.data.errorMessage)
+          dispatch(failed(true))
         }
 
       })
@@ -33,19 +37,14 @@ function DeleteProgram({ id, show, setShow }) {
 
   return (
     <>
-      {/* <div style={{ marginLeft: "5px" }} onClick={handleShow}>
-        <img
-          className="org_icon"
-          src={require("../../img/remove.svg").default}
-        />
-      </div> */}
+      
 
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal show={showDelete} onHide={handleClose} animation={false}>
         {/* <Modal.Header closeButton>
           <Modal.Title>Համոզվա՞ծ եք</Modal.Title>
         </Modal.Header> */}
         <Modal.Body>
-          Դուք ցանկանում եք հեռացնել  ծրագիրը
+          Դուք ցանկանում եք հեռացնել {program.programName_arm} ծրագիրը
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -65,4 +64,17 @@ function DeleteProgram({ id, show, setShow }) {
   );
 }
 
-export default DeleteProgram;
+const mapStateToProps = (state) => {
+  return {
+
+    program: state.prog.program,
+    showDelete: state.prog.showDelete
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    progDeleteSuccess: (id) => dispatch(progDeleteSuccess(id))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteProgram);

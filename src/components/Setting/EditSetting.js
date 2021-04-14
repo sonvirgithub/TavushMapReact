@@ -13,7 +13,7 @@ function EditSetting({ show,setShow, setSuccessPage, setFailPage,user, showEdit,
   const dispatch = useDispatch()
 
   const handleSubmit = (evt) => {
-console.log("edituser ",user);
+
     axios
       .put(`/api/editUserInfo`, {
         user

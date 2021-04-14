@@ -116,7 +116,6 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       categoryid_supportid, description_arm, description_eng, statusid, isdonor, language
     }
 
-
     body = JSON.stringify(body)
     const headers = {}
     headers["Content-Type"] = "application/json"

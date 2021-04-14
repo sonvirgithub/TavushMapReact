@@ -1,40 +1,14 @@
 import React, { useEffect, useState } from "react";
+import DeleteProgram from "../components/HomePage/DeleteProgram";
+import EditProgram from "../components/HomePage/EditProgram";
 import Program from "../components/HomePage/Program";
 
 
 export const ProgramContext = React.createContext();
-function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate, moreInfoEndDate, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage }) {
-  const [programs, setPrograms] = useState([])
+function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
+  moreInfoEndDate, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage }) {
+ 
 
-
-  const addProgram = (prog) => {
-    // programs.push(prog);
-    // setPrograms([...programs]);
-
-  };
-
-
-  const deleteProgram = (id) => {
-    programs.map((program) => {
-      if (program.id == id) {
-        const index = programs.indexOf(program);
-        programs.splice(index, 1);
-        setPrograms([...programs]);
-
-      }
-    });
-  };
-
-
-  useEffect(() => {
-    fetch("/api/programsForAdmin")
-      .then((res) => res.json())
-      .then((res) => {
-        setPrograms(res.data);
-      })
-      .catch((err) => {
-      });
-  }, []);
 
   return (
     <div
@@ -43,14 +17,7 @@ function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
         width: "100%",
       }}
     >
-      <ProgramContext.Provider
-        value={{
-          programs,
-          setPrograms,
-          addProgram,
-          deleteProgram,
-        }}
-      >
+      <ProgramContext.Provider>
         <Program
           moreInfoStartDate={moreInfoStartDate}
           moreInfoEndDate={moreInfoEndDate}
@@ -58,14 +25,17 @@ function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
           setMoreInfoStartDate={setMoreInfoStartDate}
           setProg={setProg}
           showResults={showResults}
-          setPrograms={setPrograms}
-          programs={programs}
-          setPrograms={setPrograms}
+          // programs={programs}
+          // setPrograms={setPrograms}
           setShowResults={setShowResults}
           setSuccessPage={setSuccessPage}
           setFailPage={setFailPage}
         />
+        
       </ProgramContext.Provider>
+      <EditProgram />
+
+        <DeleteProgram />
     </div>
   );
 }

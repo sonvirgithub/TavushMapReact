@@ -19,7 +19,6 @@ function MoreInfoProgram({
     <>
       <div>
 
-
       </div>
 
     </>

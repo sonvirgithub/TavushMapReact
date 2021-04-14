@@ -9,7 +9,6 @@ function EditSupportType({ supportType, categories, showEdit,supportEditSuccess 
 
   const dispatch = useDispatch()
   const supportCont = useContext(SupportContext);
-console.log("kkkkkkkk",supportType);
 
   const handleClose = () => dispatch(editShow());
 

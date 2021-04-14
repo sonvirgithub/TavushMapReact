@@ -16,7 +16,7 @@ function AddCategory({ showAdd , categoryAddSuccess}) {
   const [category_arm, setCategoryArm] = useState("");
 
   const dispatch = useDispatch()
-  console.log("add category");
+ 
   const handleSubmit = (evt) => {
 
     axios

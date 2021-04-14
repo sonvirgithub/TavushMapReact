@@ -16,8 +16,7 @@ function OrganizationsPage() {
         // position: "absolute",
         width: "100%",
       }}
-    >
-      
+    >    
         <Organization />
         <EditOrganization />
         <DeleteOrganization />

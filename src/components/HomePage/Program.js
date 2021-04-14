@@ -6,67 +6,48 @@ import EditProgram from './EditProgram'
 import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
+import store, { deleteProg, deleteShow, editShow, getPrograms, editProg, selectedSupports, changeIsSelect } from "../../redux";
+import { useDispatch, connect } from "react-redux";
+
+function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isSelect,program,
+  setProg, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage, selectedSupports }) {
 
 
-function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage }) {
-
-  const [item, setItem] = useState({})
-  const [itemDelete, setItemDelete] = useState({})
-  const [itemMoreInfo, setItemMoreInfo] = useState({})
-  const [editShow, setEditShow] = useState(false)
-  const [deleteShow, setDeleteShow] = useState(false)
+  useEffect(() => {
+    getPrograms()
+  }, [])
 
 
-  let [isSelect, setIsSelect] = useState([{}])
-
+  const dispatch = useDispatch()
 
   const handleShowEdit = (index) => {
 
-    // if (programs[index].status === "ընթացիկ") {
-    //   programs[index].status = 1
-    // }
-    // if (programs[index].status === "ավարտված") {
-    //   programs[index].status = 2
-    // }
 
-    const startDate = moment(programs[index].startDate).toDate()
-    const endDate = moment(programs[index].endDate).toDate()
+    dispatch(editProg(store.getState().prog.programs[index]))
+    if (program.id != store.getState().prog.programs[index].id) {
+      changeIsSelect([])
+      selectedSupports(store.getState().prog.programs[index])
 
-
-    programs[index].support.map((item) => {
-      if (item.supports.length > 0 || item.supports.length != undefined) {
-        item.supports.map((support) => {
-          isSelect.push({
-            supportid: support.supportid
-          })
-        })
-      }
-    })
-
-    programs[index].startDate = startDate
-    programs[index].endDate = endDate
-    // programs[index].support = isSelect
-    setItem(programs[index])
-    setEditShow(true)
+    }
+    console.log("isSeleeeeeeeeeect", isSelect);
+    dispatch(editShow())
 
   }
 
-  const handleShowDelete = (id) => {
-    setItemDelete(id)
-    setDeleteShow(true)
+  const handleShowDelete = (index) => {
+
+    dispatch(deleteProg(store.getState().prog.programs[index]))
+    dispatch(deleteShow())
   }
 
   const handleShowMoreInfo = (index) => {
 
-    setMoreInfoStartDate(moment(programs[index].startDate).format('DD.MM.YYYY'))
-    setMoreInfoEndDate(moment(programs[index].endDate).format('DD.MM.YYYY'))
-    if (programs[index].status === 1) {
-      programs[index].status = "ընթացիկ"
-    }
-    if (programs[index].status === 2) {
-      programs[index].status = "ավարտված"
-    }
-    setProg(programs[index])
+
+    setMoreInfoStartDate(moment(store.getState().prog.programs[index].startDate).format('DD.MM.YYYY'))
+    setMoreInfoEndDate(moment(store.getState().prog.programs[index].endDate).format('DD.MM.YYYY'))
+
+
+    setProg(store.getState().prog.programs[index])
 
     setShowResults(true)
   }
@@ -100,9 +81,9 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
           </thead>
 
           <tbody>
-            {programs.length > 0 ? (
+            {store.getState().prog.programs.length > 0 ? (
 
-              programs.map((prog, index) => {
+              store.getState().prog.programs.map((prog, index) => {
 
                 return (
 
@@ -143,7 +124,7 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
                           </div>
                         </div>
                         <div onClick={() => {
-                          handleShowDelete(prog.id);
+                          handleShowDelete(index);
 
                         }}>
                           <img
@@ -164,9 +145,7 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
               </tr>
             )}
           </tbody>
-          <EditProgram prog={item} setProg={setItem} show={editShow} setShow={setEditShow} isSelect={isSelect} setIsSelect={setIsSelect} />
 
-          <DeleteProgram id={itemDelete} show={deleteShow} setShow={setDeleteShow} />
 
         </table>
       </div>
@@ -175,4 +154,20 @@ function Program({ programs, showResults, setShowResults, setProg, setMoreInfoEn
   );
 }
 
-export default Program;
+const mapStateToProps = (state) => {
+  return {
+    program: state.prog.program,
+    programs: state.prog.programs,
+    isSelect: state.prog.isSelect
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    getPrograms: () => dispatch(getPrograms()),
+    selectedSupports: (prog) => dispatch(selectedSupports(prog)),
+    changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Program);

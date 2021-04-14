@@ -7,10 +7,9 @@ import { connect, useDispatch } from "react-redux";
 
 function EditCategory({ category, showEdit,categoryEditSuccess }) {
 
-  // const categoryCont = useContext(CategoryContext);
   const dispatch = useDispatch()
  
-  console.log("edit category");
+
   const handleClose = () => {
     dispatch(editShow())
   };

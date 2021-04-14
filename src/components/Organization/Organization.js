@@ -16,7 +16,7 @@ function Organization({ organizations,getOrganizations }) {
 
   const dispatch = useDispatch()
 
-  console.log("organizations");
+  
   const handleShowEdit = (index) => {
 
     dispatch(editOrg(organizations[index]))
