@@ -28,6 +28,7 @@ function SupportTypes({isSelect,changeIsSelect}) {
           .then(res => res.json())
           .then(data => {
             setCategores(data.data)
+            console.log("category",data.data);
     
           }).catch(err => {
           })
@@ -55,7 +56,7 @@ function SupportTypes({isSelect,changeIsSelect}) {
         //   isSelect: isSelect
         // }))
         changeIsSelect([...isSelect])
-        console.log("change", isSelect);
+        
       }
 
       const checkCategory = (e, category) => {

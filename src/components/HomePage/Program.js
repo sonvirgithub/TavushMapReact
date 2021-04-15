@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AddProgram from "./AddProgram/AddProgram";
-import DeleteProgram from "./DeleteProgram";
-import MoreInfo from "./MoreInfo";
-import EditProgram from './EditProgram'
 import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
 import store, { deleteProg, deleteShow, editShow, getPrograms, editProg, selectedSupports, changeIsSelect } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
-function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isSelect,program,
+function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isSelect, program, edit,
   setProg, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage, selectedSupports }) {
-
 
   useEffect(() => {
     getPrograms()
@@ -28,8 +24,14 @@ function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isS
       changeIsSelect([])
       selectedSupports(store.getState().prog.programs[index])
 
+    } else {
+      if (!edit) {
+        
+        changeIsSelect([])
+        selectedSupports(store.getState().prog.programs[index])
+      }
     }
-    console.log("isSeleeeeeeeeeect", isSelect);
+    
     dispatch(editShow())
 
   }
@@ -158,7 +160,9 @@ const mapStateToProps = (state) => {
   return {
     program: state.prog.program,
     programs: state.prog.programs,
-    isSelect: state.prog.isSelect
+    isSelect: state.prog.isSelect,
+    edit: state.prog.edit,
+    
 
   };
 };

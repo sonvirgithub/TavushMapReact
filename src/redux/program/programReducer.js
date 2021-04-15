@@ -19,6 +19,7 @@ const initialState = {
     loading: false,
     error: '',
     isSelect: [],
+    edit: false,
 
 }
 
@@ -42,7 +43,7 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 program: action.payload,
-
+                edit: false
             }
 
         case DELETE_SHOW:
@@ -61,11 +62,11 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showEdit: !state.showEdit,
+              
 
             }
         case EDIT_SUCCESS:
-            console.log(action.payload, " aaaaaaaaaaaa", action.payload.isSelect);
-            console.log("state.isSelect", state.isSelect);
+           
             return {
                 ...state,
                 programs: [...state.programs.map((program) => {
@@ -89,12 +90,14 @@ const programReducer = (state = initialState, action) => {
                             status: action.payload.status,
                             statusId: action.payload.statusId,
                             support: action.payload.support,
+                            
 
                         })
                     }
                     return program
                 })],
-                isSelect: state.isSelect
+                isSelect: state.isSelect,
+                edit: true
             }
         case ADD_SHOW:
             return {

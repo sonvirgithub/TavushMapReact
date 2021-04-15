@@ -48,7 +48,7 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
           // setSuccessPage(true);
           dispatch(succeeded(true))
           progEditSuccess(store.getState().prog.program)
-          console.log("isSeleeeeeeeeeect", isSelect);
+          // console.log("isSeleeeeeeeeeect", isSelect);
 
           handleClose();
           // window.location.reload()
