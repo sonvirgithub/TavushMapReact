@@ -6,7 +6,7 @@ import {
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
     FETCH_PROGRAMS_FAILURE,
-    CHANGE_ISSELECT,
+    CHANGE_ISSELECT, SELECT_COMMUNITIES,
     SELECTED_SUPPORTS
 } from './programTypes'
 import axios from 'axios'
@@ -101,6 +101,16 @@ export const selectedSupports = prog => {
     return {
         type: SELECTED_SUPPORTS,
         payload: prog
+       
+
+    }
+}
+
+export const selectCommunities = communities => {
+
+    return {
+        type: SELECT_COMMUNITIES,
+        payload: communities
        
 
     }

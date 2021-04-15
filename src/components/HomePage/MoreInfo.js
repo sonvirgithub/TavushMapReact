@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "./MoreInfo.css"
+import store, { moreInfoShow } from "../../redux";
+import {  connect } from "react-redux";
 
-function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInfoEndDate}) {
+
+function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate }) {
   let [supports2, setSupports2] = useState([])
 
   const closeMore = () => {
-    setShowResults(false);
-
+    
+    moreInfoShow(false)
   };
 
   useEffect(() => {
     supports2 = []
 
-    prog.support.map((item) => {
+    moreInfoProg.support.map((item) => {
       item.supports.map((support) => {
         supports2.push(support.name)
       })
     })
     setSupports2([...supports2])
-  }, [prog])
+  }, [moreInfoProg])
 
   return (
     <div className="sideBar sideBar1 ">
@@ -34,11 +37,11 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
       <div style={{ padding: "30px" }} >
 
         <div style={{ color: "#05558F", fontSize: "28px", }}>
-          {prog.programName_arm}
+          {moreInfoProg.programName_arm}
         </div>
 
         <div style={{ color: "#808A8A", fontSize: "18px", }}>
-          {prog.programName_eng}
+          {moreInfoProg.programName_eng}
         </div>
 
         <div style={{ margintop: "10px", padding: "5px 0px", fontSize: "15px", display: "flex" }}>
@@ -46,7 +49,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/community.svg").default}
           />
-          {prog.community.map(item => {
+          {moreInfoProg.community.map(item => {
             return item.community_arm + ', '
           })}
         </div>
@@ -58,7 +61,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/budget.svg").default}
           />
-          {prog.budget}$
+          {moreInfoProg.budget}$
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
@@ -66,7 +69,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/time.svg").default}
           />
-          {moreInfoStartDate} - {moreInfoEndDate}
+          {startDate} - {endDate}
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
@@ -74,7 +77,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/head name.svg").default}
           />
-          {prog.manager_arm}
+          {moreInfoProg.manager_arm}
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
@@ -82,7 +85,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/contact.svg").default}
           />
-          {prog.contact_arm}
+          {moreInfoProg.contact_arm}
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
@@ -90,7 +93,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/organization.svg").default}
           />
-          {prog.organization.map(item => {
+          {moreInfoProg.organization.map(item => {
             return item.organizationName_arm + ', '
           })}
 
@@ -102,7 +105,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/sphere.svg").default}
           />
-          {prog.support.map(item => {
+          {moreInfoProg.support.map(item => {
             return item.category_arm + ', '
           })}
         </div>
@@ -118,15 +121,14 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
         </div>
 
 
-
-        <div className="desc" style={{ padding: "5px 0px", fontSize: "15px", display: "flex"}}>
+        <div className="desc" style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
 
           <img
             className="org_icon"
             src={require("../../img/description.svg").default}
           />
           <div >
-            {prog.description_arm}
+            {moreInfoProg.description_arm}
 
           </div>
 
@@ -140,7 +142,7 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/ongoing.svg").default}
           />
-          {prog.status}
+          {moreInfoProg.status}
 
         </div>
 
@@ -149,15 +151,26 @@ function MoreInfo({ prog, showResults, setShowResults,moreInfoStartDate, moreInf
             className="org_icon"
             src={require("../../img/donor.svg").default}
           />
-          Դոնոր խմբի անդամ <b>{prog.isDonor ? 'է' : 'չէ'}</b>
+          Դոնոր խմբի անդամ <b>{moreInfoProg.isDonor ? 'է' : 'չէ'}</b>
         </div>
       </div>
-
-
-
 
     </div>
   );
 }
 
-export default MoreInfo;
+const mapStateToProps = (state) => {
+  return {
+    moreInfoProg: state.moreInfo.moreInfoProg,
+    startDate: state.moreInfo.startDate,
+    endDate: state.moreInfo.endDate
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    moreInfoShow: (show) => dispatch(moreInfoShow(show))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoreInfo);

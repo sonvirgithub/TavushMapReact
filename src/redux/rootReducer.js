@@ -5,6 +5,7 @@ import settingReducer from "./setting/settingReducer"
 import organizationReducer from "./organization/organizationReducer"
 import supportTypeReducer from "./supportType/supportTypeReducer"
 import programReducer from "./program/programReducer"
+import moreInfoReducer from "./moreInfo/moreInfoReducer"
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     set: settingReducer,
     org: organizationReducer,
     support: supportTypeReducer,
-    prog: programReducer
+    prog: programReducer,
+    moreInfo: moreInfoReducer
 
 })
 

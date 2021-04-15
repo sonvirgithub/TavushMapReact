@@ -4,9 +4,9 @@ import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { ProgramContext } from "../../pages/ProgramsPage";
 import { connect, useDispatch } from "react-redux";
-import { succeeded, failed, deleteShow, progDeleteSuccess } from "../../redux";
+import { succeeded, failed, deleteShow, progDeleteSuccess, moreInfoShow } from "../../redux";
 
-function DeleteProgram({  progDeleteSuccess, program, showDelete}) {
+function DeleteProgram({ progDeleteSuccess, program, showDelete, moreInfoShow }) {
   const programCont = useContext(ProgramContext);
 
   const handleClose = () => dispatch(deleteShow());
@@ -20,7 +20,7 @@ function DeleteProgram({  progDeleteSuccess, program, showDelete}) {
           toast.success("Ծրագիրը հեռացված է")
           // programCont.deleteProgram(id);
           progDeleteSuccess(program.id)
-         
+          moreInfoShow(false)
           handleClose()
           dispatch(succeeded(true))
         } else {
@@ -37,7 +37,7 @@ function DeleteProgram({  progDeleteSuccess, program, showDelete}) {
 
   return (
     <>
-      
+
 
       <Modal show={showDelete} onHide={handleClose} animation={false}>
         {/* <Modal.Header closeButton>
@@ -74,7 +74,9 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    progDeleteSuccess: (id) => dispatch(progDeleteSuccess(id))
+    progDeleteSuccess: (id) => dispatch(progDeleteSuccess(id)),
+    moreInfoShow: (show) => dispatch(moreInfoShow(show)),
+
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteProgram);

@@ -3,11 +3,14 @@ import AddProgram from "./AddProgram/AddProgram";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
-import store, { deleteProg, deleteShow, editShow, getPrograms, editProg, selectedSupports, changeIsSelect } from "../../redux";
+import store, {
+  deleteProg, deleteShow, editShow, getPrograms,
+  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram
+} from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
-function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isSelect, program, edit,
-  setProg, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage, selectedSupports }) {
+function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,moreInfoProgram,
+   setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage, selectedSupports }) {
 
   useEffect(() => {
     getPrograms()
@@ -26,12 +29,12 @@ function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isS
 
     } else {
       if (!edit) {
-        
+
         changeIsSelect([])
         selectedSupports(store.getState().prog.programs[index])
       }
     }
-    
+
     dispatch(editShow())
 
   }
@@ -45,13 +48,12 @@ function Program({ showResults, setShowResults, getPrograms, changeIsSelect, isS
   const handleShowMoreInfo = (index) => {
 
 
-    setMoreInfoStartDate(moment(store.getState().prog.programs[index].startDate).format('DD.MM.YYYY'))
-    setMoreInfoEndDate(moment(store.getState().prog.programs[index].endDate).format('DD.MM.YYYY'))
+    // setMoreInfoStartDate(moment(store.getState().prog.programs[index].startDate).format('DD.MM.YYYY'))
+    // setMoreInfoEndDate(moment(store.getState().prog.programs[index].endDate).format('DD.MM.YYYY'))
 
 
-    setProg(store.getState().prog.programs[index])
-
-    setShowResults(true)
+    moreInfoProgram(store.getState().prog.programs[index])
+    moreInfoShow(true)
   }
 
 
@@ -160,9 +162,8 @@ const mapStateToProps = (state) => {
   return {
     program: state.prog.program,
     programs: state.prog.programs,
-    isSelect: state.prog.isSelect,
     edit: state.prog.edit,
-    
+
 
   };
 };
@@ -170,7 +171,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getPrograms: () => dispatch(getPrograms()),
     selectedSupports: (prog) => dispatch(selectedSupports(prog)),
-    changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect))
+    changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect)),
+    moreInfoShow: (show) => dispatch(moreInfoShow(show)),
+    moreInfoProgram: (prog) => dispatch(moreInfoProgram(prog))
   }
 }
 

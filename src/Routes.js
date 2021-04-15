@@ -6,18 +6,15 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import RouteWithLayout from "./router/RouteWithLayout";
-import LoginLayout from "./router/LoginLayout";
-import MainLayout from "./router/MainLayout";
-import HomePage from "./components/HomePage/Program";
 import OrganizationsPage from "./pages/OrganizationsPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import SupportTypesPage from "./pages/SupportTypesPage";
-
 import ProgramsPage from "./pages/ProgramsPage";
 import SettingPage from "./pages/SettingPage";
 import SideBar from "./components/layout/SideBar/SideBar";
 import MoreInfo from "./components/HomePage/MoreInfo";
+import { useDispatch, connect } from "react-redux";
+
 
 function Routes({
   prog,
@@ -32,39 +29,37 @@ function Routes({
   moreInfoEndDate,
   setMoreInfoStartDate,
   setMoreInfoEndDate,
-
+  moreInfoShow
 }) {
   if (isLoggedIn) {
-   
+
     return (
       <>
 
         {/* <SideBar /> */}
-        {showResults ? (
+        {moreInfoShow ? (
           <MoreInfo
-            setShowResults={setShowResults}
-            prog={prog}
-            moreInfoStartDate={moreInfoStartDate}
-            moreInfoEndDate={moreInfoEndDate}
+          // moreInfoStartDate={moreInfoStartDate}
+          // moreInfoEndDate={moreInfoEndDate}
           // programsList={programsList}
           />
         ) : (
           <SideBar />
         )}
         <Switch>
-          
+
           <Route
             exact
             path="/dmn/program"
             render={() => (
               <ProgramsPage
-                showResults={showResults}
-                setShowResults={setShowResults}
-                setProg={setProg}
-                moreInfoStartDate={moreInfoStartDate}
-                moreInfoEndDate={moreInfoEndDate}
-                setMoreInfoEndDate={setMoreInfoEndDate}
-                setMoreInfoStartDate={setMoreInfoStartDate}
+                // showResults={showResults}
+                // setShowResults={setShowResults}
+                // setProg={setProg}
+                // moreInfoStartDate={moreInfoStartDate}
+                // moreInfoEndDate={moreInfoEndDate}
+                // setMoreInfoEndDate={setMoreInfoEndDate}
+                // setMoreInfoStartDate={setMoreInfoStartDate}
                 setSuccessPage={setSuccessPage}
                 setFailPage={setFailPage}
               />
@@ -81,7 +76,7 @@ function Routes({
             exact
             path="/dmn/category"
             render={() => (
-              <CategoriesPage/>
+              <CategoriesPage />
             )}
           />
           <Route
@@ -89,7 +84,7 @@ function Routes({
             path="/dmn/supportType"
             render={() => (
               <SupportTypesPage
-              
+
               />
             )}
           />
@@ -119,4 +114,12 @@ function Routes({
     );
   }
 }
-export default Routes;
+
+const mapStateToProps = (state) => {
+  return {
+    moreInfoShow: state.moreInfo.moreInfoShow
+
+  };
+};
+
+export default connect(mapStateToProps, null)(Routes);

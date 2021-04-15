@@ -37,8 +37,22 @@ padding: 10px;
 margin-top: 50px;
 width: 360px;
 padding-left: 20px;
+ height: 50px; 
+
 }
 
+textarea {
+  resize: none;
+  overflow: hidden;
+  min-height: 50px ;
+  /* max-height: 100px; */
+}
+textarea:focus {
+  
+  outline: none !important;
+  border: 2px solid #A4C2D8;
+  
+}
 .project_name {
   display: block;
 
@@ -300,6 +314,7 @@ border: none;
       max-height: 140px;
       overflow-y: scroll;
       width: 360px;
+      margin-top: 10px;
       margin-left: 105px;
       background: #FAFAFA;
       box-shadow: 0px 18px 20px -10px rgba(196, 196, 196, 0.82);
@@ -350,7 +365,7 @@ border-radius: 4px;
  }
   
   .ul {
-      padding-bottom: 10px;
+      /* padding-bottom: 10px; */
       padding-left: 20px;
       padding-right: 30px;
     
@@ -372,7 +387,7 @@ border-radius: 4px;
   .li1 {
       cursor: pointer;
       display: flex;
-      padding-top: 15px;
+      padding-top: 1px;
       padding-bottom: 5px;
       padding-left: 15px;
       font-style: normal;

@@ -1,0 +1,2 @@
+export const MORE_INFO = 'MORE_INFO'
+export const MORE_INFO_SUCCESS = 'MORE_INFO_SUCCESS'

@@ -5,7 +5,7 @@ import {
     ADD_SHOW, ADD_SUCCESS,
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
-    FETCH_PROGRAMS_FAILURE,
+    FETCH_PROGRAMS_FAILURE, SELECT_COMMUNITIES,
     CHANGE_ISSELECT, SELECTED_SUPPORTS
 } from './programTypes'
 import moment from 'moment'
@@ -20,6 +20,8 @@ const initialState = {
     error: '',
     isSelect: [],
     edit: false,
+    communities: [],
+    organizations: []
 
 }
 
@@ -156,7 +158,12 @@ const programReducer = (state = initialState, action) => {
                 ...state,
                 isSelect: state.isSelect
             }
+            case SELECT_COMMUNITIES:
 
+                return {
+                    ...state,
+                   communities: action.payload
+                }
 
         default: return state
     }

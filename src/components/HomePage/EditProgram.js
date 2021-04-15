@@ -8,13 +8,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../HomePage/UseOutSideClick"
 import moment from 'moment'
 import { connect, useDispatch } from "react-redux";
-import store, { succeeded, failed, editShow, progEditSuccess, editProg, changeIsSelect, selectedSupports } from "../../redux";
+import store, { succeeded, failed, editShow, progEditSuccess, editProg, moreInfoProgram, selectedSupports } from "../../redux";
 import Communities from "./Communities/Communities";
 import Organizations from "./Organizations/Organizations";
 import SupportTypes from "./SupportTypes/SupportTypes";
 import Status from "./Status/Status";
 
-function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
+function EditProgram({ isSelect, progEditSuccess, showEdit,moreInfoProgram }) {
 
   const selected = moment(store.getState().prog.program.startDate).toDate()
   const dispatch = useDispatch()
@@ -25,6 +25,13 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
 
   };
 
+  const auto_grow = (element) => {
+
+    console.log('aaa', element.target.style)
+    element.target.style.height = "50px";
+    element.target.style.height = (element.target.scrollHeight) + "px";
+
+  }
 
   const handleSubmit = (evt) => {
 
@@ -38,7 +45,6 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
     const day1 = store.getState().prog.program.endDate.getDate()
     const endDate = `${year1}-${month1}-${day1}`
 
-
     axios
       .put(`/api/editProgram`, {
         program: store.getState().prog.program, isSelect, startDate, endDate
@@ -48,19 +54,23 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
           // setSuccessPage(true);
           dispatch(succeeded(true))
           progEditSuccess(store.getState().prog.program)
-          // console.log("isSeleeeeeeeeeect", isSelect);
-
+          moreInfoProgram(store.getState().prog.program)
+          
           handleClose();
           // window.location.reload()
         } else {
 
           handleClose();
           dispatch(failed(true))
+        
+
           // setFailPage(true);
         }
       })
       .catch((e) => {
         handleClose();
+      
+
       });
 
   };
@@ -74,13 +84,19 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
           <Modal.Body>
 
             <div className="project_name">
-              <label className="project_name_label">Ծրագրի անուն (Հայերեն)</label>
-              <input className="project_name_input" placeholder="Ծրագրի անուն հայերեն" value={store.getState().prog.program.programName_arm} onChange={e => dispatch(editProg({ ...store.getState().prog.program, programName_arm: e.target.value, }))} />
+              <label className="project_name_label">
+                Ծրագրի անուն (Հայերեն)
+                </label>
+              <textarea className="project_name_input" onInput={(e) => auto_grow(e)} value={store.getState().prog.program.programName_arm}
+                onChange={e => dispatch(editProg({ ...store.getState().prog.program, programName_arm: e.target.value, }))}
+              // placeholder="Ծրագրի անուն հայերեն"
+              />
 
             </div>
             <div className="project_name">
               <label className="project_name_label">Ծրագրի անուն (English)</label>
-              <input className="project_name_input" placeholder="Project name in English" value={store.getState().prog.program.programName_eng} onChange={e => dispatch(editProg({ ...store.getState().prog.program, programName_eng: e.target.value, }))} />
+              <input className="project_name_input" placeholder="Project name in English" value={store.getState().prog.program.programName_eng} onChange={e =>
+                dispatch(editProg({ ...store.getState().prog.program, programName_eng: e.target.value, }))} />
             </div>
 
             <Communities />
@@ -154,7 +170,7 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, }) {
 
             {/* status-i inputnery */}
             <Status />
-            
+
             <div className="donor">
               <label className="donor_label">Դոնոր խմբի անդամ է</label>
               <input type="checkbox" id='donor' className="isDonor" value={store.getState().prog.program.isDonor} defaultChecked={store.getState().prog.program.isDonor}
@@ -183,7 +199,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     progEditSuccess: (prog, isSelect) => dispatch(progEditSuccess(prog, isSelect)),
-    // changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect))
+    moreInfoProgram: (prog) => dispatch(moreInfoProgram(prog))
 
   }
 }
