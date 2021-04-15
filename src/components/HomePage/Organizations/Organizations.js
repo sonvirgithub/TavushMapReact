@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect, useDispatch } from "react-redux";
 import { progEditSuccess, editProg } from "../../../redux";
 
-function Organizations({progEditSuccess,program}) {
+function Organizations({ progEditSuccess, program }) {
 
     const [arrow_icon_org, setArrow_iconOrg] = useState(true)
     const [organizations, setOrganizations] = useState([])
@@ -40,7 +40,7 @@ function Organizations({progEditSuccess,program}) {
             arr.push(
                 {
                     organizationId: organization.id,
-                    organization_arm: organization.name
+                    organizationName_arm: organization.name
                 }
             )
         } else {
@@ -51,10 +51,10 @@ function Organizations({progEditSuccess,program}) {
     }
 
     UseOutSideClick(ref, () => {
-        
-         if (arrow_icon_org) setArrow_iconOrg(false);
-       
-      });
+
+        if (arrow_icon_org) setArrow_iconOrg(false);
+
+    });
 
     return (
         <div>
