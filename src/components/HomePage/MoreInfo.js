@@ -5,24 +5,23 @@ import store, { moreInfoShow } from "../../redux";
 import {  connect } from "react-redux";
 
 
-function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate }) {
+function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate ,suppForMoreInfo}) {
   let [supports2, setSupports2] = useState([])
 
   const closeMore = () => {
-    
     moreInfoShow(false)
   };
+  console.log("moreInfoProg",moreInfoProg);
+  // useEffect(() => {
+  //   supports2 = []
 
-  useEffect(() => {
-    supports2 = []
-
-    moreInfoProg.support.map((item) => {
-      item.supports.map((support) => {
-        supports2.push(support.name)
-      })
-    })
-    setSupports2([...supports2])
-  }, [moreInfoProg])
+  //   moreInfoProg.support.map((item) => {
+  //     item.supports.map((support) => {
+  //       supports2.push(support.name)
+  //     })
+  //   })
+  //   setSupports2([...supports2])
+  // }, [moreInfoProg])
 
   return (
     <div className="sideBar sideBar1 ">
@@ -115,7 +114,7 @@ function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate }) {
             className="org_icon"
             src={require("../../img/support.svg").default}
           />
-          {supports2.map(item => {
+          {suppForMoreInfo.map(item => {
             return item + ', '
           })}
         </div>
@@ -163,7 +162,8 @@ const mapStateToProps = (state) => {
   return {
     moreInfoProg: state.moreInfo.moreInfoProg,
     startDate: state.moreInfo.startDate,
-    endDate: state.moreInfo.endDate
+    endDate: state.moreInfo.endDate,
+    suppForMoreInfo: state.moreInfo.suppForMoreInfo
 
   };
 };

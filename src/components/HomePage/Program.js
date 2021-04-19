@@ -4,13 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
 import store, {
-  deleteProg, deleteShow, editShow, getPrograms,
-  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram
+  deleteProg, deleteShow, editShow, getPrograms,deleteSupMoreInfo,
+  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram,changeSupMoreInfo
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
 function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,moreInfoProgram,
-   setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage, selectedSupports }) {
+  changeSupMoreInfo, setSuccessPage, setFailPage, selectedSupports ,deleteSupMoreInfo}) {
 
   useEffect(() => {
     getPrograms()
@@ -25,12 +25,14 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,more
     dispatch(editProg(store.getState().prog.programs[index]))
     if (program.id != store.getState().prog.programs[index].id) {
       changeIsSelect([])
+      // changeSupMoreInfo([])
       selectedSupports(store.getState().prog.programs[index])
 
     } else {
       if (!edit) {
 
         changeIsSelect([])
+        // changeSupMoreInfo([])
         selectedSupports(store.getState().prog.programs[index])
       }
     }
@@ -47,10 +49,10 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,more
 
   const handleShowMoreInfo = (index) => {
 
-
-    // setMoreInfoStartDate(moment(store.getState().prog.programs[index].startDate).format('DD.MM.YYYY'))
-    // setMoreInfoEndDate(moment(store.getState().prog.programs[index].endDate).format('DD.MM.YYYY'))
-
+    
+        deleteSupMoreInfo()
+       
+        changeSupMoreInfo(store.getState().prog.programs[index])
 
     moreInfoProgram(store.getState().prog.programs[index])
     moreInfoShow(true)
@@ -173,7 +175,10 @@ const mapDispatchToProps = dispatch => {
     selectedSupports: (prog) => dispatch(selectedSupports(prog)),
     changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect)),
     moreInfoShow: (show) => dispatch(moreInfoShow(show)),
-    moreInfoProgram: (prog) => dispatch(moreInfoProgram(prog))
+    moreInfoProgram: (prog) => dispatch(moreInfoProgram(prog)),
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
+    deleteSupMoreInfo: (sup) => dispatch(deleteSupMoreInfo(sup)),
+
   }
 }
 

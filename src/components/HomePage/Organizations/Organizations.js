@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect, useDispatch } from "react-redux";
 import { progEditSuccess, editProg } from "../../../redux";
 
-function Organizations({ progEditSuccess, program }) {
+function Organizations({ orgErr, program }) {
 
     const [arrow_icon_org, setArrow_iconOrg] = useState(true)
     const [organizations, setOrganizations] = useState([])
@@ -59,9 +59,15 @@ function Organizations({ progEditSuccess, program }) {
     return (
         <div>
             <div className='project_name'>
-                <label className="kazmakerp_arm">Կազմակերպություններ</label>
-                <button className='btnSities' onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
-                    <label className="label_city" >Կազմակերպություն </label>
+                <label className="kazmakerp_arm">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+                <button className={`${orgErr.classname} btnSities`} onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
+                    {
+                        program.organization.length > 0 ?
+                            <label className="label_city" >Ընտրված է {program.organization.length} կազմակերպություն  </label>
+                            : <label className="label_city" >Կազմակերպություն  </label>
+
+
+                    }
                 </button>
                 <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => setArrow_iconOrg(!arrow_icon_org)} />
 
@@ -81,6 +87,8 @@ function Organizations({ progEditSuccess, program }) {
                         </div>
                     )
                 }
+                <label className="inputiError">{orgErr.editError}</label>
+
             </div>
         </div>
     )
@@ -90,7 +98,7 @@ const mapStateToProps = (state) => {
     return {
 
         program: state.prog.program,
-
+        orgErr: state.prog.orgErr
 
     };
 };

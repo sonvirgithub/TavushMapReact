@@ -6,10 +6,11 @@ import {
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
     FETCH_PROGRAMS_FAILURE,
-    CHANGE_ISSELECT, SELECT_COMMUNITIES,
-    SELECTED_SUPPORTS
+    CHANGE_ISSELECT,
+    SELECT_COMMUNITIES, SELECTED_SUPPORTS,ERROR_CITY_MSG,
+    ERROR_ORG_MSG,ERROR_SUP_MSG,ERROR_STATUS_MSG
 } from './programTypes'
-import axios from 'axios'
+
 
 export const fetchProgramsRequest = () => {
     return {
@@ -96,13 +97,14 @@ export const changeIsSelect = isSelect => {
 
     }
 }
+
+
 export const selectedSupports = prog => {
 
     return {
         type: SELECTED_SUPPORTS,
         payload: prog
        
-
     }
 }
 
@@ -116,6 +118,30 @@ export const selectCommunities = communities => {
     }
 }
 
+export const cityErrMessage = (cityErr,orgErr,suppErr,statusErr) => {
+    return {
+        type: ERROR_CITY_MSG,
+        payload: cityErr
+    }
+}
+export const orgErrMessage = (orgErr) => {
+    return {
+        type: ERROR_ORG_MSG,
+        payload: orgErr
+    }
+}
+export const supErrMessage = (supErr) => {
+    return {
+        type: ERROR_SUP_MSG,
+        payload: supErr
+    }
+}
+export const statusErrMessage = (statusErr) => {
+    return {
+        type: ERROR_STATUS_MSG,
+        payload: statusErr
+    }
+}
 
 export const getPrograms = () => {
     return (dispatch) => {

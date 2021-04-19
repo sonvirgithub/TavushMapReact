@@ -114,7 +114,7 @@ textarea:focus {
 
 display: block;
 margin-top: 20px;
-margin-left: -310px;
+margin-left: -300px;
 }
 
 .budge_input {
@@ -254,19 +254,9 @@ text-transform: uppercase;
   line-height: 21px;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: #FFFFFF;height: 45px;
-width: 130px;
-border-radius: 4px;
-background: #C4C4C4;
-border: none;
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 21px;
-letter-spacing: 0.03em;
-text-transform: uppercase;
+  color: #FFFFFF;
+  height: 45px;
 
-color: #FFFFFF;
 }
 
 .remember {
@@ -351,11 +341,7 @@ border-radius: 4px;
       height: 35px;
      
   }
-  
 
-  /* .li:hover {
-      background: #A4C2D8;;
-  } */
 
  .select_li {
   background: #A4C2D8;;
@@ -365,7 +351,7 @@ border-radius: 4px;
  }
   
   .ul {
-      /* padding-bottom: 10px; */
+      padding-bottom: 10px;
       padding-left: 20px;
       padding-right: 30px;
     
@@ -413,7 +399,7 @@ border-radius: 4px;
 
   .cities {
       margin-top: 20px;
-      margin-left: -290px;
+      margin-left: -280px;
       margin-bottom: 5px;
   }
 
@@ -704,4 +690,52 @@ color: #FFFFFF;
   margin-top: 13px;
     padding-left: 15px;
     font-weight: 500
+}
+
+
+.inputiError{
+  display: block;
+    color: red;
+    margin-right: 180px;
+    font-size: 13px;
+
+}
+
+.class_name_input {
+  border: 1px solid red !important
+}
+
+.save_class1 {
+ background: rgba(5, 85, 143, 1);
+
+}
+
+.save_class2 {
+  background: rgba(5, 85, 143, 1);
+  opacity: 32%;
+}
+
+.save_class3 {
+  background: rgba(5, 85, 143, 1);
+  opacity: 16%;
+}
+ .star {
+  width: 8px;
+  height: 10px;
+  margin-top: -7px;
+ }
+.star_end_date {
+  width: 8px;
+    height: 10px;
+    margin-top: -20px;
+    display: flex;
+    margin-left: 60px
+}
+
+.star_start_date {
+  width: 8px;
+    height: 10px;
+    margin-top: -20px;
+    display: flex;
+    margin-left: 50px
 }

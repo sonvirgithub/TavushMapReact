@@ -6,7 +6,8 @@ import {
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
     FETCH_PROGRAMS_FAILURE, SELECT_COMMUNITIES,
-    CHANGE_ISSELECT, SELECTED_SUPPORTS
+    CHANGE_ISSELECT, SELECTED_SUPPORTS, ERROR_CITY_MSG,
+    ERROR_ORG_MSG, ERROR_SUP_MSG, ERROR_STATUS_MSG
 } from './programTypes'
 import moment from 'moment'
 
@@ -21,7 +22,11 @@ const initialState = {
     isSelect: [],
     edit: false,
     communities: [],
-    organizations: []
+    organizations: [],
+    cityErr: { editError: "", classname: '' },
+    orgErr: { editError: "", classname: '' },
+    supErr: { editError: "", classname: '' },
+    statusErr: { editError: "", classname: '' },
 
 }
 
@@ -64,11 +69,11 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showEdit: !state.showEdit,
-              
+
 
             }
         case EDIT_SUCCESS:
-           
+
             return {
                 ...state,
                 programs: [...state.programs.map((program) => {
@@ -92,13 +97,14 @@ const programReducer = (state = initialState, action) => {
                             status: action.payload.status,
                             statusId: action.payload.statusId,
                             support: action.payload.support,
-                            
+
 
                         })
                     }
                     return program
                 })],
                 isSelect: state.isSelect,
+
                 edit: true
             }
         case ADD_SHOW:
@@ -137,8 +143,10 @@ const programReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                isSelect: action.payload
+                isSelect: action.payload,
+
             }
+
         case SELECTED_SUPPORTS:
             if (action.payload.support.length > 0) {
 
@@ -150,6 +158,7 @@ const programReducer = (state = initialState, action) => {
                             state.isSelect.push({
                                 supportid: support.supportid
                             })
+                            // state.suppForMoreInfo.push(support.name)
                         })
                     }
                 })
@@ -158,13 +167,36 @@ const programReducer = (state = initialState, action) => {
                 ...state,
                 isSelect: state.isSelect
             }
-            case SELECT_COMMUNITIES:
+        case SELECT_COMMUNITIES:
 
-                return {
-                    ...state,
-                   communities: action.payload
-                }
+            return {
+                ...state,
+                communities: action.payload
+            }
+        case ERROR_CITY_MSG:
+            return {
+                ...state,
+                cityErr: action.payload,
 
+            }
+        case ERROR_ORG_MSG:
+            return {
+                ...state,
+                orgErr: action.payload,
+
+            }
+        case ERROR_SUP_MSG:
+            return {
+                ...state,
+                supErr: action.payload,
+
+            }
+        case ERROR_STATUS_MSG:
+            return {
+                ...state,
+                statusErr: action.payload,
+
+            }
         default: return state
     }
 }
