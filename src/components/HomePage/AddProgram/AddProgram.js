@@ -5,15 +5,21 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../UseOutSideClick"
+import { succeeded, failed, addShow, progAddSuccess, changeIsSelect } from "../../../redux";
 import { ProgramContext } from "../../../pages/ProgramsPage";
+import { connect, useDispatch } from "react-redux";
 
 
-function AddProgram({ setSuccessPage, setFailPage }) {
+function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
+
+  const dispatch = useDispatch()
+  const handleClose = () => dispatch(addShow());
+  const handleShow = () => dispatch(addShow());
 
   const programCont = useContext(ProgramContext);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
   const [communities, setCommunities] = useState([])
   const [organizations, setOrganizations] = useState([])
@@ -46,6 +52,9 @@ function AddProgram({ setSuccessPage, setFailPage }) {
   const [checkedCategory, setCheckedCategory] = useState([])
   const [openCategory, setOpenCategory] = useState([])
 
+  const [categoryName, setCategoryName] = useState([])
+  const [communityName, setCommunityName] = useState([])
+  const [orgName, setOrgName] = useState([])
 
   const ref = useRef();
 
@@ -100,6 +109,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       .then(res => res.json())
       .then(data => {
         setCategores(data.data)
+        console.log(data.data, "categories");
 
       }).catch(err => {
       })
@@ -125,13 +135,18 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       headers
     }).then(res => res.json())
       .then(data => {
-        if (data.status == 200) {
-          setSuccessPage(true);
+        if (data.success) {
+          // setSuccessPage(true);
+          if (statusid == 1) {
+            var status1 = "Ընթացիկ"
+          } else {
+            var status1 = "Ավարտված"
+          }
           handleClose()
           const prog = {
-
-            ProgramName_arm: name_arm,
-            ProgramName_eng: name_eng,
+            id: data.id,
+            programName_arm: name_arm,
+            programName_eng: name_eng,
             budget: budget,
             startDdate: start_date,
             endDate: end_date,
@@ -142,11 +157,22 @@ function AddProgram({ setSuccessPage, setFailPage }) {
             description_arm: description_arm,
             description_eng: description_eng,
             isDonor: isdonor,
+            status: status1,
+            statusId: statusid,
+            support: categoryName,
+            isSelect: isSelect,
+            community: communityName,
+            organization: orgName
           };
-          // programCont.AddProgram(prog);
+          console.log("addprog", prog);
+          progAddSuccess(prog)
+          changeIsSelect(isSelect)
+          dispatch(succeeded(true))
 
         } else {
-          setFailPage(true);
+          // setFailPage(true);
+          dispatch(failed(true))
+
           // handleClose()
         }
       })
@@ -174,7 +200,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
 
 
-  const selectSupport = (e, supportId, categoryId) => {
+  const selectSupport = (e, supportId, categoryId, name) => {
 
     if (isSelect.some(item => item.supportid === supportId)) {
 
@@ -185,6 +211,8 @@ function AddProgram({ setSuccessPage, setFailPage }) {
       for (let i = 0; i < categoryid_supportid.length; i++) {
         if (categoryid_supportid[i].supportid === supportId) {
           categoryid_supportid.splice(i, 1)
+          categoryName.splice(i, 1)
+          console.log("categoryName", categoryName);
         }
       }
     }
@@ -194,6 +222,13 @@ function AddProgram({ setSuccessPage, setFailPage }) {
         categoryid: categoryId,
         supportid: supportId
       })
+      if (categoryName.some(item => item.category_arm === name)) {
+
+      } else {
+        categoryName.push({ category_arm: name })
+
+      }
+      console.log("categoryName", categoryName);
 
     }
     setIsSelect([...isSelect])
@@ -212,13 +247,16 @@ function AddProgram({ setSuccessPage, setFailPage }) {
     }
   }
 
-  const selectCommunity = (cityid) => {
-    if (communityid.some(item => item === cityid)) {
-      let index = communityid.findIndex(item => item === cityid);
+  const selectCommunity = (city) => {
+    if (communityid.some(item => item === city.id)) {
+      let index = communityid.findIndex(item => item === city.id);
       communityid.splice(index, 1)
+      communityName.splice(index, 1)
       setCommunity([...communityid])
     } else {
-      communityid.push(cityid)
+      communityid.push(city.id)
+      communityName.push({ communityId: city.id })
+
       setCommunity([...communityid])
 
     }
@@ -228,9 +266,11 @@ function AddProgram({ setSuccessPage, setFailPage }) {
     if (organizationid.some(item => item === orgid)) {
       let index = organizationid.findIndex(item => item === orgid);
       organizationid.splice(index, 1)
+      orgName.splice(index, 1)
       setOrganization([...organizationid])
     } else {
       organizationid.push(orgid)
+      orgName.push({ organizationId: orgid })
       setOrganization([...organizationid])
 
     }
@@ -262,6 +302,14 @@ function AddProgram({ setSuccessPage, setFailPage }) {
             categoryid: category.categoryid,
             supportid: category.support[i].supportid
           })
+          if (categoryName.some(item => item.category_arm === category.category)) {
+
+          } else {
+            categoryName.push({ category_arm: category.category })
+
+          }
+          console.log("categoryName", categoryName);
+
         }
       }
     } else {
@@ -271,6 +319,8 @@ function AddProgram({ setSuccessPage, setFailPage }) {
           let index = isSelect.findIndex(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid);
           isSelect.splice(index, 1)
           categoryid_supportid.splice(index, 1)
+          categoryName.splice(index, 1)
+          console.log("categoryName", categoryName);
 
         }
         else {
@@ -290,7 +340,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 </button>
       </div>
 
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal show={showAdd} onHide={handleClose} animation={false}>
 
         <Modal.Body>
           <div className="project_name">
@@ -321,7 +371,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
                       <li style={{
                         backgroundColor: communityid.some(item => item === city.id) ?
                           '#A4C2D8' : '#FAFAFA'
-                      }} className='li1' onClick={() => selectCommunity(city.id)} >{city.name}</li>
+                      }} className='li1' onClick={() => selectCommunity(city)} >{city.name}</li>
                     </div>
                   ))}
                 </div>
@@ -437,7 +487,7 @@ function AddProgram({ setSuccessPage, setFailPage }) {
                                 <li style={{
                                   backgroundColor: isSelect.some(item => item.supportid === support.supportid) ? '#A4C2D8' : '#FAFAFA',
 
-                                }} key={support.supportid} className="li" onClick={(e) => selectSupport(e, support.supportid, categore.categoryid)}>
+                                }} key={support.supportid} className="li" onClick={(e) => selectSupport(e, support.supportid, categore.categoryid, categore.category)}>
                                   {support.name}
                                 </li>
                               ))}
@@ -516,5 +566,18 @@ function AddProgram({ setSuccessPage, setFailPage }) {
 
   );
 }
+const mapStateToProps = (state) => {
+  return {
 
-export default AddProgram;
+    showAdd: state.prog.showAdd
+
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    progAddSuccess: (prog) => dispatch(progAddSuccess(prog)),
+    changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect)),
+
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddProgram);

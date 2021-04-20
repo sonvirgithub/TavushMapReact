@@ -116,7 +116,8 @@ const programReducer = (state = initialState, action) => {
         case ADD_SUCCESS:
             return {
                 ...state,
-                programs: [...state.programs, action.payload]
+                programs: [...state.programs, action.payload],
+                isSelect:action.payload.isSelect
 
             }
 
@@ -152,7 +153,7 @@ const programReducer = (state = initialState, action) => {
 
 
                 action.payload.support.map((item) => {
-                    if (item.supports.length > 0) {
+                    if (item.supports?.length > 0) {
                         item.supports.map((support) => {
 
                             state.isSelect.push({

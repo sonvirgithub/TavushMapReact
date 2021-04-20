@@ -9,13 +9,13 @@ import store, {
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
-function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,moreInfoProgram,
+function Program({ getPrograms, changeIsSelect, program, programs, edit, moreInfoShow,moreInfoProgram,
   changeSupMoreInfo, setSuccessPage, setFailPage, selectedSupports ,deleteSupMoreInfo}) {
 
   useEffect(() => {
     getPrograms()
   }, [])
-
+console.log("programs",programs);
 
   const dispatch = useDispatch()
 
@@ -67,10 +67,7 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,more
         <div className="org_title">
           <div className="org_title_txt">Ծրագրեր</div>
           <div>
-            <AddProgram
-              setSuccessPage={setSuccessPage}
-              setFailPage={setFailPage}
-            />
+            <AddProgram />
           </div>
         </div>
 
@@ -97,7 +94,7 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow,more
                     <td>{prog.programName_arm}</td>
                     <td >
                       <div className="tdSphere" >
-                        {prog.support.map(item => {
+                        {prog.support?.map(item => {
                           return item.category_arm + ', '
                         })}
                       </div>

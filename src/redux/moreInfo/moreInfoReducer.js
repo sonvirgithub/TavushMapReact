@@ -33,7 +33,7 @@ const moreInfoReducer = (state = initialState, action) => {
             }
         case CHANGE_SUPPORTS:
             action.payload.support.map((item) => {
-                if (item.supports.length > 0) {
+                if (item.supports?.length > 0) {
                     item.supports.map((support) => {
 
                         state.suppForMoreInfo.push(support.name)

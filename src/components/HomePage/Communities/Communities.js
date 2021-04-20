@@ -84,7 +84,7 @@ function Communities({ cityErr }) {
         <label className="cities">Համայնք<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
         <button className={`${cityErr.classname} btnSities`} onClick={() => setArrow_iconCity(!arrow_icon_city)}>
           {
-            store.getState().prog.program.community.length > 0 ?
+            store.getState().prog.program.community?.length > 0 ?
               <label className="label_city" >
 
                 Ընտրված է {store.getState().prog.program.community.length} համայնք

@@ -62,7 +62,7 @@ function Organizations({ orgErr, program }) {
                 <label className="kazmakerp_arm">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
                 <button className={`${orgErr.classname} btnSities`} onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
                     {
-                        program.organization.length > 0 ?
+                        program.organization?.length > 0 ?
                             <label className="label_city" >Ընտրված է {program.organization.length} կազմակերպություն  </label>
                             : <label className="label_city" >Կազմակերպություն  </label>
 
