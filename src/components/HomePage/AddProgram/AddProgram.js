@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './AddProgram.css'
-import { Modal, Form, } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../UseOutSideClick"
-import { succeeded, failed, addShow, progAddSuccess, changeSupMoreInfo } from "../../../redux";
-import { ProgramContext } from "../../../pages/ProgramsPage";
+import { succeeded, failed, addShow, progAddSuccess, changeSupMoreInfo,editProg } from "../../../redux";
 import { connect, useDispatch } from "react-redux";
 
 
-function AddProgram({ progAddSuccess, changeSupMoreInfo, showAdd, suppForMoreInfo }) {
+function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg }) {
 
   const dispatch = useDispatch()
   const handleClose = () => dispatch(addShow());
@@ -160,7 +159,8 @@ function AddProgram({ progAddSuccess, changeSupMoreInfo, showAdd, suppForMoreInf
             support: categoryName,
             isSelect: isSelect,
             community: communityName,
-            organization: orgName
+            organization: orgName,
+            support: support
           };
           progAddSuccess(prog)
           // changeSupMoreInfo(suppForMoreInfo)
@@ -193,6 +193,21 @@ function AddProgram({ progAddSuccess, changeSupMoreInfo, showAdd, suppForMoreInf
           suppForMoreInfo.splice(index, 1)
         }
       }
+
+      let index1 = support.findIndex(item => item.categoryId === categoryId);
+
+        if (support[index1].supports.some(item => item.supportid === supportId)) {
+          
+          let index2 = support[index1].supports.findIndex(item => item.supportid === supportId);
+          support[index1].supports.splice(index2,1)
+          if(support[index1].supports.length == 0) {
+            support.splice(index1,1)
+          }
+        }
+
+    
+    console.log("SUPPORT",support);
+    dispatch(editProg({ ...program, support: support }))
     }
     else {
       isSelect.push({ supportid: supportId,name:supName })
@@ -205,6 +220,28 @@ function AddProgram({ progAddSuccess, changeSupMoreInfo, showAdd, suppForMoreInf
 
       } else {
         categoryName.push({ category_arm: name })
+
+      }
+
+
+      if (support.some(item => item.categoryId === categoryId)) {
+        let index = support.findIndex(item => item.categoryId === categoryId);
+
+        support[index].supports.push({
+          name: supName,
+          supportid: supportId
+        })
+        console.log("sSUPPORT",support);
+
+      } else {
+
+        let array = [{name:supName,supportid:supportId}]
+        support.push({
+          supports:array,
+          categoryId: categoryId,
+          category_arm: name
+        })
+        console.log("sSUPPORT",support);
 
       }
 
@@ -577,13 +614,15 @@ const mapStateToProps = (state) => {
 
     showAdd: state.prog.showAdd,
     suppForMoreInfo: state.moreInfo.suppForMoreInfo,
+    support: state.prog.support
 
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     progAddSuccess: (prog) => dispatch(progAddSuccess(prog)),
-    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog))
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
+    editProg: (prog) => dispatch(editProg(prog))
 
   }
 }

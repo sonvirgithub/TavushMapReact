@@ -14,9 +14,8 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
   const [arrow_icon_category, setArrow_iconCategory] = useState(true)
   const [checkedCategory, setCheckedCategory] = useState([])
   const [openCategory, setOpenCategory] = useState([])
-  // const [support, setSupports] = useState([])
   const ref = useRef();
-console.log(support);
+
   useEffect(() => {
 
     fetch('/api/supportsList', {

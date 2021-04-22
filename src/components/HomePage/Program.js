@@ -14,7 +14,6 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
 
      useEffect(() => {
       getPrograms()
-   
     
   }, [])
 
