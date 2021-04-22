@@ -9,8 +9,8 @@ import store, {
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
-function Program({ getPrograms, changeIsSelect, program, suppMoreInfoProg, edit, moreInfoShow, moreInfoProgram,
-  changeSupMoreInfo, programs, selectedSupports, moreInfoProg, deleteSupMoreInfo,allSupports  }) {
+function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, moreInfoProgram,
+  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo,  }) {
 
      useEffect(() => {
       getPrograms()
@@ -22,8 +22,6 @@ function Program({ getPrograms, changeIsSelect, program, suppMoreInfoProg, edit,
 
   const handleShowEdit = (index) => {
     
-      moreInfoProgram(store.getState().prog.programs[index])
-
     dispatch(editProg(store.getState().prog.programs[index]))
     if (program.id != store.getState().prog.programs[index].id) {
       changeIsSelect([])
@@ -51,16 +49,10 @@ function Program({ getPrograms, changeIsSelect, program, suppMoreInfoProg, edit,
 
     moreInfoProgram(store.getState().prog.programs[index])
 
-    // if (moreInfoProg?.id != store.getState().prog.programs[index].id) {
       deleteSupMoreInfo()
       changeSupMoreInfo(store.getState().prog.programs[index])
 
-    // } else {
-    //   if (edit) {
-    //     deleteSupMoreInfo()
-    //     editSupMoreInfo(suppMoreInfoProg)
-    //   }
-    // }
+   
     moreInfoShow(true)
 
   }

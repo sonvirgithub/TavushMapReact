@@ -104,6 +104,7 @@ const programReducer = (state = initialState, action) => {
                     return program
                 })],
                 isSelect: state.isSelect,
+                support: state.support,
                 edit: true,
 
             }

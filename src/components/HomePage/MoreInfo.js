@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "./MoreInfo.css"
-import store, { moreInfoShow, editSupMoreInfo,changeSupMoreInfo } from "../../redux";
+import store, { moreInfoShow, editSupMoreInfo, changeSupMoreInfo } from "../../redux";
 import { connect } from "react-redux";
 
 
-function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate,changeSupMoreInfo,moreInfoShow,program }) {
+function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, changeSupMoreInfo, moreInfoShow, program }) {
 
 
   const closeMore = () => {
     moreInfoShow(false)
-    
+
   };
   console.log(moreInfoProg);
- 
+
   return (
     <div className="sideBar sideBar1 ">
       <div onClick={closeMore}>
@@ -113,17 +113,13 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate,changeSupM
                 })
               }
             })} */}
-            
-           { 
 
-                suppForMoreInfo.map(item => {
-                  return item + ', '
-                })
-              }
+       
+              
 
-          {/* {suppForMoreInfo.map(item => {
+          {suppForMoreInfo.map(item => {
             return item + ', '
-          })} */}
+          })}
         </div>
 
 

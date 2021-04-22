@@ -47,7 +47,6 @@ console.log(support);
     if (isSelect.some(item => item.supportid === supportId)) {
       let index = isSelect.findIndex(item => item.supportid === supportId);
       isSelect.splice(index, 1)
-      suppForMoreInfo.splice(index, 1)
 
       let index1 = support.findIndex(item => item.categoryId === categId);
 
@@ -62,11 +61,11 @@ console.log(support);
 
     
     console.log("SUPPORT",support);
+    dispatch(editProg({ ...program, support: support }))
 
   }
     else {
       isSelect.push({ supportid: supportId, name: name })
-      suppForMoreInfo.push(name)
 
       if (support.some(item => item.categoryId === categId)) {
         let index = support.findIndex(item => item.categoryId === categId);
@@ -93,7 +92,6 @@ console.log(support);
     }
 
     changeIsSelect([...isSelect])
-    editProg({ ...program, support: support })
 
   }
 
@@ -119,7 +117,6 @@ console.log(support);
             supportid: category.support[i].supportid,
             name: category.support[i].name
           })
-          suppForMoreInfo.push(category.support[i].name)
 
           if (support.some(item => item.categoryId === category.categoryid)) {
             let index = support.findIndex(item => item.categoryId === category.categoryid);
@@ -151,7 +148,6 @@ console.log(support);
 
           let index = isSelect.findIndex(item => item.supportid === category.support[i].supportid);
           isSelect.splice(index, 1)
-          suppForMoreInfo.splice(index, 1)
 
           let index1 = support.findIndex(item => item.categoryId === category.categoryid);
 
@@ -170,7 +166,7 @@ console.log(support);
     }
 
     changeIsSelect([...isSelect])
-    // dispatch(editProg({ ...program, support: suppForMoreInfo }))
+    dispatch(editProg({ ...program, support: support }))
   }
 
   const openCategores = (id) => {

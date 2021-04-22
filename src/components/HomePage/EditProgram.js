@@ -8,16 +8,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment'
 import { connect, useDispatch } from "react-redux";
 import store, {
-  succeeded, failed, editShow, progEditSuccess, editProg,changeSupMoreInfo,
-  moreInfoProgram, cityErrMessage, orgErrMessage, supErrMessage, changeIsSelect, editSupMoreInfo
+  succeeded, failed, editShow, progEditSuccess, editProg,changeSupMoreInfo,deleteSupMoreInfo,
+  moreInfoProgram, cityErrMessage, orgErrMessage, supErrMessage
 } from "../../redux";
 import Communities from "./Communities/Communities";
 import Organizations from "./Organizations/Organizations";
 import SupportTypes from "./SupportTypes/SupportTypes";
 import Status from "./Status/Status";
-import { render } from "react-dom";
 
-function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, program1,
+function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, program1,deleteSupMoreInfo,
   cityErrMessage, orgErrMessage, supErrMessage, moreInfoProg ,changeSupMoreInfo,suppForMoreInfo}) {
 
   const selected = moment(store.getState().prog.program.startDate).toDate()
@@ -185,10 +184,11 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, pro
             progEditSuccess(store.getState().prog.program)
             
             if (moreInfoProg.id == store.getState().prog.program.id) {
+              deleteSupMoreInfo()
+              changeSupMoreInfo(store.getState().prog.program)
               moreInfoProgram(store.getState().prog.program)  
-              console.log("edit",store.getState().prog.program);
-              // editSupMoreInfo(suppForMoreInfo)
-              console.log("moreinfo");      
+              console.log("suppForMoreInfo",suppForMoreInfo);
+                    
             }
 
             arry.map((item, index) => {
@@ -366,6 +366,7 @@ const mapStateToProps = (state) => {
     isSelect: state.prog.isSelect,
     suppForMoreInfo: state.moreInfo.suppForMoreInfo,
     moreInfoProg: state.moreInfo.moreInfoProg,
+    support: state.prog.support
 
   };
 };
@@ -377,7 +378,9 @@ const mapDispatchToProps = dispatch => {
     cityErrMessage: (cityErr) => dispatch(cityErrMessage(cityErr)),
     orgErrMessage: (orgErr) => dispatch(orgErrMessage(orgErr)),
     supErrMessage: (supErr) => dispatch(supErrMessage(supErr)),
-    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo())
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
+    deleteSupMoreInfo: () =>dispatch(deleteSupMoreInfo())
+
 
   }
 }

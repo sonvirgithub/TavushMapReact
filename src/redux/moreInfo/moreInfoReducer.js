@@ -31,7 +31,7 @@ const moreInfoReducer = (state = initialState, action) => {
                 moreInfoProg: action.payload,
                 startDate: moment(action.payload.startDate).format('DD.MM.YYYY'),
                 endDate: moment(action.payload.endDate).format('DD.MM.YYYY'),
-                suppForMoreInfo: state.suppForMoreInfo
+               
             }
         case CHANGE_SUPPORTS:
             if (action.payload?.support.length > 0) {
