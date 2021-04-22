@@ -8,8 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment'
 import { connect, useDispatch } from "react-redux";
 import store, {
-  succeeded, failed, editShow, progEditSuccess, editProg,
-  moreInfoProgram, cityErrMessage, orgErrMessage, supErrMessage
+  succeeded, failed, editShow, progEditSuccess, editProg,changeSupMoreInfo,
+  moreInfoProgram, cityErrMessage, orgErrMessage, supErrMessage, changeIsSelect, editSupMoreInfo
 } from "../../redux";
 import Communities from "./Communities/Communities";
 import Organizations from "./Organizations/Organizations";
@@ -18,7 +18,7 @@ import Status from "./Status/Status";
 import { render } from "react-dom";
 
 function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, program1,
-  cityErrMessage, orgErrMessage, supErrMessage, moreInfoProg }) {
+  cityErrMessage, orgErrMessage, supErrMessage, moreInfoProg ,changeSupMoreInfo,suppForMoreInfo}) {
 
   const selected = moment(store.getState().prog.program.startDate).toDate()
   const dispatch = useDispatch()
@@ -79,9 +79,6 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, pro
 
   }
   const executeScroll = () => {
-    console.log(indexes[0], "myRef.current");
-
-
     myRef1.current.scrollIntoView()
 
 
@@ -119,7 +116,6 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, pro
             classname: "class_name_input"
           }
           
-          console.log(indexes);
           switch (index) {
             case 9:
               cityErrMessage({
@@ -175,9 +171,8 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, pro
 
 
     const isValid = validate()
-    console.log("isValid", isValid);
+  
     if (isValid == true) {
-
 
       axios
         .put(`/api/editProgram`, {
@@ -188,9 +183,12 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, pro
             // setSuccessPage(true);
             dispatch(succeeded(true))
             progEditSuccess(store.getState().prog.program)
+            
             if (moreInfoProg.id == store.getState().prog.program.id) {
-              moreInfoProgram(store.getState().prog.program)
-
+              moreInfoProgram(store.getState().prog.program)  
+              console.log("edit",store.getState().prog.program);
+              // editSupMoreInfo(suppForMoreInfo)
+              console.log("moreinfo");      
             }
 
             arry.map((item, index) => {
@@ -263,7 +261,6 @@ function EditProgram({ isSelect, progEditSuccess, showEdit, moreInfoProgram, pro
             </div>
 
             <Communities />
-
 
             {/* budget-i inputnery */}
             <div className="project_name">
@@ -380,6 +377,7 @@ const mapDispatchToProps = dispatch => {
     cityErrMessage: (cityErr) => dispatch(cityErrMessage(cityErr)),
     orgErrMessage: (orgErr) => dispatch(orgErrMessage(orgErr)),
     supErrMessage: (supErr) => dispatch(supErrMessage(supErr)),
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo())
 
   }
 }

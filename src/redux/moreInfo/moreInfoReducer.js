@@ -1,16 +1,18 @@
 import {
-    MORE_INFO, CHANGE_SUPPORTS,
-    MORE_INFO_SUCCESS, DELETE_SUPPORTS
+    MORE_INFO, CHANGE_SUPPORTS, ALL_SUPPORTS,
+    MORE_INFO_SUCCESS, DELETE_SUPPORTS, EDIT_SUP_SUPPORTS
 } from './moreInfoTypes'
 import moment from 'moment'
 
 
 const initialState = {
-    moreInfoShow: false,
+    show: false,
     moreInfoProg: {},
     startDate: "",
     endDate: "",
-    suppForMoreInfo: []
+    suppForMoreInfo: [],
+    supNames: [],
+    names: []
 
 }
 
@@ -20,10 +22,10 @@ const moreInfoReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                moreInfoShow: action.payload
+                show: action.payload
             }
         case MORE_INFO_SUCCESS:
-           
+
             return {
                 ...state,
                 moreInfoProg: action.payload,
@@ -32,14 +34,17 @@ const moreInfoReducer = (state = initialState, action) => {
                 suppForMoreInfo: state.suppForMoreInfo
             }
         case CHANGE_SUPPORTS:
-            action.payload.support.map((item) => {
-                if (item.supports?.length > 0) {
-                    item.supports.map((support) => {
+            if (action.payload?.support.length > 0) {
+                action.payload.support?.map((item) => {
+                    if (item.supports?.length > 0) {
+                        item.supports.map((support) => {
 
-                        state.suppForMoreInfo.push(support.name)
-                    })
-                }
-            })
+                            state.suppForMoreInfo.push(support.name)
+                        })
+                    }
+
+                })
+            }
             return {
                 ...state,
                 suppForMoreInfo: state.suppForMoreInfo
@@ -51,7 +56,39 @@ const moreInfoReducer = (state = initialState, action) => {
                 ...state,
                 suppForMoreInfo: []
             }
+        case EDIT_SUP_SUPPORTS:
+            console.log(" action.payload", action.payload);
+            return {
+                ...state,
+                suppForMoreInfo: action.payload
+            }
+
+        case ALL_SUPPORTS:
+
+            action.payload.map((prog) => {
+                prog.support.map((support) => {
+                    support.supports.map((sup)=>{
+                        state.supNames.push({
+                            id: prog.id,
+                            name: sup.name,
+                            supportId: sup.supportid
+    
+                        })
+                    })
+                   
+                })
+            })
+           
+            console.log("state.supNames", state.supNames);
+
+            return {
+                ...state,
+                supNames: state.supNames
+            }
         default: return state
     }
+
+
+
 }
 export default moreInfoReducer

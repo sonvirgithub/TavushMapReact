@@ -8,10 +8,18 @@ import {
     FETCH_PROGRAMS_FAILURE,
     CHANGE_ISSELECT,
     SELECT_COMMUNITIES, SELECTED_SUPPORTS,ERROR_CITY_MSG,
-    ERROR_ORG_MSG,ERROR_SUP_MSG,ERROR_STATUS_MSG
+    ERROR_ORG_MSG,ERROR_SUP_MSG,ERROR_STATUS_MSG,ALL_SUPPORTS
 } from './programTypes'
 
 
+
+export const allSupports = prog => {
+    return {
+        type: ALL_SUPPORTS,
+        payload: prog
+       
+    }
+}
 export const fetchProgramsRequest = () => {
     return {
         type: FETCH_PROGRAMS_REQUEST
@@ -145,6 +153,7 @@ export const statusErrMessage = (statusErr) => {
 
 export const getPrograms = () => {
     return (dispatch) => {
+
         dispatch(fetchProgramsRequest)
         fetch("/api/programsForAdmin")
             .then((res) => res.json())
@@ -152,6 +161,8 @@ export const getPrograms = () => {
               const programs = res.data
             
               dispatch(fetchProgramsSuccess(programs))
+            //   dispatch(allSupports(programs))
+              
             })
 
             .catch(err => {

@@ -1,28 +1,19 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "./MoreInfo.css"
-import store, { moreInfoShow } from "../../redux";
-import {  connect } from "react-redux";
+import store, { moreInfoShow, editSupMoreInfo,changeSupMoreInfo } from "../../redux";
+import { connect } from "react-redux";
 
 
-function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate ,suppForMoreInfo}) {
-  let [supports2, setSupports2] = useState([])
+function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate,changeSupMoreInfo,moreInfoShow,program }) {
+
 
   const closeMore = () => {
     moreInfoShow(false)
+    
   };
-  console.log("moreInfoProg",moreInfoProg);
-  // useEffect(() => {
-  //   supports2 = []
-
-  //   moreInfoProg.support.map((item) => {
-  //     item.supports.map((support) => {
-  //       supports2.push(support.name)
-  //     })
-  //   })
-  //   setSupports2([...supports2])
-  // }, [moreInfoProg])
-
+  console.log(moreInfoProg);
+ 
   return (
     <div className="sideBar sideBar1 ">
       <div onClick={closeMore}>
@@ -53,7 +44,6 @@ function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate ,suppForMoreIn
           })}
         </div>
 
-
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
           {" "}
           <img
@@ -62,7 +52,6 @@ function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate ,suppForMoreIn
           />
           {moreInfoProg.budget}$
         </div>
-
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
           <img
             className="org_icon"
@@ -114,9 +103,27 @@ function MoreInfo({  moreInfoShow,moreInfoProg, startDate,endDate ,suppForMoreIn
             className="org_icon"
             src={require("../../img/support.svg").default}
           />
-          {suppForMoreInfo.map(item => {
+          {/* {
+            array.map((item) => {
+              if (item.id == moreInfoProg.id) {
+                console.log("havasar");
+                item.supp.map((el) => {
+                  console.log(el);
+                  return el + ''
+                })
+              }
+            })} */}
+            
+           { 
+
+                suppForMoreInfo.map(item => {
+                  return item + ', '
+                })
+              }
+
+          {/* {suppForMoreInfo.map(item => {
             return item + ', '
-          })}
+          })} */}
         </div>
 
 
@@ -163,13 +170,18 @@ const mapStateToProps = (state) => {
     moreInfoProg: state.moreInfo.moreInfoProg,
     startDate: state.moreInfo.startDate,
     endDate: state.moreInfo.endDate,
-    suppForMoreInfo: state.moreInfo.suppForMoreInfo
+    suppForMoreInfo: state.moreInfo.suppForMoreInfo,
+    isSelect: state.prog.isSelect,
+    array: state.moreInfo.array,
+    program: state.prog.program
 
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    moreInfoShow: (show) => dispatch(moreInfoShow(show))
+    moreInfoShow: (show) => dispatch(moreInfoShow(show)),
+    editSupMoreInfo: (sup) => dispatch(editSupMoreInfo(sup)),
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog))
   }
 }
 

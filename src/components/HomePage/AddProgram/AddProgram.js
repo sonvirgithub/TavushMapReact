@@ -5,45 +5,44 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../UseOutSideClick"
-import { succeeded, failed, addShow, progAddSuccess, changeIsSelect } from "../../../redux";
+import { succeeded, failed, addShow, progAddSuccess, changeSupMoreInfo } from "../../../redux";
 import { ProgramContext } from "../../../pages/ProgramsPage";
 import { connect, useDispatch } from "react-redux";
 
 
-function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
+function AddProgram({ progAddSuccess, changeSupMoreInfo, showAdd, suppForMoreInfo }) {
 
   const dispatch = useDispatch()
   const handleClose = () => dispatch(addShow());
   const handleShow = () => dispatch(addShow());
-
-  const programCont = useContext(ProgramContext);
-  const [show, setShow] = useState(false);
-  // const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+ 
+  const [program, setProgram] = useState({
+    name_arm: "",
+    name_eng: "",
+    communityid: [],
+    budget: 0,
+    start_date: new Date(),
+    end_date: new Date(),
+    manager_arm: "",
+    manager_eng: "",
+    contactPerson_arm: "",
+    contactPerson_eng: "",
+    organizationid: [],
+    description_arm: "",
+    description_eng: "",
+    statusid: 0,
+    isSelect: [],
+    isdonor: false
+  })
 
   const [communities, setCommunities] = useState([])
   const [organizations, setOrganizations] = useState([])
   const [categores, setCategores] = useState([])
-
-  const [name_arm, setName_arm] = useState("")
-  const [name_eng, setName_eng] = useState("")
   const [communityid, setCommunity] = useState([])
-  const [budget, setBudge] = useState()
-  const [start_date, setStartDate] = useState(new Date())
-  const [end_date, setEndDate] = useState(new Date())
-  const [manager_arm, setManager_arm] = useState("")
-  const [manager_eng, setManager_eng] = useState("")
-  const [contactPerson_arm, setContactPerson_arm] = useState("")
-  const [contactPerson_eng, setContactPerson_eng] = useState("")
   const [organizationid, setOrganization] = useState([])
-  const [description_arm, setDescription_arm] = useState("")
-  const [description_eng, setDescription_eng] = useState("")
   const [statusid, setStatus] = useState("")
   const [isSelect, setIsSelect] = useState([])
-  const [isdonor, setIsDonor] = useState(false)
   const [language, setLanguage] = useState("arm")
-
-
   const [arrow_icon_city, setArrow_iconCity] = useState(false)
   const [arrow_icon_org, setArrow_iconOrg] = useState(false)
   const [arrow_icon_status, setArrow_iconStatus] = useState(false)
@@ -109,7 +108,6 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
       .then(res => res.json())
       .then(data => {
         setCategores(data.data)
-        console.log(data.data, "categories");
 
       }).catch(err => {
       })
@@ -119,12 +117,12 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
 
   async function addProject() {
 
-
-
     let body = {
-      name_arm, name_eng, communityid, budget, start_date, end_date, manager_arm, manager_eng, contactPerson_arm, contactPerson_eng, organizationid,
-      categoryid_supportid, description_arm, description_eng, statusid, isdonor, language
+      name_arm: program.name_arm, name_eng: program.name_eng, communityid, budget: program.budget, start_date: program.start_date, end_date: program.end_date, manager_arm: program.manager_arm, manager_eng: program.manager_eng,
+      contactPerson_arm: program.contactPerson_arm, contactPerson_eng: program.contactPerson_eng, organizationid,
+      categoryid_supportid, description_arm: program.description_arm, description_eng: program.description_eng, statusid, isdonor: program.isdonor, language
     }
+
 
     body = JSON.stringify(body)
     const headers = {}
@@ -144,19 +142,19 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
           }
           handleClose()
           const prog = {
-            id: data.id,
-            programName_arm: name_arm,
-            programName_eng: name_eng,
-            budget: budget,
-            startDdate: start_date,
-            endDate: end_date,
-            manager_arm: manager_arm,
-            manager_eng: manager_eng,
-            contact_arm: contactPerson_arm,
-            contact_eng: contactPerson_eng,
-            description_arm: description_arm,
-            description_eng: description_eng,
-            isDonor: isdonor,
+            id: data.programid,
+            programName_arm: program.name_arm,
+            programName_eng: program.name_eng,
+            budget: program.budget,
+            startDate: program.start_date,
+            endDate: program.end_date,
+            manager_arm: program.manager_arm,
+            manager_eng: program.manager_eng,
+            contact_arm: program.contactPerson_arm,
+            contact_eng: program.contactPerson_eng,
+            description_arm: program.description_arm,
+            description_eng: program.description_eng,
+            isDonor: program.isdonor,
             status: status1,
             statusId: statusid,
             support: categoryName,
@@ -164,9 +162,8 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
             community: communityName,
             organization: orgName
           };
-          console.log("addprog", prog);
           progAddSuccess(prog)
-          changeIsSelect(isSelect)
+          // changeSupMoreInfo(suppForMoreInfo)
           dispatch(succeeded(true))
 
         } else {
@@ -178,29 +175,10 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
       })
 
 
-
-
-    setName_arm("")
-    setName_eng("")
-    setCommunity("")
-    setBudge("")
-    setStartDate("")
-    setEndDate("")
-    setManager_arm("")
-    setManager_eng("")
-    setOrganization("")
-    setContactPerson_arm("")
-    setContactPerson_eng("")
-    setDescription_arm("")
-    setDescription_eng("")
-    setStatus("")
-    setIsDonor("")
   }
 
 
-
-
-  const selectSupport = (e, supportId, categoryId, name) => {
+  const selectSupport = (e, supportId, supName, categoryId, name) => {
 
     if (isSelect.some(item => item.supportid === supportId)) {
 
@@ -212,23 +190,23 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
         if (categoryid_supportid[i].supportid === supportId) {
           categoryid_supportid.splice(i, 1)
           categoryName.splice(i, 1)
-          console.log("categoryName", categoryName);
+          suppForMoreInfo.splice(index, 1)
         }
       }
     }
     else {
-      isSelect.push({ supportid: supportId })
+      isSelect.push({ supportid: supportId,name:supName })
       categoryid_supportid.push({
         categoryid: categoryId,
         supportid: supportId
       })
+      suppForMoreInfo.push(supName)
       if (categoryName.some(item => item.category_arm === name)) {
 
       } else {
         categoryName.push({ category_arm: name })
 
       }
-      console.log("categoryName", categoryName);
 
     }
     setIsSelect([...isSelect])
@@ -255,22 +233,22 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
       setCommunity([...communityid])
     } else {
       communityid.push(city.id)
-      communityName.push({ communityId: city.id })
+      communityName.push({ community_arm: city.name, communityId: city.id })
 
       setCommunity([...communityid])
 
     }
   }
 
-  const selectOrganization = (orgid) => {
-    if (organizationid.some(item => item === orgid)) {
-      let index = organizationid.findIndex(item => item === orgid);
+  const selectOrganization = (org) => {
+    if (organizationid.some(item => item === org.id)) {
+      let index = organizationid.findIndex(item => item === org.id);
       organizationid.splice(index, 1)
       orgName.splice(index, 1)
       setOrganization([...organizationid])
     } else {
-      organizationid.push(orgid)
-      orgName.push({ organizationId: orgid })
+      organizationid.push(org.id)
+      orgName.push({ organizationName_arm: org.name, organizationId: org.id })
       setOrganization([...organizationid])
 
     }
@@ -290,14 +268,15 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
 
     if (checkedCategory.some(item => item === category.categoryid)) {
       for (let i = 0; i < category.support.length; i++) {
-        if (isSelect.some(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid)) {
+        if (isSelect.some(item => item.supportid === category.support[i].supportid)) {
 
         }
         else {
           isSelect.push({
-            Id: category.categoryid,
+            name: category.support[i].name,
             supportid: category.support[i].supportid
           })
+          suppForMoreInfo.push(category.support[i].name)
           categoryid_supportid.push({
             categoryid: category.categoryid,
             supportid: category.support[i].supportid
@@ -308,19 +287,18 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
             categoryName.push({ category_arm: category.category })
 
           }
-          console.log("categoryName", categoryName);
 
         }
       }
     } else {
       for (let i = 0; i < category.support.length; i++) {
-        if (isSelect.some(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid)) {
+        if (isSelect.some(item => item.supportid === category.support[i].supportid)) {
 
-          let index = isSelect.findIndex(item => item.Id === category.categoryid && item.supportid === category.support[i].supportid);
+          let index = isSelect.findIndex(item => item.supportid === category.support[i].supportid);
           isSelect.splice(index, 1)
           categoryid_supportid.splice(index, 1)
           categoryName.splice(index, 1)
-          console.log("categoryName", categoryName);
+          suppForMoreInfo.splice(index, 1)
 
         }
         else {
@@ -337,27 +315,35 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
         <img src={require("../AdminIcons/add.svg").default} />
         <button variant="primary" className="button_add" onClick={handleShow}>
           Ավելացնել
-</button>
+          </button>
       </div>
 
       <Modal show={showAdd} onHide={handleClose} animation={false}>
 
         <Modal.Body>
           <div className="project_name">
-            <label className="project_name_label">Ծրագրի անուն (Հայերեն)</label>
-            <input className="project_name_input" placeholder="Ծրագրի անուն հայերեն" value={name_arm} onChange={e => setName_arm(e.target.value)} />
+            <label className="project_name_label">Ծրագրի անուն (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="project_name_input" placeholder="Ծրագրի անուն հայերեն" value={program.name_arm} onChange={e => setProgram({ ...program, name_arm: e.target.value })} />
 
           </div>
           <div className="project_name">
-            <label className="project_name_label">Ծրագրի անուն (English)</label>
-            <input className="project_name_input" placeholder="Project name in English" value={name_eng} onChange={e => setName_eng(e.target.value)} />
+            <label className="project_name_label">Ծրագրի անուն (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="project_name_input" placeholder="Project name in English" value={program.name_eng} onChange={e => setProgram({ ...program, name_eng: e.target.value })} />
           </div>
 
           <div className='project_name'>
-            <label className="cities">Համայնք</label>
+            <label className="cities">Համայնք<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
             <button className='btnSities' onClick={() => setArrow_iconCity(!arrow_icon_city)}>
-              <label className="label_city" >Համայնք </label>
 
+              {
+                communityid.length > 0 ?
+                  <label className="label_city" >
+
+                    Ընտրված է {communityid.length} համայնք
+             </label>
+                  :
+                  <label className="label_city" >Համայնք </label>
+              }
             </button>
             <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => setArrow_iconCity(!arrow_icon_city)} />
 
@@ -381,8 +367,8 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
 
           {/* budget-i inputnery */}
           <div className="project_name">
-            <label className="budge_name">Բյուջե</label>
-            <input className="budge_input" placeholder="10 000" onChange={e => setBudge(e.target.value)} />
+            <label className="budge_name">Բյուջե<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="budge_input" placeholder="10 000" onChange={e => setProgram({ ...program, budget: e.target.value })} />
             <div className="usd_input">
               USD
             </div>
@@ -392,44 +378,55 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
           <div className="display_flex">
 
             <div className="start">
-              <label className="start_date_label">Սկիզբ</label>
+              <label className="start_date_label">Սկիզբ<img className="star_start_date" src={require("../AdminIcons/red-star.svg").default} /></label>
 
-              <DatePicker selected={start_date} onChange={date => setStartDate(date)} className="dateStart" closeOnScroll={true} />
+              <DatePicker selected={program.start_date} onChange={date => setProgram({ ...program, start_date: date })}
+                className="dateStart" closeOnScroll={true} />
             </div>
             <div className="end">
-              <label className="end_date_label">Ավարտ</label>
-              <DatePicker selected={end_date} onChange={date => setEndDate(date)} className="dateEnd" closeOnScroll={true} />
+              <label className="end_date_label">Ավարտ<img className="star_end_date" src={require("../AdminIcons/red-star.svg").default} /></label>
+              <DatePicker selected={program.end_date} onChange={date => setProgram({ ...program, end_date: date })}
+                className="dateEnd" closeOnScroll={true} />
             </div>
 
           </div>
 
           {/* xekavari input-nery */}
           <div className="project_name">
-            <label className="project_name_label">Ծրագրի ղեկավար (Հայերեն)</label>
-            <input className="project_name_input" placeholder="Անուն, Ազգանուն" value={manager_arm} onChange={e => setManager_arm(e.target.value)} />
+            <label className="project_name_label">Ծրագրի ղեկավար (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="project_name_input" placeholder="Անուն, Ազգանուն" value={program.manager_arm} onChange={e => setProgram({ ...program, manager_arm: e.target.value })} />
 
           </div>
           <div className="project_name">
-            <label className="project_name_label">Ծրագրի ղեկավար (English)</label>
-            <input className="project_name_input" placeholder="Fistname, Lastname" value={manager_eng} onChange={e => setManager_eng(e.target.value)} />
+            <label className="project_name_label">Ծրագրի ղեկավար (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="project_name_input" placeholder="Fistname, Lastname" value={program.manager_eng} onChange={e => setProgram({ ...program, manager_eng: e.target.value })} />
           </div>
 
           {/* contactPerson-i input-nery */}
           <div className="project_name">
-            <label className="project_name_label">Կոնտակտ անձ (Հայերեն)</label>
-            <input className="project_name_input" placeholder="Անուն, Ազգանուն" value={contactPerson_arm} onChange={e => setContactPerson_arm(e.target.value)} />
+            <label className="project_name_label">Կոնտակտ անձ (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="project_name_input" placeholder="Անուն, Ազգանուն" value={program.contactPerson_arm} onChange={e => setProgram({ ...program, contactPerson_arm: e.target.value })} />
 
           </div>
           <div className="project_name">
-            <label className="project_name_label">Կոնտակտ անձ (Անգլերեն)</label>
-            <input className="project_name_input" placeholder="Fistname, Lastname" value={contactPerson_eng} onChange={e => setContactPerson_eng(e.target.value)} />
+            <label className="project_name_label">Կոնտակտ անձ (Անգլերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <input className="project_name_input" placeholder="Fistname, Lastname" value={program.contactPerson_eng} onChange={e => setProgram({ ...program, contactPerson_eng: e.target.value })} />
           </div>
 
           {/* organizationi input-nery */}
           <div className='project_name'>
-            <label className="kazmakerp_arm">Կազմակերպություններ</label>
+            <label className="kazmakerp_arm">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
             <button className='btnSities' onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
-              <label className="label_city" >Կազմակերպություն </label>
+
+              {
+                organizationid.length > 0 ?
+                  <label className="label_city" >
+
+                    Ընտրված է {organizationid.length} կազմակերպություն
+             </label>
+                  :
+                  <label className="label_city" >Կազմակերպություն </label>
+              }
             </button>
             <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => setArrow_iconOrg(!arrow_icon_org)} />
 
@@ -442,7 +439,7 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
                       <li className='li1' style={{
                         backgroundColor: organizationid.some(item => item === organization.id) ?
                           '#A4C2D8' : '#FAFAFA'
-                      }} onClick={() => selectOrganization(organization.id)} >{organization.name}</li>
+                      }} onClick={() => selectOrganization(organization)} >{organization.name}</li>
 
                     </div>
                   ))}
@@ -455,10 +452,19 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
           {/* support_type input-nery */}
 
           <div className="project_name">
-            <label className="support_type">Աջակցության տեսակ(ներ)</label>
+            <label className="support_type">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
 
             <button className='btnSities' id='btnSelect' onClick={() => { setArrow_iconCategory(!arrow_icon_category) }}>
+              
+            {
+                isSelect.length > 0 ?
+                  <label className="label_city" >
+
+                    Ընտրված է {isSelect.length} տեսակ
+             </label>
+                  :
               <label className="label_city">Support Type</label>
+            }
             </button>
             <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => { setArrow_iconCategory(!arrow_icon_category) }} />
             {
@@ -487,7 +493,7 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
                                 <li style={{
                                   backgroundColor: isSelect.some(item => item.supportid === support.supportid) ? '#A4C2D8' : '#FAFAFA',
 
-                                }} key={support.supportid} className="li" onClick={(e) => selectSupport(e, support.supportid, categore.categoryid, categore.category)}>
+                                }} key={support.supportid} className="li" onClick={(e) => selectSupport(e, support.supportid, support.name, categore.categoryid, categore.category)}>
                                   {support.name}
                                 </li>
                               ))}
@@ -508,18 +514,18 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
 
           {/* discriptionneri input-nery */}
           <div className="project_name">
-            <label className="project_name_label">Նկարագրություն (Հայերեն)</label>
-            <textarea className="description_input" placeholder="Հակիրճ նկարագրություն" value={description_arm} onChange={e => setDescription_arm(e.target.value)} />
+            <label className="project_name_label">Նկարագրություն (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className="description_input" placeholder="Հակիրճ նկարագրություն" value={program.description_arm} onChange={e => setProgram({ ...program, description_arm: e.target.value })} />
 
           </div>
           <div className="project_name">
-            <label className="project_name_label">Նկարագրություն (English)</label>
-            <textarea className="description_input" placeholder="Brief description" value={description_eng} onChange={e => setDescription_eng(e.target.value)} />
+            <label className="project_name_label">Նկարագրություն (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className="description_input" placeholder="Brief description" value={program.description_eng} onChange={e => setProgram({ ...program, description_eng: e.target.value })} />
           </div>
 
           {/* status-i inputnery */}
           <div className="project_name">
-            <label className="status">Կարգավիճակ</label>
+            <label className="status">Կարգավիճակ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
             <button className='btnSities' id='btnSelect' onClick={() => { setArrow_iconStatus(!arrow_icon_status) }}>
               <label className="label_city">Կարգավիճակ</label>
             </button>
@@ -551,7 +557,7 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
           </div>
           <div className="donor">
             <label className="donor_label">Դոնոր խմբի անդամ է</label>
-            <input type="checkbox" id='donor' className="isDonor" value={isdonor} onClick={() => { setIsDonor(!isdonor) }} />
+            <input type="checkbox" id='donor' className="isDonor" value={program.isdonor} onClick={() => { setProgram({ ...program, isdonor: !program.isDonor }) }} />
           </div>
 
           <div className="btn_popup">
@@ -569,14 +575,15 @@ function AddProgram({ progAddSuccess, changeIsSelect,showAdd }) {
 const mapStateToProps = (state) => {
   return {
 
-    showAdd: state.prog.showAdd
+    showAdd: state.prog.showAdd,
+    suppForMoreInfo: state.moreInfo.suppForMoreInfo,
 
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     progAddSuccess: (prog) => dispatch(progAddSuccess(prog)),
-    changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect)),
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog))
 
   }
 }

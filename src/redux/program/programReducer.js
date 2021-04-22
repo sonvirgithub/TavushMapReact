@@ -7,7 +7,7 @@ import {
     FETCH_PROGRAMS_SUCCESS,
     FETCH_PROGRAMS_FAILURE, SELECT_COMMUNITIES,
     CHANGE_ISSELECT, SELECTED_SUPPORTS, ERROR_CITY_MSG,
-    ERROR_ORG_MSG, ERROR_SUP_MSG, ERROR_STATUS_MSG
+    ERROR_ORG_MSG, ERROR_SUP_MSG, ERROR_STATUS_MSG,ALL_SUPPORTS
 } from './programTypes'
 import moment from 'moment'
 
@@ -27,6 +27,8 @@ const initialState = {
     orgErr: { editError: "", classname: '' },
     supErr: { editError: "", classname: '' },
     statusErr: { editError: "", classname: '' },
+    supName: [],
+    support: []
 
 }
 
@@ -36,7 +38,6 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 program: action.payload,
-
             }
 
         case EDIT_PROGRAM:
@@ -50,7 +51,8 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 program: action.payload,
-                edit: false
+                edit: false,
+                support: action.payload.support
             }
 
         case DELETE_SHOW:
@@ -69,8 +71,6 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showEdit: !state.showEdit,
-
-
             }
         case EDIT_SUCCESS:
 
@@ -104,8 +104,8 @@ const programReducer = (state = initialState, action) => {
                     return program
                 })],
                 isSelect: state.isSelect,
+                edit: true,
 
-                edit: true
             }
         case ADD_SHOW:
             return {
@@ -117,7 +117,7 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 programs: [...state.programs, action.payload],
-                isSelect:action.payload.isSelect
+                isSelect: action.payload.isSelect,
 
             }
 
@@ -131,7 +131,8 @@ const programReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 programs: action.payload,
-                error: ''
+                error: '',
+                
             }
         case FETCH_PROGRAMS_FAILURE:
             return {
@@ -150,16 +151,15 @@ const programReducer = (state = initialState, action) => {
 
         case SELECTED_SUPPORTS:
             if (action.payload.support.length > 0) {
-
-
                 action.payload.support.map((item) => {
                     if (item.supports?.length > 0) {
                         item.supports.map((support) => {
 
                             state.isSelect.push({
-                                supportid: support.supportid
+                                supportid: support.supportid,
+                                name: support.name
                             })
-                            // state.suppForMoreInfo.push(support.name)
+
                         })
                     }
                 })
@@ -197,6 +197,29 @@ const programReducer = (state = initialState, action) => {
                 ...state,
                 statusErr: action.payload,
 
+            }
+
+        case ALL_SUPPORTS:
+
+            action.payload.map((prog) => {
+                prog.support.map((support) => {
+                    support.supports.map((sup) => {
+                        state.supNames.push({
+                            id: prog.id,
+                            name: sup.name,
+                            supportId: sup.supportid
+
+                        })
+                    })
+
+                })
+            })
+
+            console.log("state.supNames", state.supNames);
+
+            return {
+                ...state,
+                supNames: state.supNames
             }
         default: return state
     }

@@ -29,7 +29,7 @@ function Routes({
   moreInfoEndDate,
   setMoreInfoStartDate,
   setMoreInfoEndDate,
-  moreInfoShow
+  show
 }) {
   if (isLoggedIn) {
 
@@ -37,7 +37,7 @@ function Routes({
       <>
 
         {/* <SideBar /> */}
-        {moreInfoShow ? (
+        {show ? (
           <MoreInfo
           // moreInfoStartDate={moreInfoStartDate}
           // moreInfoEndDate={moreInfoEndDate}
@@ -117,7 +117,7 @@ function Routes({
 
 const mapStateToProps = (state) => {
   return {
-    moreInfoShow: state.moreInfo.moreInfoShow
+    show: state.moreInfo.show
 
   };
 };

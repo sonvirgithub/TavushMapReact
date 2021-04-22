@@ -15,7 +15,6 @@ function Communities({ cityErr }) {
   const ref = useRef();
   const dispatch = useDispatch()
 
-  console.log("classname", cityErr);
   useEffect(() => {
     fetch('/api/communities', {
       method: 'POST',

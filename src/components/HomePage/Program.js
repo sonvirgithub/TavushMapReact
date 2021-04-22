@@ -4,35 +4,35 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
 import store, {
-  deleteProg, deleteShow, editShow, getPrograms,deleteSupMoreInfo,
-  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram,changeSupMoreInfo
+  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo,allSupports,
+  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram, changeSupMoreInfo, editSupMoreInfo
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
-function Program({ getPrograms, changeIsSelect, program, programs, edit, moreInfoShow,moreInfoProgram,
-  changeSupMoreInfo, setSuccessPage, setFailPage, selectedSupports ,deleteSupMoreInfo}) {
+function Program({ getPrograms, changeIsSelect, program, suppMoreInfoProg, edit, moreInfoShow, moreInfoProgram,
+  changeSupMoreInfo, programs, selectedSupports, moreInfoProg, deleteSupMoreInfo,allSupports  }) {
 
-  useEffect(() => {
-    getPrograms()
+     useEffect(() => {
+      getPrograms()
+   
+    
   }, [])
-console.log("programs",programs);
 
   const dispatch = useDispatch()
 
   const handleShowEdit = (index) => {
-
+    
+      moreInfoProgram(store.getState().prog.programs[index])
 
     dispatch(editProg(store.getState().prog.programs[index]))
     if (program.id != store.getState().prog.programs[index].id) {
       changeIsSelect([])
-      // changeSupMoreInfo([])
+
       selectedSupports(store.getState().prog.programs[index])
 
     } else {
       if (!edit) {
-
         changeIsSelect([])
-        // changeSupMoreInfo([])
         selectedSupports(store.getState().prog.programs[index])
       }
     }
@@ -49,16 +49,21 @@ console.log("programs",programs);
 
   const handleShowMoreInfo = (index) => {
 
-    
-        deleteSupMoreInfo()
-       
-        changeSupMoreInfo(store.getState().prog.programs[index])
-
     moreInfoProgram(store.getState().prog.programs[index])
+
+    // if (moreInfoProg?.id != store.getState().prog.programs[index].id) {
+      deleteSupMoreInfo()
+      changeSupMoreInfo(store.getState().prog.programs[index])
+
+    // } else {
+    //   if (edit) {
+    //     deleteSupMoreInfo()
+    //     editSupMoreInfo(suppMoreInfoProg)
+    //   }
+    // }
     moreInfoShow(true)
+
   }
-
-
   return (
     <div
     // style={{ position: "absolute" }}
@@ -162,6 +167,10 @@ const mapStateToProps = (state) => {
     program: state.prog.program,
     programs: state.prog.programs,
     edit: state.prog.edit,
+    add: state.prog.add,
+    moreInfoProg: state.moreInfoProg,
+    suppMoreInfoProg: state.moreInfo.suppMoreInfoProg,
+   
 
 
   };
@@ -173,8 +182,12 @@ const mapDispatchToProps = dispatch => {
     changeIsSelect: (isSelect) => dispatch(changeIsSelect(isSelect)),
     moreInfoShow: (show) => dispatch(moreInfoShow(show)),
     moreInfoProgram: (prog) => dispatch(moreInfoProgram(prog)),
+    editSupMoreInfo: (prog) => dispatch(editSupMoreInfo(prog)),
+    deleteSupMoreInfo: () => dispatch(deleteSupMoreInfo()),
     changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
-    deleteSupMoreInfo: (sup) => dispatch(deleteSupMoreInfo(sup)),
+    allSupports:(prog) => dispatch(allSupports(prog))
+
+
 
   }
 }

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import DeleteProgram from "../components/HomePage/DeleteProgram";
 import EditProgram from "../components/HomePage/EditProgram";
 import Program from "../components/HomePage/Program";
-
+import store, {
+   getPrograms, 
+} from "../redux";
+import { useDispatch, connect } from "react-redux";
 
 export const ProgramContext = React.createContext();
-function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
-  moreInfoEndDate, setMoreInfoEndDate, setMoreInfoStartDate, setSuccessPage, setFailPage }) {
+function ProgramsPage({ getPrograms,}) {
  
 
 
@@ -19,17 +21,7 @@ function ProgramsPage({ showResults, setShowResults, setProg, moreInfoStartDate,
     >
       <ProgramContext.Provider>
         <Program
-          moreInfoStartDate={moreInfoStartDate}
-          moreInfoEndDate={moreInfoEndDate}
-          setMoreInfoEndDate={setMoreInfoEndDate}
-          setMoreInfoStartDate={setMoreInfoStartDate}
-          setProg={setProg}
-          showResults={showResults}
-          // programs={programs}
-          // setPrograms={setPrograms}
-          setShowResults={setShowResults}
-          setSuccessPage={setSuccessPage}
-          setFailPage={setFailPage}
+          
         />
         
       </ProgramContext.Provider>
