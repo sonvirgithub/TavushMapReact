@@ -4,9 +4,9 @@ import '../AddProgram/AddProgram.css'
 import UseOutSideClick from "../../HomePage/UseOutSideClick"
 import "react-datepicker/dist/react-datepicker.css";
 import { connect, useDispatch } from "react-redux";
-import store, { progEditSuccess, editProg } from "../../../redux";
+import store, { findScrollId, editProg } from "../../../redux";
 
-function Communities({ cityErr }) {
+function Communities({ cityErr,findScrollId }) {
 
   const [arrow_icon_city, setArrow_iconCity] = useState(true)
   const [communities, setCommunities] = useState([])
@@ -80,7 +80,7 @@ function Communities({ cityErr }) {
   return (
     <div>
       <div className='project_name'>
-        <label className="cities">Համայնք<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+        <label className="cities" id="9">Համայնք<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
         <button className={`${cityErr.classname} btnSities`} onClick={() => setArrow_iconCity(!arrow_icon_city)}>
           {
             store.getState().prog.program.community?.length > 0 ?
@@ -133,10 +133,18 @@ const mapStateToProps = (state) => {
   return {
 
     program: state.prog.program,
-    cityErr: state.prog.cityErr
+    cityErr: state.prog.cityErr,
+    scrollId: state.prog.scrollId
 
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    
+    findScrollId: (id) => dispatch(findScrollId(id))
 
 
-export default connect(mapStateToProps, null)(Communities)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Communities)

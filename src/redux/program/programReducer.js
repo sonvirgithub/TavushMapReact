@@ -4,10 +4,10 @@ import {
     EDIT_SHOW, EDIT_SUCCESS,
     ADD_SHOW, ADD_SUCCESS,
     FETCH_PROGRAMS_REQUEST,
-    FETCH_PROGRAMS_SUCCESS,
+    FETCH_PROGRAMS_SUCCESS, FIND_SCROLL_ID,NAXKIN_PROG,
     FETCH_PROGRAMS_FAILURE, SELECT_COMMUNITIES,
     CHANGE_ISSELECT, SELECTED_SUPPORTS, ERROR_CITY_MSG,
-    ERROR_ORG_MSG, ERROR_SUP_MSG, ERROR_STATUS_MSG,ALL_SUPPORTS
+    ERROR_ORG_MSG, ERROR_SUP_MSG, ERROR_STATUS_MSG, ALL_SUPPORTS
 } from './programTypes'
 import moment from 'moment'
 
@@ -28,7 +28,9 @@ const initialState = {
     supErr: { editError: "", classname: '' },
     statusErr: { editError: "", classname: '' },
     supName: [],
-    support: []
+    support: [],
+    scrollId: 0,
+    naxkinProg: {}
 
 }
 
@@ -52,7 +54,8 @@ const programReducer = (state = initialState, action) => {
                 ...state,
                 program: action.payload,
                 edit: false,
-                support: action.payload.support
+                support: action.payload.support,
+                naxkinProg: action.payload
             }
 
         case DELETE_SHOW:
@@ -68,9 +71,11 @@ const programReducer = (state = initialState, action) => {
 
             }
         case EDIT_SHOW:
+
             return {
                 ...state,
                 showEdit: !state.showEdit,
+
             }
         case EDIT_SUCCESS:
 
@@ -112,6 +117,7 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showAdd: !state.showAdd,
+                support: []
 
             }
         case ADD_SUCCESS:
@@ -133,7 +139,7 @@ const programReducer = (state = initialState, action) => {
                 loading: false,
                 programs: action.payload,
                 error: '',
-                
+
             }
         case FETCH_PROGRAMS_FAILURE:
             return {
@@ -221,6 +227,18 @@ const programReducer = (state = initialState, action) => {
             return {
                 ...state,
                 supNames: state.supNames
+            }
+        case FIND_SCROLL_ID:
+            return {
+                ...state,
+                scrollId: action.payload,
+
+            }
+        case NAXKIN_PROG:
+            return {
+                ...state,
+                naxkinProg: action.payload,
+
             }
         default: return state
     }

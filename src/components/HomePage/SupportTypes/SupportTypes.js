@@ -60,7 +60,8 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
 
     
     console.log("SUPPORT",support);
-    dispatch(editProg({ ...program, support: support }))
+    // dispatch(editProg({ ...program, support: support }))
+    console.log("supForMoreInfo",suppForMoreInfo);
 
   }
     else {
@@ -91,6 +92,8 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
     }
 
     changeIsSelect([...isSelect])
+    console.log("supForMoreInfo",suppForMoreInfo);
+
 
   }
 
@@ -165,7 +168,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
     }
 
     changeIsSelect([...isSelect])
-    dispatch(editProg({ ...program, support: support }))
+    // dispatch(editProg({ ...program, support: support }))
   }
 
   const openCategores = (id) => {
@@ -184,13 +187,13 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
   return (
     <div>
       <div className="project_name">
-        <label className="support_type">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+        <label className="support_type" id="11">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
 
         <button className={`${supErr.classname} btnSities`} id='btnSelect' onClick={() => { setArrow_iconCategory(!arrow_icon_category) }}>
           {
             isSelect.length > 0 ?
               <label className="label_city">Ընտրված է {isSelect.length} տեսակ</label>
-              : <label className="label_city">Աջակցության տեսակ</label>
+              : <label className="label_city" >Աջակցության տեսակ</label>
 
           }
         </button>

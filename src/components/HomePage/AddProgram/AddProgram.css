@@ -241,6 +241,7 @@ text-transform: uppercase;
 }
 
 .save {
+  padding-top: 10px;
   height: 45px;
   margin-right: 107px;
   float: right;
@@ -256,6 +257,7 @@ text-transform: uppercase;
   text-transform: uppercase;
   color: #FFFFFF;
   height: 45px;
+  text-decoration: none !important;
 
 }
 
@@ -649,7 +651,7 @@ border-radius: 4px
 
 .save:hover {
   background: #05558F;border-radius: 4px;
-opacity: 16%;
+ opacity: 50%;
 font-style: normal;
 font-weight: 500;
 font-size: 14px;
@@ -739,3 +741,6 @@ color: #FFFFFF;
     display: flex;
     margin-left: 50px
 }
+html {
+  scroll-behavior: smooth;
+  }

@@ -59,7 +59,7 @@ function Organizations({ orgErr, program }) {
     return (
         <div>
             <div className='project_name'>
-                <label className="kazmakerp_arm">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+                <label className="kazmakerp_arm" id="10">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
                 <button className={`${orgErr.classname} btnSities`} onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
                     {
                         program.organization?.length > 0 ?

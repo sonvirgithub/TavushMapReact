@@ -6,12 +6,18 @@ import {
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
     FETCH_PROGRAMS_FAILURE,
-    CHANGE_ISSELECT,
+    CHANGE_ISSELECT,FIND_SCROLL_ID,NAXKIN_PROG,
     SELECT_COMMUNITIES, SELECTED_SUPPORTS,ERROR_CITY_MSG,
     ERROR_ORG_MSG,ERROR_SUP_MSG,ERROR_STATUS_MSG,ALL_SUPPORTS
 } from './programTypes'
 
-
+export const findScrollId = id => {
+    return {
+        type: FIND_SCROLL_ID,
+        payload: id
+       
+    }
+}
 
 export const allSupports = prog => {
     return {
@@ -86,6 +92,7 @@ export const progAddSuccess = prog => {
 export const editShow = () => {
     return {
         type: EDIT_SHOW,
+      
 
     }
 }
@@ -150,7 +157,12 @@ export const statusErrMessage = (statusErr) => {
         payload: statusErr
     }
 }
-
+export const funcnaxkinProg = (prog) => {
+    return {
+        type: NAXKIN_PROG,
+        payload: prog
+    }
+}
 export const getPrograms = () => {
     return (dispatch) => {
 

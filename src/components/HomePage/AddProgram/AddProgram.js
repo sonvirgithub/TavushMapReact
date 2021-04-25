@@ -5,16 +5,19 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 import UseOutSideClick from "../UseOutSideClick"
-import { succeeded, failed, addShow, progAddSuccess, changeSupMoreInfo,editProg } from "../../../redux";
+import store, { succeeded, failed, addShow, progAddSuccess, changeSupMoreInfo, editProg, deleteSupMoreInfo } from "../../../redux";
 import { connect, useDispatch } from "react-redux";
 
 
-function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg }) {
+function AddProgram({ progAddSuccess, support, showAdd, editProg, }) {
 
   const dispatch = useDispatch()
   const handleClose = () => dispatch(addShow());
   const handleShow = () => dispatch(addShow());
- 
+  const [saveClassName, setSaveClassName] = useState("")
+  const [indexes, setIndexes] = useState([])
+  const [arry, setArray] = useState([])
+
   const [program, setProgram] = useState({
     name_arm: "",
     name_eng: "",
@@ -33,6 +36,13 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
     isSelect: [],
     isdonor: false
   })
+
+  const project_name_arm = useRef()
+  const project_name_eng = useRef();
+  const manager_arm = useRef();
+  const manager_eng = useRef();
+  const contact_arm = useRef();
+  const contact_eng = useRef();
 
   const [communities, setCommunities] = useState([])
   const [organizations, setOrganizations] = useState([])
@@ -53,7 +63,23 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
   const [categoryName, setCategoryName] = useState([])
   const [communityName, setCommunityName] = useState([])
   const [orgName, setOrgName] = useState([])
+  const [selectAllCity, setSelectAllCity] = useState(false)
 
+  const [prog, setProg] = useState([
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+
+  ])
   const ref = useRef();
 
   UseOutSideClick(ref, () => {
@@ -111,8 +137,34 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
       }).catch(err => {
       })
 
-  }, [])
 
+
+    if (project_name_arm.current != null) {
+      project_name_arm.current.style.height = (project_name_arm.current.scrollHeight) + "px";
+
+    }
+    if (project_name_eng.current != null) {
+      project_name_eng.current.style.height = (project_name_eng.current.scrollHeight) + "px";
+
+    }
+    if (manager_arm.current != null) {
+      manager_arm.current.style.height = (manager_arm.current.scrollHeight) + "px";
+
+    }
+    if (manager_eng.current != null) {
+      manager_eng.current.style.height = (manager_eng.current.scrollHeight) + "px";
+
+    }
+    if (contact_arm.current != null) {
+      contact_arm.current.style.height = (contact_arm.current.scrollHeight) + "px";
+
+    }
+    if (contact_eng.current != null) {
+      contact_eng.current.style.height = (contact_eng.current.scrollHeight) + "px";
+
+    }
+
+  }, [])
 
   async function addProject() {
 
@@ -164,6 +216,7 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
           };
           progAddSuccess(prog)
           // changeSupMoreInfo(suppForMoreInfo)
+
           dispatch(succeeded(true))
 
         } else {
@@ -173,8 +226,28 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
           // handleClose()
         }
       })
+    setProgram({
+      name_arm: "",
+      name_eng: "",
+      communityid: [],
+      budget: 0,
+      start_date: new Date(),
+      end_date: new Date(),
+      manager_arm: "",
+      manager_eng: "",
+      contactPerson_arm: "",
+      contactPerson_eng: "",
+      organizationid: [],
+      description_arm: "",
+      description_eng: "",
+      statusid: 0,
+      isSelect: [],
+      isdonor: false,
 
-
+    })
+    setCommunity([])
+    setOrganization([])
+    setIsSelect([])
   }
 
 
@@ -190,32 +263,32 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
         if (categoryid_supportid[i].supportid === supportId) {
           categoryid_supportid.splice(i, 1)
           categoryName.splice(i, 1)
-          suppForMoreInfo.splice(index, 1)
+
         }
       }
 
       let index1 = support.findIndex(item => item.categoryId === categoryId);
 
-        if (support[index1].supports.some(item => item.supportid === supportId)) {
-          
-          let index2 = support[index1].supports.findIndex(item => item.supportid === supportId);
-          support[index1].supports.splice(index2,1)
-          if(support[index1].supports.length == 0) {
-            support.splice(index1,1)
-          }
-        }
+      if (support[index1].supports.some(item => item.supportid === supportId)) {
 
-    
-    console.log("SUPPORT",support);
-    dispatch(editProg({ ...program, support: support }))
+        let index2 = support[index1].supports.findIndex(item => item.supportid === supportId);
+        support[index1].supports.splice(index2, 1)
+        if (support[index1].supports.length == 0) {
+          support.splice(index1, 1)
+        }
+      }
+
+
+      console.log("SUPPORT", support);
+      dispatch(editProg({ ...program, support: support }))
     }
     else {
-      isSelect.push({ supportid: supportId,name:supName })
+      isSelect.push({ supportid: supportId, name: supName })
       categoryid_supportid.push({
         categoryid: categoryId,
         supportid: supportId
       })
-      suppForMoreInfo.push(supName)
+
       if (categoryName.some(item => item.category_arm === name)) {
 
       } else {
@@ -231,17 +304,17 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
           name: supName,
           supportid: supportId
         })
-        console.log("sSUPPORT",support);
+        console.log("sSUPPORT", support);
 
       } else {
 
-        let array = [{name:supName,supportid:supportId}]
+        let array = [{ name: supName, supportid: supportId }]
         support.push({
-          supports:array,
+          supports: array,
           categoryId: categoryId,
           category_arm: name
         })
-        console.log("sSUPPORT",support);
+        console.log("sSUPPORT", support);
 
       }
 
@@ -275,6 +348,28 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
       setCommunity([...communityid])
 
     }
+  }
+
+
+  const selectAllCommunities = (select) => {
+    if (select) {
+      setSelectAllCity(select)
+
+      communities.map((community) => {
+        communityid.push(
+          community.id
+        )
+        communityName.push({ community_arm: community.name, communityId: community.id })
+        setCommunity([...communityid])
+      })
+
+    } else {
+      setSelectAllCity(select)
+      setCommunity([])
+      setCommunityName([])
+    }
+
+
   }
 
   const selectOrganization = (org) => {
@@ -313,7 +408,7 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
             name: category.support[i].name,
             supportid: category.support[i].supportid
           })
-          suppForMoreInfo.push(category.support[i].name)
+
           categoryid_supportid.push({
             categoryid: category.categoryid,
             supportid: category.support[i].supportid
@@ -335,7 +430,7 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
           isSelect.splice(index, 1)
           categoryid_supportid.splice(index, 1)
           categoryName.splice(index, 1)
-          suppForMoreInfo.splice(index, 1)
+
 
         }
         else {
@@ -343,6 +438,13 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
         }
       }
     }
+
+  }
+
+  const auto_grow = (element) => {
+
+    element.target.style.height = "50px";
+    element.target.style.height = (element.target.scrollHeight) + "px";
 
   }
 
@@ -360,12 +462,16 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
         <Modal.Body>
           <div className="project_name">
             <label className="project_name_label">Ծրագրի անուն (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <input className="project_name_input" placeholder="Ծրագրի անուն հայերեն" value={program.name_arm} onChange={e => setProgram({ ...program, name_arm: e.target.value })} />
+            <textarea className="project_name_input" placeholder="Ծրագրի անուն հայերեն"
+              value={program.name_arm} onChange={e => setProgram({ ...program, name_arm: e.target.value })}
+              onInput={(e) => auto_grow(e)} />
 
           </div>
           <div className="project_name">
             <label className="project_name_label">Ծրագրի անուն (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <input className="project_name_input" placeholder="Project name in English" value={program.name_eng} onChange={e => setProgram({ ...program, name_eng: e.target.value })} />
+            <textarea className="project_name_input" placeholder="Project name in English"
+              value={program.name_eng} onChange={e => setProgram({ ...program, name_eng: e.target.value })}
+              onInput={(e) => auto_grow(e)} />
           </div>
 
           <div className='project_name'>
@@ -388,7 +494,13 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
               arrow_icon_city && (
 
                 <div ref={ref} className="NestedSelect">
+                  <div className="city_checkbox">
+                    <input type="checkbox"
+                      value={selectAllCity} defaultChecked={selectAllCity}
 
+                      onClick={() => selectAllCommunities(!selectAllCity)} />
+                    <label className="all_cities">Ընտրել բոլոր համայնքները</label>
+                  </div>
                   {communities.map((city, index) => (
                     <div className='list city radio' key={index}>
                       <li style={{
@@ -431,23 +543,31 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
           {/* xekavari input-nery */}
           <div className="project_name">
             <label className="project_name_label">Ծրագրի ղեկավար (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <input className="project_name_input" placeholder="Անուն, Ազգանուն" value={program.manager_arm} onChange={e => setProgram({ ...program, manager_arm: e.target.value })} />
+            <textarea className="project_name_input" placeholder="Անուն, Ազգանուն"
+              value={program.manager_arm} onChange={e => setProgram({ ...program, manager_arm: e.target.value })}
+              onInput={(e) => auto_grow(e)} />
 
           </div>
           <div className="project_name">
             <label className="project_name_label">Ծրագրի ղեկավար (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <input className="project_name_input" placeholder="Fistname, Lastname" value={program.manager_eng} onChange={e => setProgram({ ...program, manager_eng: e.target.value })} />
+            <textarea className="project_name_input" placeholder="Fistname, Lastname"
+              value={program.manager_eng} onChange={e => setProgram({ ...program, manager_eng: e.target.value })}
+              onInput={(e) => auto_grow(e)} />
           </div>
 
           {/* contactPerson-i input-nery */}
           <div className="project_name">
             <label className="project_name_label">Կոնտակտ անձ (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <input className="project_name_input" placeholder="Անուն, Ազգանուն" value={program.contactPerson_arm} onChange={e => setProgram({ ...program, contactPerson_arm: e.target.value })} />
+            <textarea className="project_name_input" placeholder="Անուն, Ազգանուն"
+              value={program.contactPerson_arm} onChange={e => setProgram({ ...program, contactPerson_arm: e.target.value })}
+              onInput={(e) => auto_grow(e)} />
 
           </div>
           <div className="project_name">
             <label className="project_name_label">Կոնտակտ անձ (Անգլերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <input className="project_name_input" placeholder="Fistname, Lastname" value={program.contactPerson_eng} onChange={e => setProgram({ ...program, contactPerson_eng: e.target.value })} />
+            <textarea className="project_name_input" placeholder="Fistname, Lastname"
+              value={program.contactPerson_eng} onChange={e => setProgram({ ...program, contactPerson_eng: e.target.value })}
+              onInput={(e) => auto_grow(e)} />
           </div>
 
           {/* organizationi input-nery */}
@@ -492,16 +612,16 @@ function AddProgram({ progAddSuccess, support, showAdd, suppForMoreInfo,editProg
             <label className="support_type">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
 
             <button className='btnSities' id='btnSelect' onClick={() => { setArrow_iconCategory(!arrow_icon_category) }}>
-              
-            {
+
+              {
                 isSelect.length > 0 ?
                   <label className="label_city" >
 
                     Ընտրված է {isSelect.length} տեսակ
              </label>
                   :
-              <label className="label_city">Support Type</label>
-            }
+                  <label className="label_city">Support Type</label>
+              }
             </button>
             <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => { setArrow_iconCategory(!arrow_icon_category) }} />
             {
@@ -622,7 +742,8 @@ const mapDispatchToProps = dispatch => {
   return {
     progAddSuccess: (prog) => dispatch(progAddSuccess(prog)),
     changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
-    editProg: (prog) => dispatch(editProg(prog))
+    editProg: (prog) => dispatch(editProg(prog)),
+    deleteSupMoreInfo: () => dispatch(deleteSupMoreInfo())
 
   }
 }

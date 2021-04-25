@@ -4,13 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
 import store, {
-  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo,allSupports,
-  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram, changeSupMoreInfo, editSupMoreInfo
+  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo,allSupports,funcnaxkinProg,
+  editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram, changeSupMoreInfo, editSupMoreInfo, naxkinProg
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
 function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, moreInfoProgram,
-  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo,  }) {
+  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo,funcnaxkinProg  }) {
 
      useEffect(() => {
       getPrograms()
@@ -31,6 +31,7 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
       if (!edit) {
         changeIsSelect([])
         selectedSupports(store.getState().prog.programs[index])
+        
       }
     }
 
@@ -176,7 +177,10 @@ const mapDispatchToProps = dispatch => {
     editSupMoreInfo: (prog) => dispatch(editSupMoreInfo(prog)),
     deleteSupMoreInfo: () => dispatch(deleteSupMoreInfo()),
     changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
-    allSupports:(prog) => dispatch(allSupports(prog))
+    allSupports:(prog) => dispatch(allSupports(prog)),
+    funcnaxkinProg:(prog) => dispatch(funcnaxkinProg(prog))
+    
+
 
 
 
