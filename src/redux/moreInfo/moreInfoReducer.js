@@ -26,11 +26,19 @@ const moreInfoReducer = (state = initialState, action) => {
             }
         case MORE_INFO_SUCCESS:
 
+        if(action.payload.endDate === null) {
+             const endDate = ""
+             state.endDate = endDate
+        } else {
+            const endDate = moment(action.payload.endDate).format('DD.MM.YYYY')
+            state.endDate = endDate
+        }
+
             return {
                 ...state,
                 moreInfoProg: action.payload,
                 startDate: moment(action.payload.startDate).format('DD.MM.YYYY'),
-                endDate: moment(action.payload.endDate).format('DD.MM.YYYY'),
+                endDate: state.endDate
                
             }
         case CHANGE_SUPPORTS:
@@ -57,7 +65,6 @@ const moreInfoReducer = (state = initialState, action) => {
                 suppForMoreInfo: []
             }
         case EDIT_SUP_SUPPORTS:
-            console.log(" action.payload", action.payload);
             return {
                 ...state,
                 suppForMoreInfo: action.payload
@@ -79,7 +86,6 @@ const moreInfoReducer = (state = initialState, action) => {
                 })
             })
            
-            console.log("state.supNames", state.supNames);
 
             return {
                 ...state,

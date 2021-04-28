@@ -31,14 +31,17 @@ function Login() {
             method: 'POST',
             body,
             headers
-        }).then(res => res.json())
-            .then(data => {
+        }).then((res) => {
+           
+            return res.json()
+        }).then((data) => {
                 if (data.success) {
                     history.push('/dmn/program')
                     window.location.reload()
                     setEmail('')
                     setPassword('')
                 } else {
+
                     setIncorrect(false)
                     setChangeColorEmailLabel("red_email_address_label")
                     setChangeColorEmailInput("red_email_address_input")

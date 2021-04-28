@@ -5,15 +5,13 @@ import store, { moreInfoShow, editSupMoreInfo, changeSupMoreInfo } from "../../r
 import { connect } from "react-redux";
 
 
-function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, changeSupMoreInfo, moreInfoShow, program }) {
+function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoShow }) {
 
 
   const closeMore = () => {
     moreInfoShow(false)
 
   };
-  console.log(moreInfoProg);
-
   return (
     <div className="sideBar sideBar1 ">
       <div onClick={closeMore}>
@@ -39,7 +37,7 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, changeSup
             className="org_icon"
             src={require("../../img/community.svg").default}
           />
-          {moreInfoProg.community.map(item => {
+          {moreInfoProg.community?.map(item => {
             return item.community_arm + ', '
           })}
         </div>
@@ -87,7 +85,6 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, changeSup
 
         </div>
 
-
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
           <img
             className="org_icon"
@@ -103,19 +100,6 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, changeSup
             className="org_icon"
             src={require("../../img/support.svg").default}
           />
-          {/* {
-            array.map((item) => {
-              if (item.id == moreInfoProg.id) {
-                console.log("havasar");
-                item.supp.map((el) => {
-                  console.log(el);
-                  return el + ''
-                })
-              }
-            })} */}
-
-       
-              
 
           {suppForMoreInfo.map(item => {
             return item + ', '
@@ -131,13 +115,8 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, changeSup
           />
           <div >
             {moreInfoProg.description_arm}
-
           </div>
-
         </div>
-
-
-
 
         <div style={{ padding: "5px 0px", fontSize: "15px" }}>
           <img

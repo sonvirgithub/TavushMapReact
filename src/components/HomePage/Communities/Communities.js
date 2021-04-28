@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect, useDispatch } from "react-redux";
 import store, { findScrollId, editProg } from "../../../redux";
 
-function Communities({ cityErr,findScrollId }) {
+function Communities({ cityErr, findScrollId }) {
 
   const [arrow_icon_city, setArrow_iconCity] = useState(true)
   const [communities, setCommunities] = useState([])
@@ -28,46 +28,66 @@ function Communities({ cityErr,findScrollId }) {
         setCommunities(data.data)
       }).catch(err => {
       })
+
   }, [])
 
   const selectAllCommunities = (select) => {
     if (select) {
       setSelectAllCity(select)
       let arr = store.getState().prog.program.community;
+      let newArr = [];
+      // communities.map((community) => {
+      //   arr.push(
+      //     {
+      //       communityId: community.id,
+      //       community_arm: community.name
+      //     }
+      //   )
+      // })
 
-      communities.map((community) => {
-        arr.push(
-          {
-            communityId: community.id,
-            community_arm: community.name
-          }
-        )
+      // dispatch(editProg({ ...store.getState().prog.program, community: arr }))
+
+
+      communities.map((city) => {
+        
+          newArr = [...newArr, {
+            communityId: city.id,
+            community_arm: city.name
+          }]
+          dispatch(editProg({
+            ...store.getState().prog.program, community: newArr
+          }))
+       
       })
-      dispatch(editProg({ ...store.getState().prog.program, community: arr }))
+      
     } else {
       setSelectAllCity(select)
-      dispatch(editProg({ ...store.getState().prog.program, community: [] }))
+      dispatch(editProg({
+        ...store.getState().prog.program, community: []
+      }))
+      // dispatch(editProg({ ...store.getState().prog.program, community: [] }))
     }
 
 
   }
 
   const selectCommunity = (city) => {
-    let index = store.getState().prog.program.community.findIndex(item => item.communityId === city.id);
     let arr = store.getState().prog.program.community;
+    let includes = store.getState().prog.program.community.some(item => item.communityId === city.id);
 
+    let newArr = [];
 
-    if (index < 0) {
-      arr.push(
-        {
-          communityId: city.id,
-          community_arm: city.name
-        }
-      )
+    if (!includes) {
+      newArr = [...arr, {
+        communityId: city.id,
+        community_arm: city.name
+      }]
     } else {
-      arr.splice(index, 1)
+      newArr = arr.filter(c => city.id !== c.communityId);
     }
-    dispatch(editProg({ ...store.getState().prog.program, community: arr }))
+    dispatch(editProg({
+      ...store.getState().prog.program, community: newArr
+    }))
 
 
   }
@@ -88,13 +108,13 @@ function Communities({ cityErr,findScrollId }) {
 
                 Ընտրված է {store.getState().prog.program.community.length} համայնք
              </label>
-             : 
-             <label className="label_city" >
+              :
+              <label className="label_city" >
 
-              Համայնք
+                Համայնք
           </label>
           }
-       
+
 
         </button>
         <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => setArrow_iconCity(!arrow_icon_city)} />
@@ -140,7 +160,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    
+
     findScrollId: (id) => dispatch(findScrollId(id))
 
 

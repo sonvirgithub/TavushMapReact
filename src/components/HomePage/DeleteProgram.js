@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -7,7 +7,6 @@ import { connect, useDispatch } from "react-redux";
 import { succeeded, failed, deleteShow, progDeleteSuccess, moreInfoShow } from "../../redux";
 
 function DeleteProgram({ progDeleteSuccess, program, showDelete, moreInfoShow }) {
-  const programCont = useContext(ProgramContext);
 
   const handleClose = () => dispatch(deleteShow());
   const dispatch = useDispatch()
@@ -18,7 +17,6 @@ function DeleteProgram({ progDeleteSuccess, program, showDelete, moreInfoShow })
       .then(res => {
         if (res.data.success) {
           toast.success("Ծրագիրը հեռացված է")
-          // programCont.deleteProgram(id);
           progDeleteSuccess(program.id)
           moreInfoShow(false)
           handleClose()
@@ -31,7 +29,6 @@ function DeleteProgram({ progDeleteSuccess, program, showDelete, moreInfoShow })
       })
 
       .catch((e) => {
-        // toast.error("Կատարված չէ");
       });
   };
 
@@ -40,9 +37,6 @@ function DeleteProgram({ progDeleteSuccess, program, showDelete, moreInfoShow })
 
 
       <Modal show={showDelete} onHide={handleClose} animation={false}>
-        {/* <Modal.Header closeButton>
-          <Modal.Title>Համոզվա՞ծ եք</Modal.Title>
-        </Modal.Header> */}
         <Modal.Body>
           Դուք ցանկանում եք հեռացնել {program.programName_arm} ծրագիրը
         </Modal.Body>

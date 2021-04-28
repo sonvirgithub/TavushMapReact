@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect,useRef } from "react";
 import { Modal, Button, Form, FormLabel } from "react-bootstrap";
 import axios from "axios";
 import { SupportContext } from "../../pages/SupportTypesPage";
@@ -6,32 +6,95 @@ import {
   succeeded, failed, addShow, supportAddSuccess,
  
 } from "../../redux";
+import "../HomePage/AddProgram/AddProgram.css"
 import { connect, useDispatch } from "react-redux";
 
 function AddSupportType({ showAdd, supportAddSuccess,categories }) {
-  const supportCont = useContext(SupportContext);
 
-  const handleClose = () => dispatch(addShow());
+  const handleClose = () => {
+    dispatch(addShow())
+    arry.map((item, index) => {
+      prog[index] = {
+        editError: "",
+        classname: ""
+      }
+
+      setProg([...prog])
+    })
+    setSupportArm("")
+    setCategoryId("")
+    setSupportEng("")
+  };
   const handleShow = () => dispatch(addShow());
 
   const [support_eng, setSupportEng] = useState("");
   const [support_arm, setSupportArm] = useState("");
   const [categoryid, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
+  const [arry, setArray] = useState([])
 
   const dispatch = useDispatch()
+
+
+  const [prog, setProg] = useState([
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+  ])
+
 
   useEffect(() => {
  
     categories.map((type) => {
       if (type.id == categoryid) {
         setCategoryName(type.name_arm);
-
       }
     });
   });
 
+
+  const validate = () => {
+   
+    arry[0] = categoryid
+    arry[1] = support_arm
+    arry[2] = support_eng
+    
+
+    setArray([...arry])
+  
+    if (categoryid == "Ոլորտ" || support_arm == "" || support_eng == "" || categoryid == "") {
+     
+      arry.map((item, index) => {
+        if (item == ""  ) {
+
+          prog[index] = {
+            editError: "Խնդրում ենք լրացնել դաշտը",
+            classname: "class_name_input"
+          }
+
+          setProg([...prog])
+
+        } else {
+
+          prog[index] = {
+            editError: "",
+            classname: ""
+          }
+
+        }
+
+      })
+      setProg([...prog])
+     
+      return false
+    }
+    return true;
+  }
+
+
   const handleSubmit = (evt) => {
+    const isValid = validate()
+    if(isValid) {
     axios
       .post(`/api/addSupport`, {
         support_eng,
@@ -60,6 +123,9 @@ function AddSupportType({ showAdd, supportAddSuccess,categories }) {
       .catch((e) => {
         handleClose();
       });
+    } else {
+      
+    }
   };
 
   return (
@@ -79,10 +145,11 @@ function AddSupportType({ showAdd, supportAddSuccess,categories }) {
           >
             <Form.Label style={{ display: "flex" }}>Ոլորտ</Form.Label>
             <Form.Control
+            className={`${prog[0].classname}`}
               as="select"
               onChange={(e) => setCategoryId(e.target.value)}
             >
-              <option hidden value="">
+              <option hidden value="" >
                 Ոլորտ
               </option>
               {categories.length > 0 ? (
@@ -96,26 +163,32 @@ function AddSupportType({ showAdd, supportAddSuccess,categories }) {
                   Տվյաներ չկան
                 </option>
               )}
+             
             </Form.Control>
+            <label className="inputiError">{prog[0].editError}</label>
 
-            <FormLabel style={{ display: "flex" }}>
+            <FormLabel style={{ display: "flex" , marginTop:  "20px"}}>
               Աջակցության տեսակ (Հայերեն)
             </FormLabel>
             <Form.Control
+             className={`${prog[1].classname}`}
               type="text"
               placeholder="Աջակցության տեսակ "
               onChange={(e) => setSupportArm(e.target.value)}
             />
+             <label className="inputiError">{prog[1].editError}</label>
             <br />
             <FormLabel style={{ display: "flex" }}>
               Աջակցության տեսակ (Enlglish)
             </FormLabel>
 
             <Form.Control
+             className={`${prog[2].classname}`}
               type="text"
               placeholder="Support type"
               onChange={(e) => setSupportEng(e.target.value)}
             />
+             <label className="inputiError">{prog[2].editError}</label>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

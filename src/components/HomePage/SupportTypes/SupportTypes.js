@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { connect, useDispatch } from "react-redux";
 import { changeIsSelect, changeSupMoreInfo, editProg } from "../../../redux";
 
-function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editProg, program,support }) {
+function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editProg, program, support }) {
   const dispatch = useDispatch()
 
   const [categores, setCategores] = useState([])
@@ -28,7 +28,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
       .then(res => res.json())
       .then(data => {
         setCategores(data.data)
-        console.log(data.data, "data.data");
+
 
       }).catch(err => {
       })
@@ -41,7 +41,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
     if (arrow_icon_category) setArrow_iconCategory(false);
   });
 
-  const selectSupport = (supportId, name,categId, categName) => {
+  const selectSupport = (supportId, name, categId, categName) => {
 
     if (isSelect.some(item => item.supportid === supportId)) {
       let index = isSelect.findIndex(item => item.supportid === supportId);
@@ -49,52 +49,92 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
 
       let index1 = support.findIndex(item => item.categoryId === categId);
 
-        if (support[index1].supports.some(item => item.supportid === supportId)) {
-          
-          let index2 = support[index1].supports.findIndex(item => item.supportid === supportId);
-          support[index1].supports.splice(index2,1)
-          if(support[index1].supports.length == 0) {
-            support.splice(index1,1)
+      let arr = support[index1].supports
+      let newArr = [];
+
+      newArr = arr.filter(c => supportId !== c.supportid);
+      dispatch(editProg({
+        ...program, support: [...support.map((sup) => {
+          if (sup.categoryId === categId) {
+
+            return Object.assign({}, sup, {
+              supports: newArr,
+              categoryId: categId,
+              category_arm: categName
+
+            })
+
           }
-        }
 
-    
-    console.log("SUPPORT",support);
-    // dispatch(editProg({ ...program, support: support }))
-    console.log("supForMoreInfo",suppForMoreInfo);
+          return sup
+        })]
+      }))
 
-  }
+
+
+      if (support[index1].supports.length == 0) {
+        let arr = support
+        let newArr = []
+        newArr = arr.filter(c => categId !== c.categoryId);
+
+        dispatch(editProg({
+          ...program, support: newArr
+        }))
+
+
+      }
+
+    }
     else {
       isSelect.push({ supportid: supportId, name: name })
 
       if (support.some(item => item.categoryId === categId)) {
-        let index = support.findIndex(item => item.categoryId === categId);
 
-        support[index].supports.push({
+        let newArr1 = []
+        let index = support.findIndex(item => item.categoryId === categId)
+        let arr1 = support[index].supports
+
+        newArr1 = [...arr1, {
           name: name,
           supportid: supportId
-        })
-        console.log("sSUPPORT",support);
+        }]
+
+        dispatch(editProg({
+          ...program, support: [...support.map((sup) => {
+            if (sup.categoryId === categId) {
+              return Object.assign({}, sup, {
+                supports: newArr1,
+                categoryId: categId,
+                category_arm: categName
+
+              })
+
+            }
+
+            return sup
+          })]
+        }))
+
 
       } else {
+        let array = [{ name: name, supportid: supportId }]
 
-        let array = [{name:name,supportid:supportId}]
-        support.push({
-          supports:array,
+        let arr = support
+        let newArr = [];
+
+        newArr = [...arr, {
+          supports: array,
           categoryId: categId,
           category_arm: categName
-        })
-        console.log("sSUPPORT",support);
-
+        }]
+        dispatch(editProg({
+          ...program, support: newArr
+        }))
       }
-
 
     }
 
     changeIsSelect([...isSelect])
-    console.log("supForMoreInfo",suppForMoreInfo);
-
-
   }
 
   const checkCategory = (e, category) => {
@@ -111,35 +151,31 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
 
     if (checkedCategory.some(item => item === category.categoryid)) {
       for (let i = 0; i < category.support.length; i++) {
-        if (isSelect.some(item => item.supportid === category.support[i].supportid)) {
+        if (!isSelect.some(item => item.supportid === category.support[i].supportid)) {
 
-        }
-        else {
           isSelect.push({
             supportid: category.support[i].supportid,
             name: category.support[i].name
           })
 
-          if (support.some(item => item.categoryId === category.categoryid)) {
-            let index = support.findIndex(item => item.categoryId === category.categoryid);
-    
-            support[index].supports.push({
-              name: category.support[i].name,
-              supportid: category.support[i].supportid
-            })
-            console.log("sSUPPORT",support);
-    
-          } else {
-    
-            let array = [{name:category.support[i].name,supportid:category.support[i].supportid}]
-            support.push({
-              supports:array,
-              categoryId: category.categoryid,
-              category_arm: category.category
-            })
-            console.log("sSUPPORT",support);
-    
-          }
+
+          categores.map((cat) => {
+
+            if (cat.categoryid === category.categoryid) {
+              
+              let arr = support.filter(c => c.categoryId !== category.categoryid)
+              let newArr = arr
+              newArr = [...newArr, {
+                supports: cat.support,
+                categoryId: cat.categoryid,
+                category_arm: cat.category
+              }]
+              dispatch(editProg({
+                ...program, support: newArr
+              }))
+
+            }
+          })
 
 
         }
@@ -151,19 +187,25 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
           let index = isSelect.findIndex(item => item.supportid === category.support[i].supportid);
           isSelect.splice(index, 1)
 
-          let index1 = support.findIndex(item => item.categoryId === category.categoryid);
+          // let index1 = support.findIndex(item => item.categoryId === category.categoryid);
 
-          if (support[index1].supports.some(item => item.supportid === category.support[i].supportid)) {
-            
-            let index2 = support[index1].supports.findIndex(item => item.supportid === category.support[i].supportid);
-            support[index1].supports.splice(index2,1)
-            if(support[index1].supports.length == 0) {
-              support.splice(index1,1)
-            }
-          }
+          // if (support[index1].supports.some(item => item.supportid === category.support[i].supportid)) {
+
+          //   let index2 = support[index1].supports.findIndex(item => item.supportid === category.support[i].supportid);
+          //   support[index1].supports.splice(index2, 1)
+          //   if (support[index1].supports.length == 0) {
+          //     support.splice(index1, 1)
+          //   }
+          // }
+
+          let arr = support
+          let newArr = []
+          newArr = arr.filter(c => category.categoryid !== c.categoryId);
+          dispatch(editProg({
+            ...program, support: newArr
+          }))
 
         }
-       
       }
     }
 

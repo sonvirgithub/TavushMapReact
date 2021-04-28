@@ -33,20 +33,39 @@ function Organizations({ orgErr, program }) {
 
     const selectOrganization = (organization) => {
 
-        let index = program.organization.findIndex(item => item.organizationId == organization.id);
-        let arr = program.organization;
+        // let index = program.organization.findIndex(item => item.organizationId == organization.id);
+        // let arr = program.organization;
 
-        if (index < 0) {
-            arr.push(
-                {
-                    organizationId: organization.id,
-                    organizationName_arm: organization.name
-                }
-            )
+        // if (index < 0) {
+        //     arr.push(
+        //         {
+        //             organizationId: organization.id,
+        //             organizationName_arm: organization.name
+        //         }
+        //     )
+        // } else {
+        //     arr.splice(index, 1)
+        // }
+        // dispatch(editProg({ ...program, organization: arr }))
+
+        let includes = program.organization.some(item => item.organizationId === organization.id);
+        let arr = program.organization
+        let newArr = [];
+    
+        if (!includes) {
+          newArr =[...arr, {
+            organizationId: organization.id,
+            organizationName_arm:  organization.name
+          }]
         } else {
-            arr.splice(index, 1)
+          newArr = arr.filter(c => organization.id !== c.organizationId);
         }
-        dispatch(editProg({ ...program, organization: arr }))
+        dispatch(editProg({
+          ...program, organization: newArr
+        }))
+    
+
+
 
     }
 

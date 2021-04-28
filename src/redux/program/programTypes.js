@@ -19,3 +19,4 @@ export const ERROR_STATUS_MSG = 'ERROR_STATUS_MSG'
 export const ALL_SUPPORTS = 'ALL_SUPPORTS'
 export const FIND_SCROLL_ID = 'FIND_SCROLL_ID'
 export const NAXKIN_PROG = "NAXKIN_PROG"
+export const SELECT_CITIES = "SELECT_CITIES"

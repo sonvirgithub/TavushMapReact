@@ -9,11 +9,68 @@ function EditOrganization({ org, showEdit, orgEditSuccess }) {
   
   // const organizationCont = useContext(OrganizationContext);
   const dispatch = useDispatch()
+  const [arry, setArray] = useState([])
+  const handleClose = () =>  {
+    dispatch(editShow())
+    arry.map((item, index) => {
+      prog[index] = {
+        editError: "",
+        classname: ""
+      }
 
-  const handleClose = () =>  dispatch(editShow());
+      setProg([...prog])
+    })};
   
+
+  const [prog, setProg] = useState([
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+    { editError: "", classname: '' },
+
+  ])
+
+  const validate = () => {
+
+    arry[0] = org.nameArm
+    arry[1] = org.nameEng
+    arry[2] = org.contactPersonArm
+
+    setArray([...arry])
+
+    if (org.nameArm == "" || org.nameEng == "" || org.contactPersonArm == "") {
+
+      arry.map((item, index) => {
+        if (item == "") {
+
+          prog[index] = {
+            editError: "Խնդրում ենք լրացնել դաշտը",
+            classname: "class_name_input"
+          }
+
+          setProg([...prog])
+
+        } else {
+
+          prog[index] = {
+            editError: "",
+            classname: ""
+          }
+
+        }
+
+      })
+      setProg([...prog])
+
+      return false
+    }
+    return true;
+  }
+
   const handleSubmit = (evt) => {
-    
+    const isValid = validate()
+
+    if(isValid) {
+   
     axios
       .put(`/api/editOrganization`, {
        org
@@ -21,19 +78,17 @@ function EditOrganization({ org, showEdit, orgEditSuccess }) {
       .then((response) => {
         if (response.data.success) {
           handleClose();
-          // organizationCont.editOrganization(org);
-          // setSuccessPage(true);
           orgEditSuccess(org)
           dispatch(succeeded(true))
         } else {
           handleClose();
-          // setFailPage(true);
           dispatch(failed(true))
         }
       })
       .catch((e) => {
         handleClose();
       });
+    }
   };
 
   return (
@@ -42,59 +97,54 @@ function EditOrganization({ org, showEdit, orgEditSuccess }) {
         show={showEdit}
         onHide={handleClose}
         animation={false}
-        style={{ display: "none" }}
-      >
-        {/* <Modal.Header closeButton>
-          <Modal.Title>Խմբագրել</Modal.Title>
-        </Modal.Header> */}
+        style={{ display: "none" }}>
+      
         <Modal.Body>
           <Form.Group
             onSubmit={handleSubmit}
-            style={{ display: "inline-block" }}
-          >
+            style={{ display: "inline-block" }} >
             <Form.Label style={{ display: "flex" }}>
               {" "}
               Կազմակերպության անվանումը (Հայերեն)
             </Form.Label>
             <Form.Control
+            className={`${prog[0].classname}`}
               type="text"
               placeholder=""
               value={org.nameArm}
               onChange={(e) => dispatch(editOrg({ ...org, nameArm: e.target.value }))}
             />
+            <label className="inputiError">{prog[0].editError}</label>
             <br />
             <Form.Label style={{ display: "flex" }}>
               Կազմակերպության անվանումը (Enlglish)
             </Form.Label>
             <Form.Control
+            className={`${prog[1].classname}`}
               type="text"
               placeholder=""
               value={org.nameEng}
               onChange={(e) => dispatch(editOrg({ ...org, nameEng: e.target.value }))}
             />
+            <label className="inputiError">{prog[1].editError}</label>
             <br />
             <Form.Label style={{ display: "flex" }}>Կոնտակտ անձ</Form.Label>
             <Form.Control
+            className={`${prog[2].classname}`}
               type="text"
               placeholder=""
               value={org.contactPersonArm}
               onChange={(e) => dispatch(editOrg({ ...org, contactPersonArm: e.target.value }))}
             />
+            <label className="inputiError">{prog[2].editError}</label>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Չեղարկել
-          </Button>
+          <Button variant="secondary" onClick={handleClose}>  Չեղարկել </Button>
           <Button
             variant="primary"
             onClick={() => {
-              handleSubmit();
-              // handleClose();
-            }}
-          >
-            Հաստատել
-          </Button>
+              handleSubmit()}}>Հաստատել </Button>
         </Modal.Footer>
       </Modal>
     </>

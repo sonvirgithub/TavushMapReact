@@ -89,8 +89,7 @@ function Categories({getCategories}) {
             </tr>
           )}
         </tbody>
-        {/* <EditCategory />
-        <DeleteCategory /> */}
+        
       </table>
     </div>
   );

@@ -4,7 +4,7 @@ import {
     EDIT_SHOW, EDIT_SUCCESS,
     ADD_SHOW, ADD_SUCCESS,
     FETCH_PROGRAMS_REQUEST,
-    FETCH_PROGRAMS_SUCCESS, FIND_SCROLL_ID,NAXKIN_PROG,
+    FETCH_PROGRAMS_SUCCESS, FIND_SCROLL_ID, NAXKIN_PROG,
     FETCH_PROGRAMS_FAILURE, SELECT_COMMUNITIES,
     CHANGE_ISSELECT, SELECTED_SUPPORTS, ERROR_CITY_MSG,
     ERROR_ORG_MSG, ERROR_SUP_MSG, ERROR_STATUS_MSG, ALL_SUPPORTS
@@ -21,7 +21,7 @@ const initialState = {
     error: '',
     isSelect: [],
     edit: false,
-    communities: [],
+    cities: [],
     organizations: [],
     cityErr: { editError: "", classname: '' },
     orgErr: { editError: "", classname: '' },
@@ -30,7 +30,8 @@ const initialState = {
     supName: [],
     support: [],
     scrollId: 0,
-    naxkinProg: {}
+    naxkinProg: {},
+    select_endDate: false
 
 }
 
@@ -43,19 +44,28 @@ const programReducer = (state = initialState, action) => {
             }
 
         case EDIT_PROGRAM:
+            console.log(action.payload.endDate, ",,,,,", action.payload.startDate);
+
+            if (action.payload.endDate === null || action.payload.endDate === "") {
+
+            } else {
+                const endDate = moment(action.payload.endDate).toDate()
+                console.log(endDate);
+                action.payload.endDate = endDate
+                state.select_endDate = true
+            }
 
             const startDate = moment(action.payload.startDate).toDate()
-            const endDate = moment(action.payload.endDate).toDate()
-
             action.payload.startDate = startDate
-            action.payload.endDate = endDate
+            console.log(action.payload.endDate, action.payload.startDate);
 
             return {
                 ...state,
                 program: action.payload,
                 edit: false,
                 support: action.payload.support,
-                naxkinProg: action.payload
+                naxkinProg: action.payload,
+                select_endDate: state.select_endDate
             }
 
         case DELETE_SHOW:
@@ -109,7 +119,8 @@ const programReducer = (state = initialState, action) => {
                     return program
                 })],
                 isSelect: state.isSelect,
-                support: state.support,
+                // support: state.support,
+                support: action.payload.support,
                 edit: true,
 
             }
@@ -179,7 +190,7 @@ const programReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                communities: action.payload
+                cities: action.payload
             }
         case ERROR_CITY_MSG:
             return {
@@ -222,7 +233,6 @@ const programReducer = (state = initialState, action) => {
                 })
             })
 
-            console.log("state.supNames", state.supNames);
 
             return {
                 ...state,
@@ -237,7 +247,7 @@ const programReducer = (state = initialState, action) => {
         case NAXKIN_PROG:
             return {
                 ...state,
-                naxkinProg: action.payload,
+                communities: action.payload,
 
             }
         default: return state

@@ -4,13 +4,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
 import store, {
-  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo,allSupports,funcnaxkinProg,
+  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo,allSupports,selectCommunities,
   editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram, changeSupMoreInfo, editSupMoreInfo, naxkinProg
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
 function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, moreInfoProgram,
-  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo,funcnaxkinProg  }) {
+  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo,selectCommunities }) {
 
      useEffect(() => {
       getPrograms()
@@ -20,11 +20,11 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
   const dispatch = useDispatch()
 
   const handleShowEdit = (index) => {
-    
+
+    // selectCommunities(store.getState().prog.programs[index].community)
     dispatch(editProg(store.getState().prog.programs[index]))
     if (program.id != store.getState().prog.programs[index].id) {
       changeIsSelect([])
-
       selectedSupports(store.getState().prog.programs[index])
 
     } else {
@@ -48,7 +48,7 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
   const handleShowMoreInfo = (index) => {
 
     moreInfoProgram(store.getState().prog.programs[index])
-
+console.log(store.getState().prog.programs[index]);
       deleteSupMoreInfo()
       changeSupMoreInfo(store.getState().prog.programs[index])
 
@@ -88,7 +88,11 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
                 return (
 
                   <tr key={prog.id}>
-                    <td>{prog.programName_arm}</td>
+                   
+                    <td>
+                    <div className="tdSphere">{prog.programName_arm} 
+                    </div>
+                    </td>
                     <td >
                       <div className="tdSphere" >
                         {prog.support?.map(item => {
@@ -101,7 +105,11 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
                     <td>
                       {prog.status}
                     </td>
-                    <td>{prog.manager_arm}</td>
+                    <td>
+                    <div className="tdSphere">
+                    {prog.manager_arm}
+                    </div>
+                    </td>
                     <td>
                       <div style={{ display: "flex", }}>
                         <div style={{ width: "30px", marginRight: "10px" }} onClick={() => {
@@ -162,6 +170,7 @@ const mapStateToProps = (state) => {
     add: state.prog.add,
     moreInfoProg: state.moreInfoProg,
     suppMoreInfoProg: state.moreInfo.suppMoreInfoProg,
+    cities: state.prog.cities
    
 
 
@@ -178,7 +187,7 @@ const mapDispatchToProps = dispatch => {
     deleteSupMoreInfo: () => dispatch(deleteSupMoreInfo()),
     changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
     allSupports:(prog) => dispatch(allSupports(prog)),
-    funcnaxkinProg:(prog) => dispatch(funcnaxkinProg(prog))
+    selectCommunities:(com) => dispatch(selectCommunities(com))
     
 
 

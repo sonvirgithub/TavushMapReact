@@ -5,7 +5,7 @@ import {
     ADD_SHOW, ADD_SUCCESS, 
     FETCH_PROGRAMS_REQUEST,
     FETCH_PROGRAMS_SUCCESS,
-    FETCH_PROGRAMS_FAILURE,
+    FETCH_PROGRAMS_FAILURE,SELECT_CITIES,
     CHANGE_ISSELECT,FIND_SCROLL_ID,NAXKIN_PROG,
     SELECT_COMMUNITIES, SELECTED_SUPPORTS,ERROR_CITY_MSG,
     ERROR_ORG_MSG,ERROR_SUP_MSG,ERROR_STATUS_MSG,ALL_SUPPORTS
@@ -15,6 +15,14 @@ export const findScrollId = id => {
     return {
         type: FIND_SCROLL_ID,
         payload: id
+       
+    }
+}
+
+export const selectCities = city => {
+    return {
+        type: SELECT_CITIES,
+        payload: city
        
     }
 }
@@ -123,11 +131,11 @@ export const selectedSupports = prog => {
     }
 }
 
-export const selectCommunities = communities => {
+export const selectCommunities = com => {
 
     return {
         type: SELECT_COMMUNITIES,
-        payload: communities
+        payload: com
        
 
     }
@@ -157,7 +165,7 @@ export const statusErrMessage = (statusErr) => {
         payload: statusErr
     }
 }
-export const funcnaxkinProg = (prog) => {
+export const funcnaxkinProg = prog => {
     return {
         type: NAXKIN_PROG,
         payload: prog
