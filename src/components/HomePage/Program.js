@@ -48,7 +48,6 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
   const handleShowMoreInfo = (index) => {
 
     moreInfoProgram(store.getState().prog.programs[index])
-console.log(store.getState().prog.programs[index]);
       deleteSupMoreInfo()
       changeSupMoreInfo(store.getState().prog.programs[index])
 

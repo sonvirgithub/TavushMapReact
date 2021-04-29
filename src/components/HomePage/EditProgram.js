@@ -37,14 +37,14 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
   useEffect(() => {
     if (program1.programName_arm != "" && program1.programName_eng != "" && program1.budget != "" &&
-      program1.manager_arm != "" && program1.manager_eng != "" && program1.contact_arm != ""
+      program1.manager_arm != "" && program1.manager_eng != "" && program1.contact_arm != "" && program1.startDate !== null
       && program1.contact_eng != "" && program1.description_arm != "" && program1.description_eng != "" &&
       program1.community?.length != 0 && program1.organization?.length != 0 && isSelect?.length != 0) {
       setSaveClassName("save_class1")
     }
 
     else if (program1.programName_arm != "" || program1.programName_eng != "" || program1.budget != "" ||
-      program1.manager_arm != "" || program1.manager_eng != "" || program1.contact_arm != ""
+      program1.manager_arm != "" || program1.manager_eng != "" || program1.contact_arm != "" || program1.startDate !== null
       || program1.contact_eng != "" || program1.description_arm != "" || program1.description_eng != "" ||
       program1.community?.length != 0 || program1.organization?.length != 0 || isSelect?.length != 0) {
       setSaveClassName("save_class2")
@@ -90,6 +90,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
     { editError: "", classname: '' },
     { editError: "", classname: '' },
     { editError: "", classname: '' },
+    { editError: "", classname: '' },
 
   ])
 
@@ -114,20 +115,19 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
   }
   const executeScroll = () => {
+    if (indexes.includes(10) && Math.min(...indexes) != 0 && Math.min(...indexes) != 1) {
+      findScrollId(10)
 
-    if (indexes.includes(9) && Math.min(...indexes) != 0 && Math.min(...indexes) != 1) {
-      findScrollId(9)
-
-    } else if (indexes.includes(10)) {
-      const array = [0, 1, 2, 3, 4, 5, 6]
-      if (array.some(item => item == Math.min(...indexes))) {
-        findScrollId(Math.min(...indexes))
-      } else { findScrollId(10) }
     } else if (indexes.includes(11)) {
-      const array = [0, 1, 2, 3, 4, 5, 6]
+      const array = [0, 1, 2, 3, 4, 5, 6,7]
       if (array.some(item => item == Math.min(...indexes))) {
         findScrollId(Math.min(...indexes))
       } else { findScrollId(11) }
+    } else if (indexes.includes(12)) {
+      const array = [0, 1, 2, 3, 4, 5, 6,7]
+      if (array.some(item => item == Math.min(...indexes))) {
+        findScrollId(Math.min(...indexes))
+      } else { findScrollId(12) }
     }
     else {
       findScrollId(Math.min(...indexes))
@@ -140,27 +140,25 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
     arry[0] = program1.programName_arm
     arry[1] = program1.programName_eng
     arry[2] = program1.budget
-    arry[3] = program1.manager_arm
-    arry[4] = program1.manager_eng
-    arry[5] = program1.contact_arm
-    arry[6] = program1.contact_eng
-    arry[7] = program1.description_arm
-    arry[8] = program1.description_eng
-    arry[9] = program1.community
-    arry[10] = program1.organization
-    arry[11] = isSelect
+    arry[3] = program1.startDate
+    arry[4] = program1.manager_arm
+    arry[5] = program1.manager_eng
+    arry[6] = program1.contact_arm
+    arry[7] = program1.contact_eng
+    arry[8] = program1.description_arm
+    arry[9] = program1.description_eng
+    arry[10] = program1.community
+    arry[11] = program1.organization
+    arry[12] = isSelect
 
     setArray([...arry])
-
-
-    if (program1.programName_arm == "" || program1.programName_eng == "" || program1.budget == "" ||
-      program1.manager_arm == "" || program1.manager_eng == "" || program1.contact_arm == ""
+    if (program1.programName_arm == "" || program1.programName_eng == "" || program1.budget == "" || 
+      program1.manager_arm == "" || program1.manager_eng == "" || program1.contact_arm == "" || program1.startDate == null
       || program1.contact_eng == "" || program1.description_arm == "" || program1.description_eng == "" ||
       program1.community.length == 0 || program1.organization.length == 0 || isSelect.length == 0) {
 
-
       arry.map((item, index) => {
-        if (item === "" || item?.length == 0) {
+        if (item === "" || item?.length == 0 || item == null) {
           if (indexes.some(item => item == index)) {
 
           } else {
@@ -172,7 +170,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
           }
 
           switch (index) {
-            case 9:
+            case 10:
               cityErrMessage({
                 editError: "Խնդրում ենք լրացնել դաշտը",
                 classname: "class_name_input"
@@ -183,7 +181,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
                 indexes.push(index)
               }
               break;
-            case 10:
+            case 11:
               orgErrMessage({
                 editError: "Խնդրում ենք լրացնել դաշտը",
                 classname: "class_name_input"
@@ -194,7 +192,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
                 indexes.push(index)
               }
               break;
-            case 11:
+            case 12:
               supErrMessage({
                 editError: "Խնդրում ենք լրացնել դաշտը",
                 classname: "class_name_input"
@@ -223,45 +221,6 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
             classname: ""
           }
 
-          switch (index) {
-            case 9:
-              cityErrMessage({
-                editError: "",
-                classname: ""
-              })
-              if (indexes.some(item => item == index)) {
-
-              } else {
-                indexes.push(index)
-              }
-              break;
-            case 10:
-              orgErrMessage({
-                editError: "",
-                classname: ""
-              })
-              if (indexes.some(item => item == index)) {
-
-              } else {
-                indexes.push(index)
-              }
-              break;
-            case 11:
-              supErrMessage({
-                editError: "",
-                classname: ""
-              })
-              if (indexes.some(item => item == index)) {
-
-              } else {
-                indexes.push(index)
-              }
-              break;
-
-            default:
-              break;
-          }
-
         }
 
       })
@@ -274,8 +233,8 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
   const handleSubmit = (evt) => {
     let endDate  = ""
+    let startDate = ""
     if ( store.getState().prog.program.endDate !== null) {
-      console.log(store.getState().prog.program.endDate,null);
       const year1 = store.getState().prog.program.endDate.getFullYear()
       const month1 = store.getState().prog.program.endDate.getMonth() + 1
       const day1 = store.getState().prog.program.endDate.getDate()
@@ -284,22 +243,21 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
       endDate = null
     }
 
+    if ( store.getState().prog.program.startDate !== null) {
     const year = store.getState().prog.program.startDate.getFullYear()
     const month = store.getState().prog.program.startDate.getMonth() + 1
     const day = store.getState().prog.program.startDate.getDate()
-    const startDate = `${year}-${month}-${day}`
+    startDate = `${year}-${month}-${day}`
+    } 
 
-console.log(endDate,startDate);
     const isValid = validate()
-
-    if (isValid == true) {
+    if (isValid) {
 
       axios
         .put(`/api/editProgram`, {
           program: store.getState().prog.program, isSelect, startDate, endDate
         })
         .then((res) => {
-          console.log(res.data.success);
           if (res.data.success) {
             // setSuccessPage(true);
             dispatch(succeeded(true))
@@ -345,6 +303,9 @@ console.log(endDate,startDate);
           handleClose();
         });
 
+
+
+        
     } else {
       executeScroll()
     }
@@ -402,15 +363,17 @@ console.log(endDate,startDate);
             <div className="display_flex">
 
               <div className="start">
-                <label className="start_date_label">Սկիզբ<img className="star_start_date" src={require("./AdminIcons/red-star.svg").default} /></label>
+                <label className="start_date_label" id="3">Սկիզբ<img className="star_start_date" src={require("./AdminIcons/red-star.svg").default} /></label>
 
                 <DatePicker
+
                   selected={store.getState().prog.program.startDate}
                   startDate={store.getState().prog.program.startDate}
                   onChange={date => dispatch(editProg({ ...store.getState().prog.program, startDate: date }))}
 
-                  className="dateStart"
+                  className={`${program[3].classname} dateStart`}
                   closeOnScroll={true} />
+                   <label className="start_date_err inputiError">{program[3].editError}</label>
               </div>
               <div className="end">
                 <label className="end_date_label">Ավարտ</label>
@@ -424,49 +387,49 @@ console.log(endDate,startDate);
 
             {/* xekavari input-nery */}
             <div className="project_name">
-              <label className="project_name_label" id="3">Ծրագրի ղեկավար (Հայերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
-              <textarea type="text" className={`${program[3].classname} project_name_input`}
+              <label className="project_name_label" id="4">Ծրագրի ղեկավար (Հայերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
+              <textarea type="text" className={`${program[4].classname} project_name_input`}
                 placeholder="Անուն, Ազգանուն"
                 onInput={(e) => auto_grow(e)}
                 onLoadedData={auto_grow}
                 ref={manager_arm}
                 value={store.getState().prog.program.manager_arm}
                 onChange={e => dispatch(editProg({ ...store.getState().prog.program, manager_arm: e.target.value, }))} />
-              <label className="inputiError">{program[3].editError}</label>
+              <label className="inputiError">{program[4].editError}</label>
             </div>
             <div className="project_name">
-              <label className="project_name_label" id="4">Ծրագրի ղեկավար (English)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
+              <label className="project_name_label" id="5">Ծրագրի ղեկավար (English)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
               <textarea type="text"
                 onInput={(e) => auto_grow(e)}
                 onLoadedData={auto_grow}
-                className={`${program[4].classname} project_name_input`}
+                className={`${program[5].classname} project_name_input`}
                 placeholder="Fistname, Lastname"
                 ref={manager_eng}
                 value={store.getState().prog.program.manager_eng}
                 onChange={e => dispatch(editProg({ ...store.getState().prog.program, manager_eng: e.target.value, }))} />
-              <label className="inputiError">{program[4].editError}</label>
+              <label className="inputiError">{program[5].editError}</label>
             </div>
 
             {/* contactPerson-i input-nery  */}
             <div className="project_name"  >
-              <label className="project_name_label" id="5">Կոնտակտ անձ (Հայերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
+              <label className="project_name_label" id="6">Կոնտակտ անձ (Հայերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
               <textarea type="text"
                 onInput={(e) => auto_grow(e)}
                 onLoadedData={auto_grow}
                 ref={contact_arm}
-                className={`${program[5].classname} project_name_input`}
+                className={`${program[6].classname} project_name_input`}
                 placeholder="Անուն, Ազգանուն" value={store.getState().prog.program.contact_arm}
                 onChange={e => dispatch(editProg({ ...store.getState().prog.program, contact_arm: e.target.value, }))} />
-              <label className="inputiError">{program[5].editError}</label>
+              <label className="inputiError">{program[6].editError}</label>
             </div>
             <div className="project_name">
-              <label className="project_name_label" id="6">Կոնտակտ անձ (Անգլերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
+              <label className="project_name_label" id="7">Կոնտակտ անձ (Անգլերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
               <textarea type="text" onInput={(e) => auto_grow(e)}
                 onLoadedData={auto_grow}
                 ref={contact_eng}
-                className={`${program[6].classname} project_name_input`}
+                className={`${program[7].classname} project_name_input`}
                 placeholder="Fistname, Lastname" value={store.getState().prog.program.contact_eng} onChange={e => dispatch(editProg({ ...store.getState().prog.program, contact_eng: e.target.value, }))} />
-              <label className="inputiError">{program[6].editError}</label>
+              <label className="inputiError">{program[7].editError}</label>
             </div>
 
             <Organizations />
@@ -475,14 +438,14 @@ console.log(endDate,startDate);
 
             {/* discriptionneri input-nery */}
             <div className="project_name">
-              <label className="project_name_label" id="7">Նկարագրություն (Հայերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
-              <textarea className={`${program[7].classname} description_input`} placeholder="Հակիրճ նկարագրություն" value={store.getState().prog.program.description_arm} onChange={e => dispatch(editProg({ ...store.getState().prog.program, description_arm: e.target.value, }))} />
-              <label className="inputiError">{program[7].editError}</label>
+              <label className="project_name_label" id="8">Նկարագրություն (Հայերեն)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
+              <textarea className={`${program[8].classname} description_input`} placeholder="Հակիրճ նկարագրություն" value={store.getState().prog.program.description_arm} onChange={e => dispatch(editProg({ ...store.getState().prog.program, description_arm: e.target.value, }))} />
+              <label className="inputiError">{program[8].editError}</label>
             </div>
             <div className="project_name">
-              <label className="project_name_label" id="8">Նկարագրություն (English)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
-              <textarea className={`${program[8].classname} description_input`} placeholder="Brief description" value={store.getState().prog.program.description_eng} onChange={e => dispatch(editProg({ ...store.getState().prog.program, description_eng: e.target.value, }))} />
-              <label className="inputiError">{program[8].editError}</label>
+              <label className="project_name_label" id="9">Նկարագրություն (English)<img className="star" src={require("./AdminIcons/red-star.svg").default} /></label>
+              <textarea className={`${program[9].classname} description_input`} placeholder="Brief description" value={store.getState().prog.program.description_eng} onChange={e => dispatch(editProg({ ...store.getState().prog.program, description_eng: e.target.value, }))} />
+              <label className="inputiError">{program[9].editError}</label>
             </div>
 
             {/* status-i inputnery */}

@@ -26,14 +26,12 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
     setCommunityName([])
     setOrgName([])
     setCategoryName([])
-
+   
   };
-
 
   const selectEndDate = () => {
     setSelected(true)
   }
-
 
   const handleShow = () => dispatch(addShow());
   const [saveClassName, setSaveClassName] = useState("")
@@ -89,6 +87,7 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
 
 
   const [prog, setProg] = useState([
+    { editError: "", classname: '' },
     { editError: "", classname: '' },
     { editError: "", classname: '' },
     { editError: "", classname: '' },
@@ -188,14 +187,14 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
 
     }
 
-    if (program.name_arm != "" && program.name_eng != "" && program.budget != "" &&
+    if (program.name_arm != "" && program.name_eng != "" && program.budget != "" && program.start_date == null &&
       program.manager_arm != "" && program.manager_eng != "" && program.contact_arm != ""
       && program.contact_eng != "" && program.description_arm != "" && program.description_eng != "" &&
       communityid?.length != 0 && organizationid?.length != 0 && isSelect?.length != 0) {
       setSaveClassName("save_class1")
     }
 
-    else if (program.name_arm != "" || program.name_eng != "" || program.budget != "" ||
+    else if (program.name_arm != "" || program.name_eng != "" || program.budget != "" || program.start_date == null ||
       program.manager_arm != "" || program.manager_eng != "" || program.contact_arm != ""
       || program.contact_eng != "" || program.description_arm != "" || program.description_eng != "" ||
       communityid?.length != 0 || organizationid?.length != 0 || isSelect?.length != 0) {
@@ -258,8 +257,7 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
               organization: orgName,
               support: support
             };
-            console.log(prog);
-           
+
             progAddSuccess(prog)
 
             dispatch(succeeded(true))
@@ -273,7 +271,7 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
         name_arm: "",
         name_eng: "",
         communityid: [],
-        budget: 0,
+        budget: "",
         start_date: new Date(),
         end_date: new Date(),
         manager_arm: "",
@@ -424,7 +422,6 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
       setCommunity([...communityid])
 
     }
-    console.log("communityName",communityName);
   }
 
 
@@ -559,26 +556,26 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
     arry[1] = program.name_eng
     arry[2] = communityid
     arry[3] = program.budget
-    arry[4] = program.manager_arm
-    arry[5] = program.manager_eng
-    arry[6] = program.contactPerson_arm
-    arry[7] = program.contactPerson_eng
-    arry[8] = organizationid
-    arry[9] = isSelect
-    arry[10] = program.description_arm
-    arry[11] = program.description_eng
-    arry[12] = statusid
+    arry[4] = program.start_date
+    arry[5] = program.manager_arm
+    arry[6] = program.manager_eng
+    arry[7] = program.contactPerson_arm
+    arry[8] = program.contactPerson_eng
+    arry[9] = organizationid
+    arry[10] = isSelect
+    arry[11] = program.description_arm
+    arry[12] = program.description_eng
+    arry[13] = statusid
 
     setArray([...arry])
 
-
-    if (program.name_arm == "" || program.name_eng == "" || program.budget == "" ||
-      program.manager_arm == "" || program.manager_eng == "" || program.contactPerson_arm == ""
+    if (program.name_arm == "" || program.name_eng == "" || program.budget == "" || program.start_date == null
+      || program.manager_arm == "" || program.manager_eng == "" || program.contactPerson_arm == ""
       || program.contactPerson_eng == "" || program.description_arm == "" || program.description_eng == "" ||
       communityid.length == 0 || organizationid.length == 0 || isSelect.length == 0 || statusid == "") {
 
       arry.map((item, index) => {
-        if (item === "" || item?.length == 0) {
+        if (item === "" || item?.length == 0 || item == null) {
           if (indexes.some(item => item == index)) {
 
           } else {
@@ -699,11 +696,13 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
           <div className="display_flex">
 
             <div className="start">
-              <label className="start_date_label">Սկիզբ<img className="star_start_date" src={require("../AdminIcons/red-star.svg").default} /></label>
+              <label className="start_date_label" id="4">Սկիզբ<img className="star_start_date" src={require("../AdminIcons/red-star.svg").default} /></label>
 
               <DatePicker selected={program.start_date} onChange={date => setProgram({ ...program, start_date: date })}
-                className="dateStart" closeOnScroll={true} />
+                className={`${prog[4].classname} dateStart`} closeOnScroll={true} />
+              <label className="start_date_err inputiError">{prog[4].editError}</label>
             </div>
+
             <div className="end">
               <label className="end_date_label">Ավարտ</label>
               <DatePicker selected={program.end_date} startDate={program.end_date} onChange={date => { setProgram({ ...program, end_date: date }); selectEndDate() }}
@@ -714,40 +713,40 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
 
           {/* xekavari input-nery */}
           <div className="project_name">
-            <label className="project_name_label" id="4">Ծրագրի ղեկավար (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <textarea className={`${prog[4].classname} project_name_input`} placeholder="Անուն, Ազգանուն"
+            <label className="project_name_label" id="5">Ծրագրի ղեկավար (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className={`${prog[5].classname} project_name_input`} placeholder="Անուն, Ազգանուն"
               value={program.manager_arm} onChange={e => setProgram({ ...program, manager_arm: e.target.value })}
               onInput={(e) => auto_grow(e)} />
-            <label className="inputiError">{prog[4].editError}</label>
+            <label className="inputiError">{prog[5].editError}</label>
           </div>
           <div className="project_name">
-            <label className="project_name_label" id="5">Ծրագրի ղեկավար (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <textarea className={`${prog[5].classname} project_name_input`} placeholder="Fistname, Lastname"
+            <label className="project_name_label" id="6">Ծրագրի ղեկավար (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className={`${prog[6].classname} project_name_input`} placeholder="Fistname, Lastname"
               value={program.manager_eng} onChange={e => setProgram({ ...program, manager_eng: e.target.value })}
               onInput={(e) => auto_grow(e)} />
-            <label className="inputiError">{prog[5].editError}</label>
+            <label className="inputiError">{prog[6].editError}</label>
           </div>
 
           {/* contactPerson-i input-nery */}
           <div className="project_name">
-            <label className="project_name_label" id="6">Կոնտակտ անձ (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <textarea className={`${prog[6].classname} project_name_input`} placeholder="Անուն, Ազգանուն"
+            <label className="project_name_label" id="7">Կոնտակտ անձ (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className={`${prog[7].classname} project_name_input`} placeholder="Անուն, Ազգանուն"
               value={program.contactPerson_arm} onChange={e => setProgram({ ...program, contactPerson_arm: e.target.value })}
               onInput={(e) => auto_grow(e)} />
-            <label className="inputiError">{prog[6].editError}</label>
+            <label className="inputiError">{prog[7].editError}</label>
           </div>
           <div className="project_name">
-            <label className="project_name_label" id="7">Կոնտակտ անձ (Անգլերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <textarea className={`${prog[7].classname} project_name_input`} placeholder="Fistname, Lastname"
+            <label className="project_name_label" id="8">Կոնտակտ անձ (Անգլերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className={`${prog[8].classname} project_name_input`} placeholder="Fistname, Lastname"
               value={program.contactPerson_eng} onChange={e => setProgram({ ...program, contactPerson_eng: e.target.value })}
               onInput={(e) => auto_grow(e)} />
-            <label className="inputiError">{prog[7].editError}</label>
+            <label className="inputiError">{prog[8].editError}</label>
           </div>
 
           {/* organizationi input-nery */}
           <div className='project_name'>
-            <label className="kazmakerp_arm" id="8">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <button className={`${prog[8].classname} btnSities`} onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
+            <label className="kazmakerp_arm" id="9">Կազմակերպություններ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <button className={`${prog[9].classname} btnSities`} onClick={() => setArrow_iconOrg(!arrow_icon_org)}>
 
               {
                 organizationid.length > 0 ?
@@ -772,16 +771,16 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
                 </div>
               )
             }
-            <label className="inputiError">{prog[8].editError}</label>
+            <label className="inputiError">{prog[9].editError}</label>
           </div>
 
 
           {/* support_type input-nery */}
 
           <div className="project_name">
-            <label className="support_type" id="9">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <label className="support_type" id="10">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
 
-            <button className={`${prog[9].classname} btnSities`} id='btnSelect' onClick={() => { setArrow_iconCategory(!arrow_icon_category) }}>
+            <button className={`${prog[10].classname} btnSities`} id='btnSelect' onClick={() => { setArrow_iconCategory(!arrow_icon_category) }}>
               {
                 isSelect.length > 0 ?
                   <label className="label_city" >
@@ -821,30 +820,30 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
                 </div>
               )
             }
-            <label className="inputiError">{prog[9].editError}</label>
+            <label className="inputiError">{prog[10].editError}</label>
           </div>
 
 
           {/* discriptionneri input-nery */}
           <div className="project_name">
-            <label className="project_name_label" id="10">Նկարագրություն (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <textarea className={`${prog[10].classname} description_input`} placeholder="Հակիրճ նկարագրություն"
+            <label className="project_name_label" id="11">Նկարագրություն (Հայերեն)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className={`${prog[11].classname} description_input`} placeholder="Հակիրճ նկարագրություն"
               value={program.description_arm}
               onChange={e => setProgram({ ...program, description_arm: e.target.value })} />
-            <label className="inputiError">{prog[10].editError}</label>
+            <label className="inputiError">{prog[11].editError}</label>
           </div>
           <div className="project_name">
-            <label className="project_name_label" id="11">Նկարագրություն (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <textarea className={`${prog[11].classname} description_input`} placeholder="Brief description"
+            <label className="project_name_label" id="12">Նկարագրություն (English)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <textarea className={`${prog[12].classname} description_input`} placeholder="Brief description"
               value={program.description_eng}
               onChange={e => setProgram({ ...program, description_eng: e.target.value })} />
-            <label className="inputiError">{prog[11].editError}</label>
+            <label className="inputiError">{prog[12].editError}</label>
           </div>
 
           {/* status-i inputnery */}
           <div className="project_name">
-            <label className="status" id="12">Կարգավիճակ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
-            <button className={`${prog[12].classname} btnSities`} id='btnSelect' onClick={() => { setArrow_iconStatus(!arrow_icon_status) }}>
+            <label className="status" id="13">Կարգավիճակ<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+            <button className={`${prog[13].classname} btnSities`} id='btnSelect' onClick={() => { setArrow_iconStatus(!arrow_icon_status) }}>
               <label className="label_city">Կարգավիճակ</label>
             </button>
             <img className="arrow_icon" src={require("../AdminIcons/arrow.svg").default} onClick={() => { setArrow_iconStatus(!setArrow_iconStatus) }} />
@@ -864,11 +863,10 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
 
                     </div>
                   </div>
-
                 </div>
               )
             }
-            <label className="inputiError">{prog[12].editError}</label>
+            <label className="inputiError">{prog[13].editError}</label>
           </div>
           <div className="donor">
             <label className="donor_label">Դոնոր խմբի անդամ է</label>

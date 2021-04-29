@@ -708,6 +708,15 @@ color: #FFFFFF;
 
 }
 
+.start_date_err {
+
+    
+    height: 20px;
+    margin-left: 45px;
+    width: 200px;
+    display: table-caption !important;
+}
+
 .class_name_input {
   border: 1px solid red !important
 }

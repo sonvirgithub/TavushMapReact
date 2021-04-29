@@ -44,20 +44,21 @@ const programReducer = (state = initialState, action) => {
             }
 
         case EDIT_PROGRAM:
-            console.log(action.payload.endDate, ",,,,,", action.payload.startDate);
 
             if (action.payload.endDate === null || action.payload.endDate === "") {
 
             } else {
                 const endDate = moment(action.payload.endDate).toDate()
-                console.log(endDate);
                 action.payload.endDate = endDate
                 state.select_endDate = true
             }
-
-            const startDate = moment(action.payload.startDate).toDate()
-            action.payload.startDate = startDate
-            console.log(action.payload.endDate, action.payload.startDate);
+            if (action.payload.startDate === null || action.payload.startDate === "") {
+                
+            } else {
+                const startDate = moment(action.payload.startDate).toDate()
+                action.payload.startDate = startDate
+            }
+            
 
             return {
                 ...state,

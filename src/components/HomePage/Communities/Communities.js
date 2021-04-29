@@ -100,7 +100,7 @@ function Communities({ cityErr, findScrollId }) {
   return (
     <div>
       <div className='project_name'>
-        <label className="cities" id="9">Համայնք<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+        <label className="cities" id="10">Համայնք<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
         <button className={`${cityErr.classname} btnSities`} onClick={() => setArrow_iconCity(!arrow_icon_city)}>
           {
             store.getState().prog.program.community?.length > 0 ?

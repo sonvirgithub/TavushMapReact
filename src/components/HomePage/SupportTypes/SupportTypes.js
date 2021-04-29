@@ -229,7 +229,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
   return (
     <div>
       <div className="project_name">
-        <label className="support_type" id="11">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
+        <label className="support_type" id="12">Աջակցության տեսակ(ներ)<img className="star" src={require("../AdminIcons/red-star.svg").default} /></label>
 
         <button className={`${supErr.classname} btnSities`} id='btnSelect' onClick={() => { setArrow_iconCategory(!arrow_icon_category) }}>
           {
