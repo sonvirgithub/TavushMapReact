@@ -22,29 +22,19 @@
 }
 
 .btn_projects {
-  /* position: absolute; */
   border: none;
   color: rgba(67, 63, 63, 1);
-  /* margin-left: 90px; */
   padding-left: 90px;
   padding-top: 15px;
-  /* margin-top: 15px; */
   cursor: pointer;
-  /* width: 328px; */
   height: 58px;
   text-decoration: none;
 }
 .btn_projects:hover {
-  color: #ffffff;
+  color: rgba(67, 63, 63, 1);
 }
 
-.div_projects:hover {
-  background: #05558f;
-  opacity: 16%;
-}
-.div_projects:focus {
-  background: #05558f;
-}
+
 
 .log_out_icon {
   margin-top: 2px;
@@ -68,11 +58,7 @@
 
 
 .logout {
-  /* position: absolute;
-  display: inline-block;
-  color: #433f3f;
-  margin-top: 200px;
-  margin-left: 96px; */
+  
   position: fixed;
     display: inline-block;
     color: #433f3f;

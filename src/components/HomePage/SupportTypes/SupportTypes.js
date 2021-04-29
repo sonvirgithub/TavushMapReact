@@ -73,6 +73,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
 
 
       if (support[index1].supports.length == 0) {
+        console.log("datark");
         let arr = support
         let newArr = []
         newArr = arr.filter(c => categId !== c.categoryId);

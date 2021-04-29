@@ -23,6 +23,7 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
 
       setProg([...prog])
     })
+
     setCommunityName([])
     setOrgName([])
     setCategoryName([])

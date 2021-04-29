@@ -17,18 +17,12 @@ import { useDispatch, connect } from "react-redux";
 
 
 function Routes({
-  prog,
-  setProg,
+  
   isLoggedIn,
-  showResults,
-  setShowResults,
-  successPage,
+ 
   setSuccessPage,
   setFailPage,
-  moreInfoStartDate,
-  moreInfoEndDate,
-  setMoreInfoStartDate,
-  setMoreInfoEndDate,
+  
   show
 }) {
   if (isLoggedIn) {
@@ -36,13 +30,9 @@ function Routes({
     return (
       <>
 
-        {/* <SideBar /> */}
+       
         {show ? (
-          <MoreInfo
-          // moreInfoStartDate={moreInfoStartDate}
-          // moreInfoEndDate={moreInfoEndDate}
-          // programsList={programsList}
-          />
+          <MoreInfo/>
         ) : (
           <SideBar />
         )}
@@ -52,17 +42,7 @@ function Routes({
             exact
             path="/dmn/program"
             render={() => (
-              <ProgramsPage
-                // showResults={showResults}
-                // setShowResults={setShowResults}
-                // setProg={setProg}
-                // moreInfoStartDate={moreInfoStartDate}
-                // moreInfoEndDate={moreInfoEndDate}
-                // setMoreInfoEndDate={setMoreInfoEndDate}
-                // setMoreInfoStartDate={setMoreInfoStartDate}
-                // setSuccessPage={setSuccessPage}
-                // setFailPage={setFailPage}
-              />
+              <ProgramsPage/>
             )}
           />
           <Route

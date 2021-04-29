@@ -87,15 +87,6 @@ export const addShow = () => {
     }
 }
 
-// export const getSupportTypes = supports => {
-//     return {
-//         type: GET_SUPPORTS,
-//         payload: supports
-        
-        
-//     }
-// }
-
 export const getSupportTypes = () => {
     return (dispatch) => {
         dispatch(fetchSupportsRequest)

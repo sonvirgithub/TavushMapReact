@@ -101,7 +101,27 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
     }
     dispatch(editShow())
+  
+    arry.map((item, index) => {
+      program[index] = {
+        editError: "",
+        classname: ""
+      }
 
+      setProgram([...program])
+    })
+    supErrMessage({
+      editError: "",
+      classname: ""
+    })
+    orgErrMessage({
+      editError: "",
+      classname: ""
+    })
+    cityErrMessage({
+      editError: "",
+      classname: ""
+    })
   };
 
   const selectEndDate = () => {

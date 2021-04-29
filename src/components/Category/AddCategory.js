@@ -76,7 +76,7 @@ function AddCategory({ showAdd, categoryAddSuccess }) {
     const isValid = validate()
     if (isValid) {
       axios
-        .post(`/api/addCategory`, {
+        .post(`addCatego/api/ry`, {
           category_eng,
           category_arm,
         })
