@@ -12,7 +12,8 @@ const initialState = {
     endDate: "",
     suppForMoreInfo: [],
     supNames: [],
-    names: []
+    names: [],
+    categMoreInfo: []
 
 }
 
@@ -47,22 +48,33 @@ const moreInfoReducer = (state = initialState, action) => {
                     if (item.supports?.length > 0) {
                         item.supports.map((support) => {
 
-                            state.suppForMoreInfo.push(support.name)
+                            state.suppForMoreInfo.push({name:support.name,category:item.category_arm})
+                            if(state.categMoreInfo.some(c => c == item.category_arm)) {
+
+                            } else {
+                                state.categMoreInfo.push(item.category_arm)
+
+                            }
                         })
                     }
 
                 })
             }
+            
+          
+
             return {
                 ...state,
-                suppForMoreInfo: state.suppForMoreInfo
+                suppForMoreInfo: state.suppForMoreInfo,
+                categMoreInfo: state.categMoreInfo
             }
 
         case DELETE_SUPPORTS:
 
             return {
                 ...state,
-                suppForMoreInfo: []
+                suppForMoreInfo: [],
+                categMoreInfo: []
             }
         case EDIT_SUP_SUPPORTS:
             return {

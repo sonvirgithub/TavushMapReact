@@ -47,16 +47,20 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
       let index = isSelect.findIndex(item => item.supportid === supportId);
       isSelect.splice(index, 1)
 
+      
+
       let index1 = support.findIndex(item => item.categoryId === categId);
 
       let arr = support[index1].supports
       let newArr = [];
 
+
+
       newArr = arr.filter(c => supportId !== c.supportid);
       dispatch(editProg({
         ...program, support: [...support.map((sup) => {
           if (sup.categoryId === categId) {
-
+           
             return Object.assign({}, sup, {
               supports: newArr,
               categoryId: categId,
@@ -65,25 +69,24 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
             })
 
           }
-
           return sup
         })]
       }))
 
 
+   
+      // if (support[index1].supports.length == 0) {
+      //   console.log("datark");
+      //   let arr = support
+      //   let newArr = []
+      //   newArr = arr.filter(c => categId !== c.categoryId);
 
-      if (support[index1].supports.length == 0) {
-        console.log("datark");
-        let arr = support
-        let newArr = []
-        newArr = arr.filter(c => categId !== c.categoryId);
-
-        dispatch(editProg({
-          ...program, support: newArr
-        }))
+      //   dispatch(editProg({
+      //     ...program, support: newArr
+      //   }))
 
 
-      }
+      // }
 
     }
     else {
@@ -117,7 +120,9 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
         }))
 
 
-      } else {
+      }
+
+      else {
         let array = [{ name: name, supportid: supportId }]
 
         let arr = support
@@ -163,7 +168,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
           categores.map((cat) => {
 
             if (cat.categoryid === category.categoryid) {
-              
+
               let arr = support.filter(c => c.categoryId !== category.categoryid)
               let newArr = arr
               newArr = [...newArr, {

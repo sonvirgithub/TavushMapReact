@@ -53,13 +53,12 @@ const programReducer = (state = initialState, action) => {
                 state.select_endDate = true
             }
             if (action.payload.startDate === null || action.payload.startDate === "") {
-                
+
             } else {
                 const startDate = moment(action.payload.startDate).toDate()
                 action.payload.startDate = startDate
             }
-            
-
+           
             return {
                 ...state,
                 program: action.payload,

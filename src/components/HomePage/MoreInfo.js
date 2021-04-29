@@ -5,13 +5,16 @@ import store, { moreInfoShow, editSupMoreInfo, changeSupMoreInfo } from "../../r
 import { connect } from "react-redux";
 
 
-function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoShow }) {
+function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoShow,categMoreInfo }) {
 
 
   const closeMore = () => {
     moreInfoShow(false)
 
   };
+
+console.log(categMoreInfo);
+
   return (
     <div className="sideBar sideBar1 ">
       <div onClick={closeMore}>
@@ -90,8 +93,9 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
             className="org_icon"
             src={require("../../img/sphere.svg").default}
           />
-          {moreInfoProg.support.map(item => {
-            return item.category_arm + ', '
+          {categMoreInfo.map(item => {
+
+            return item + ', '
           })}
         </div>
 
@@ -102,7 +106,7 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
           />
 
           {suppForMoreInfo.map(item => {
-            return item + ', '
+            return item.name + ', '
           })}
         </div>
 
@@ -148,7 +152,8 @@ const mapStateToProps = (state) => {
     suppForMoreInfo: state.moreInfo.suppForMoreInfo,
     isSelect: state.prog.isSelect,
     array: state.moreInfo.array,
-    program: state.prog.program
+    program: state.prog.program,
+    categMoreInfo: state.moreInfo.categMoreInfo
 
   };
 };
