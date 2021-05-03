@@ -49,17 +49,17 @@ function Communities({ cityErr, findScrollId }) {
 
 
       communities.map((city) => {
-        
-          newArr = [...newArr, {
-            communityId: city.id,
-            community_arm: city.name
-          }]
-          dispatch(editProg({
-            ...store.getState().prog.program, community: newArr
-          }))
-       
+
+        newArr = [...newArr, {
+          communityId: city.id,
+          community_arm: city.name
+        }]
+        dispatch(editProg({
+          ...store.getState().prog.program, community: newArr
+        }))
+
       })
-      
+
     } else {
       setSelectAllCity(select)
       dispatch(editProg({

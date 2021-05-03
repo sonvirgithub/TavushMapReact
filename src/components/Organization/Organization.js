@@ -65,31 +65,35 @@ function Organization({ organizations,getOrganizations }) {
             organizations.map((org, index) => {
               return (
                 <tr key={org.id}>
-                  <td>{org.nameArm}</td>
-                  <td>{org.nameEng}</td>
+                  <td>
+                  <div className="tdSphere_org">
+                  {org.nameArm}
+                  </div>
+                  </td>
+
+                  <td><div className="tdSphere_org">{org.nameEng}</div></td>
                  
 
-                  <td>{org.contactPersonArm}</td>
+                  <td><div className="tdSphere_org">{org.contactPersonArm}</div></td>
                   {/* <td>{org.name_eng}</td> */}
                   <td
                   //   style={{ display: "flex" }}
                   >
-                    <div
-                      style={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                        <div
-                        variant="primary"
+                    <div style={{ display: "flex", justifyContent: "center"}}>
+                        <div 
                         onClick={() => {
                           handleShowEdit(index);
                         }}
                       >
-                        <img className="org_icon" src={require("../../img/edit.svg").default} />
+                        <img className="org_icon"  
+                         src={require("../../img/edit.svg").default} />
                       </div>
-                      <div style={{ marginLeft: "5px" }} onClick={() => {
+                      <div style={{ display: "flex", marginTop: "5px" }} onClick={() => {
                           handleShowDelete(index);
                         }}>
                         <img
                           className="org_icon"
+                          style={{ width: "17px" }}
                           src={require("../../img/remove.svg").default}
                         />
                       </div>

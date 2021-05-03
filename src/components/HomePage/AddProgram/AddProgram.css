@@ -80,7 +80,6 @@ textarea:focus {
  
   display: block;
   text-align: center;
-  position: absolute;
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;
@@ -213,12 +212,15 @@ margin-left: -300px;
 .description_input {
   border-radius: 4px;
   border: 1px solid rgba(196, 196, 196, 1);
-  padding: 20px;
   padding-right: -30px;
   margin-top: 50px;
   width: 360px;
   height: 155px;
-  padding-bottom: 100px;
+  padding-top: 18px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  overflow-y: scroll;
 }
 
 .btn_popup {
@@ -228,8 +230,7 @@ margin-left: -300px;
 .cancel {
   height: 45px;
 width: 130px;
-float: left;
-margin-left: 100px;
+margin-left: 74px;
 border-radius: 4px;
 border: 1px solid #DB0909;
 color: #DB0909;
@@ -244,8 +245,7 @@ text-transform: uppercase;
 .save {
   padding-top: 10px;
   height: 45px;
-  margin-right: 107px;
-  float: right;
+  margin-right: 74px;
   width: 130px;
   border-radius: 4px;
   background: #C4C4C4;
@@ -758,3 +758,15 @@ color: #FFFFFF;
 html {
   scroll-behavior: smooth;
   }
+
+  /* .modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between !important;
+    padding: .75rem;
+    border-top: 1px solid #dee2e6;
+    border-bottom-right-radius: calc(.3rem - 1px);
+    border-bottom-left-radius: calc(.3rem - 1px);
+} */

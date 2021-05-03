@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { fetchUser,succeeded, } from "./redux";
 import SuccessPage from "./pages/SuccessPage";
 import FailPage from "./pages/FailPage";
-
+import "./App.css"
 function App({ token, ready, fetchUser, loading, success,fail }) {
   
  

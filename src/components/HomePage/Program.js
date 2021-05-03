@@ -4,17 +4,17 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Program.css"
 import moment from 'moment'
 import store, {
-  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo,allSupports,selectCommunities,
+  deleteProg, deleteShow, editShow, getPrograms, deleteSupMoreInfo, allSupports, selectCommunities,
   editProg, selectedSupports, changeIsSelect, moreInfoShow, moreInfoProgram, changeSupMoreInfo, editSupMoreInfo, naxkinProg
 } from "../../redux";
 import { useDispatch, connect } from "react-redux";
 
 function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, moreInfoProgram,
-  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo,selectCommunities }) {
+  changeSupMoreInfo, selectedSupports, deleteSupMoreInfo, selectCommunities }) {
 
-     useEffect(() => {
-      getPrograms()
-    
+  useEffect(() => {
+    getPrograms()
+
   }, [])
 
   const dispatch = useDispatch()
@@ -31,7 +31,7 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
       if (!edit) {
         changeIsSelect([])
         selectedSupports(store.getState().prog.programs[index])
-        
+
       }
     }
 
@@ -48,10 +48,8 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
   const handleShowMoreInfo = (index) => {
 
     moreInfoProgram(store.getState().prog.programs[index])
-      deleteSupMoreInfo()
-      changeSupMoreInfo(store.getState().prog.programs[index])
-
-   
+    deleteSupMoreInfo()
+    changeSupMoreInfo(store.getState().prog.programs[index])
     moreInfoShow(true)
 
   }
@@ -87,10 +85,9 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
                 return (
 
                   <tr key={prog.id}>
-                   
+
                     <td>
-                    <div className="tdSphere">{prog.programName_arm} 
-                    </div>
+                      <div className="tdSphere">{prog.programName_arm}</div>
                     </td>
                     <td >
                       <div className="tdSphere" >
@@ -105,12 +102,12 @@ function Program({ getPrograms, changeIsSelect, program, edit, moreInfoShow, mor
                       {prog.status}
                     </td>
                     <td>
-                    <div className="tdSphere">
-                    {prog.manager_arm}
-                    </div>
+                      <div className="tdSphere">
+                        {prog.manager_arm}
+                      </div>
                     </td>
                     <td>
-                      <div style={{ display: "flex", }}>
+                      <div style={{ display: "flex", justifyContent:"center" }}>
                         <div style={{ width: "30px", marginRight: "10px" }} onClick={() => {
                           handleShowMoreInfo(index)
 
@@ -170,7 +167,7 @@ const mapStateToProps = (state) => {
     moreInfoProg: state.moreInfoProg,
     suppMoreInfoProg: state.moreInfo.suppMoreInfoProg,
     cities: state.prog.cities
-   
+
 
 
   };
@@ -185,9 +182,9 @@ const mapDispatchToProps = dispatch => {
     editSupMoreInfo: (prog) => dispatch(editSupMoreInfo(prog)),
     deleteSupMoreInfo: () => dispatch(deleteSupMoreInfo()),
     changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
-    allSupports:(prog) => dispatch(allSupports(prog)),
-    selectCommunities:(com) => dispatch(selectCommunities(com))
-    
+    allSupports: (prog) => dispatch(allSupports(prog)),
+    selectCommunities: (com) => dispatch(selectCommunities(com))
+
 
 
 

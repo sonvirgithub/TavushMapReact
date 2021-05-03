@@ -16,7 +16,7 @@ import Organizations from "./Organizations/Organizations";
 import SupportTypes from "./SupportTypes/SupportTypes";
 import Status from "./Status/Status";
 
-function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSuccess, showEdit, moreInfoProgram, program1, deleteSupMoreInfo, edit, changeIsSelect,
+function EditProgram({ isSelect, select_endDate, selectedSupports, progEditSuccess, showEdit, moreInfoProgram, program1, deleteSupMoreInfo, edit, changeIsSelect,
   cityErrMessage, orgErrMessage, supErrMessage, moreInfoProg, changeSupMoreInfo, scrollId, findScrollId, naxkinProg }) {
 
   const dispatch = useDispatch()
@@ -31,9 +31,6 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
   const manager_eng = useRef();
   const contact_arm = useRef();
   const contact_eng = useRef();
-
-
-
 
   useEffect(() => {
     if (program1.programName_arm != "" && program1.programName_eng != "" && program1.budget != "" &&
@@ -50,6 +47,9 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
       setSaveClassName("save_class2")
     }
 
+  }, [program1])
+
+  useEffect(() => {
     if (project_name_arm.current != null) {
       project_name_arm.current.style.height = (project_name_arm.current.scrollHeight) + "px";
 
@@ -74,11 +74,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
       contact_eng.current.style.height = (contact_eng.current.scrollHeight) + "px";
 
     }
-
-
-  }, [program1])
-
-
+  })
 
   const [program, setProgram] = useState([
     { editError: "", classname: '' },
@@ -101,7 +97,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
     }
     dispatch(editShow())
-  
+
     arry.map((item, index) => {
       program[index] = {
         editError: "",
@@ -139,12 +135,12 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
       findScrollId(10)
 
     } else if (indexes.includes(11)) {
-      const array = [0, 1, 2, 3, 4, 5, 6,7]
+      const array = [0, 1, 2, 3, 4, 5, 6, 7]
       if (array.some(item => item == Math.min(...indexes))) {
         findScrollId(Math.min(...indexes))
       } else { findScrollId(11) }
     } else if (indexes.includes(12)) {
-      const array = [0, 1, 2, 3, 4, 5, 6,7]
+      const array = [0, 1, 2, 3, 4, 5, 6, 7]
       if (array.some(item => item == Math.min(...indexes))) {
         findScrollId(Math.min(...indexes))
       } else { findScrollId(12) }
@@ -172,7 +168,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
     arry[12] = isSelect
 
     setArray([...arry])
-    if (program1.programName_arm == "" || program1.programName_eng == "" || program1.budget == "" || 
+    if (program1.programName_arm == "" || program1.programName_eng == "" || program1.budget == "" ||
       program1.manager_arm == "" || program1.manager_eng == "" || program1.contact_arm == "" || program1.startDate == null
       || program1.contact_eng == "" || program1.description_arm == "" || program1.description_eng == "" ||
       program1.community.length == 0 || program1.organization.length == 0 || isSelect.length == 0) {
@@ -252,23 +248,23 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
   }
 
   const handleSubmit = (evt) => {
-    let endDate  = ""
+    let endDate = ""
     let startDate = ""
-    if ( store.getState().prog.program.endDate !== null) {
+    if (store.getState().prog.program.endDate !== null) {
       const year1 = store.getState().prog.program.endDate.getFullYear()
       const month1 = store.getState().prog.program.endDate.getMonth() + 1
       const day1 = store.getState().prog.program.endDate.getDate()
-       endDate = `${year1}-${month1}-${day1}`
+      endDate = `${year1}-${month1}-${day1}`
     } else {
       endDate = null
     }
 
-    if ( store.getState().prog.program.startDate !== null) {
-    const year = store.getState().prog.program.startDate.getFullYear()
-    const month = store.getState().prog.program.startDate.getMonth() + 1
-    const day = store.getState().prog.program.startDate.getDate()
-    startDate = `${year}-${month}-${day}`
-    } 
+    if (store.getState().prog.program.startDate !== null) {
+      const year = store.getState().prog.program.startDate.getFullYear()
+      const month = store.getState().prog.program.startDate.getMonth() + 1
+      const day = store.getState().prog.program.startDate.getDate()
+      startDate = `${year}-${month}-${day}`
+    }
 
     const isValid = validate()
     if (isValid) {
@@ -325,7 +321,7 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
 
 
-        
+
     } else {
       executeScroll()
     }
@@ -393,12 +389,12 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
 
                   className={`${program[3].classname} dateStart`}
                   closeOnScroll={true} />
-                   <label className="start_date_err inputiError">{program[3].editError}</label>
+                <label className="start_date_err inputiError">{program[3].editError}</label>
               </div>
               <div className="end">
                 <label className="end_date_label">Ավարտ</label>
                 <DatePicker selected={store.getState().prog.program.endDate}
-                
+
                   startDate={store.getState().prog.program.endDate} onChange={date => { dispatch(editProg({ ...store.getState().prog.program, endDate: date })); selectEndDate() }}
                   className="dateEnd" closeOnScroll={true} />
               </div>
@@ -477,15 +473,16 @@ function EditProgram({ isSelect,select_endDate, selectedSupports, progEditSucces
                 onClick={() => dispatch(editProg({ ...store.getState().prog.program, isDonor: !store.getState().prog.program.isDonor, }))} />
             </div>
 
-            <div className="btn_popup">
-              <button className="cancel" onClick={() => { handleClose() }}>Չեղարկել</button>
-              <a className={`${saveClassName} save`}
-                href={`#${scrollId}`}
-                onClick={() => { handleSubmit() }}
-              >Հաստատել</a>
-            </div>
-          </Modal.Body>
-          : <></>}
+          </Modal.Body> : <></>}
+        <Modal.Footer style={{ justifyContent: "space-between" }}>
+          <button className="cancel" onClick={() => { handleClose() }}>Չեղարկել</button>
+          <a className={`${saveClassName} save`}
+            href={`#${scrollId}`}
+            onClick={() => { handleSubmit() }}
+          >Հաստատել</a>
+
+        </Modal.Footer>
+
       </Modal>
     </>
   );

@@ -162,36 +162,10 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
       })
 
 
-
-    if (project_name_arm.current != null) {
-      project_name_arm.current.style.height = (project_name_arm.current.scrollHeight) + "px";
-
-    }
-    if (project_name_eng.current != null) {
-      project_name_eng.current.style.height = (project_name_eng.current.scrollHeight) + "px";
-
-    }
-    if (manager_arm.current != null) {
-      manager_arm.current.style.height = (manager_arm.current.scrollHeight) + "px";
-
-    }
-    if (manager_eng.current != null) {
-      manager_eng.current.style.height = (manager_eng.current.scrollHeight) + "px";
-
-    }
-    if (contact_arm.current != null) {
-      contact_arm.current.style.height = (contact_arm.current.scrollHeight) + "px";
-
-    }
-    if (contact_eng.current != null) {
-      contact_eng.current.style.height = (contact_eng.current.scrollHeight) + "px";
-
-    }
-
-    if (program.name_arm != "" && program.name_eng != "" && program.budget != "" && program.start_date == null &&
+    if (program.name_arm != "" && program.name_eng != "" && program.budget != "" && program.start_date !== null &&
       program.manager_arm != "" && program.manager_eng != "" && program.contact_arm != ""
       && program.contact_eng != "" && program.description_arm != "" && program.description_eng != "" &&
-      communityid?.length != 0 && organizationid?.length != 0 && isSelect?.length != 0) {
+      communityid?.length != 0 && organizationid?.length != 0 && isSelect?.length != 0 && statusid != "") {
       setSaveClassName("save_class1")
     }
 
@@ -615,7 +589,7 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
   }
 
   return (
-    <div>
+    <div >
       <div >
         <img src={require("../AdminIcons/add.svg").default} />
         <button variant="primary" className="button_add" onClick={handleShow}>
@@ -873,10 +847,12 @@ function AddProgram({ progAddSuccess, support, showAdd, editProg, findScrollId, 
             <label className="donor_label">Դոնոր խմբի անդամ է</label>
             <input type="checkbox" id='donor' className="isDonor" value={program.isdonor} onClick={() => { setProgram({ ...program, isdonor: !program.isDonor }) }} />
           </div>
-          <div className="btn_popup">
-            <button className="cancel" onClick={cancel}>Չեղարկել</button>
-            <a className={`${saveClassName} save`} href={`#${scrollId}`} onClick={addProject}>Հաստատել</a></div>
-        </Modal.Body>
+          </Modal.Body>
+          <Modal.Footer style={{  justifyContent: "space-between" }}>
+          
+            <button variant="secondary" className="cancel" onClick={cancel}>Չեղարկել</button>
+            <a   variant="primary" className={`${saveClassName} save`} href={`#${scrollId}`} onClick={addProject}>Հաստատել</a>
+            </Modal.Footer>
       </Modal>
 
     </div>

@@ -47,7 +47,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
       let index = isSelect.findIndex(item => item.supportid === supportId);
       isSelect.splice(index, 1)
 
-      
+
 
       let index1 = support.findIndex(item => item.categoryId === categId);
 
@@ -60,7 +60,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
       dispatch(editProg({
         ...program, support: [...support.map((sup) => {
           if (sup.categoryId === categId) {
-           
+
             return Object.assign({}, sup, {
               supports: newArr,
               categoryId: categId,
@@ -74,7 +74,7 @@ function SupportTypes({ isSelect, changeIsSelect, suppForMoreInfo, supErr, editP
       }))
 
 
-   
+
       // if (support[index1].supports.length == 0) {
       //   console.log("datark");
       //   let arr = support

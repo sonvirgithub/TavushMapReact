@@ -1,0 +1,29 @@
+@font-face {
+    font-family: MardotoBlack;
+    src: url(./fonts/Mardoto-Black.ttf) format("truetype");
+    }
+
+@font-face {
+    font-family: MardotoLight;
+    src: url(./fonts/Mardoto-Light.ttf) format("truetype");
+    }
+
+@font-face {
+    font-family: MardotoRegular;
+    src: url(./fonts/Mardoto-Regular.ttf) format("truetype");
+    }
+
+    @font-face {
+        font-family: MardotoThin;
+        src: url(./fonts/Mardoto-Thin.ttf) format("truetype");
+        }
+
+ @font-face {
+            font-family: MardotoMedium;
+            src: url(./fonts/Mardoto-Medium.ttf) format("truetype");
+            }
+        
+ body {
+     font-family: MardotoRegular;
+
+ }   

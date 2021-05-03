@@ -13,8 +13,6 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
 
   };
 
-console.log(categMoreInfo);
-
   return (
     <div className="sideBar sideBar1 ">
       <div onClick={closeMore}>

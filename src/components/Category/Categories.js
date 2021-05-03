@@ -58,7 +58,7 @@ function Categories({getCategories}) {
 
                   <td>
                     <div
-                      style={{ display: "flex", justifyContent: "flex-end" }}
+                      style={{ display: "flex",justifyContent:"center" }}
                     >
                       <div
                         variant="primary"
@@ -68,11 +68,12 @@ function Categories({getCategories}) {
                       >
                         <img className="org_icon" src={require("../../img/edit.svg").default} />
                       </div>
-                      <div style={{ marginRight: "15px" }}
+                      <div style={{ }}
                         onClick={() => {
                           handleShowDelete(index);
                         }}>
                         <img
+                        style={{ width: "17px" }}
                           className="org_icon"
                           src={require("../../img/remove.svg").default}
                         />

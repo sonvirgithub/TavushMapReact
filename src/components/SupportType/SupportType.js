@@ -41,11 +41,7 @@ function SupportType({ supportTypes,getSupportTypes,getCategories }) {
           <tr>
             <th>
               Ոլորտ
-              {/* <span style={{ fontWeight: "400" }}>(Հայ)</span> */}
             </th>
-            {/* <th>
-              Ոլորտ <span style={{ fontWeight: "400" }}>(Անգլ)</span>{" "}
-            </th> */}
             <th>
               Աջակցության տեսակ <span style={{ fontWeight: "400" }}>(Հայ)</span>
             </th>
@@ -62,15 +58,15 @@ function SupportType({ supportTypes,getSupportTypes,getCategories }) {
             supportTypes.map((supType, index) => {
               return (
                 <tr key={index}>
-                  <td>{supType.categoryName}</td>
+                  <td><div className="tdSphere_org">{supType.categoryName}</div></td>
                   {/* <td>{supType.category_eng}</td> */}
-                  <td>{supType.name_arm}</td>
+                  <td><div className="tdSphere_org">{supType.name_arm}</div></td>
 
-                  <td>{supType.name_eng}</td>
+                  <td><div className="tdSphere_org">{supType.name_eng}</div></td>
 
                   <td>
                     <div
-                      style={{ display: "flex", justifyContent: "flex-end" }}
+                      style={{ display: "flex", justifyContent:"center"}}
                     >
                       <div
                         variant="primary"
@@ -84,6 +80,7 @@ function SupportType({ supportTypes,getSupportTypes,getCategories }) {
                         handleShowDelete(index);
                       }}>
                         <img
+                        style={{ width: "17px" }}
                           className="org_icon"
                           src={require("../../img/remove.svg").default}
                         />
