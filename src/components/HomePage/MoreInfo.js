@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import "./MoreInfo.css"
-import store, { moreInfoShow, editSupMoreInfo, changeSupMoreInfo } from "../../redux";
+import "./MoreInfo.css";
+import store, {
+  moreInfoShow,
+  editSupMoreInfo,
+  changeSupMoreInfo,
+} from "../../redux";
 import { connect } from "react-redux";
 
-
-function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoShow,categMoreInfo }) {
-
-
+function MoreInfo({
+  suppForMoreInfo,
+  moreInfoProg,
+  startDate,
+  endDate,
+  moreInfoShow,
+  categMoreInfo,
+}) {
   const closeMore = () => {
-    moreInfoShow(false)
-
+    moreInfoShow(false);
   };
 
   return (
@@ -23,23 +30,29 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
         />
       </div>
 
-      <div style={{ padding: "30px" }} >
-
-        <div style={{ color: "#05558F", fontSize: "28px", }}>
+      <div style={{ padding: "30px" }}>
+        <div style={{ color: "#05558F", fontSize: "28px" }}>
           {moreInfoProg.programName_arm}
         </div>
 
-        <div style={{ color: "#808A8A", fontSize: "18px", }}>
+        <div style={{ color: "#808A8A", fontSize: "18px" }}>
           {moreInfoProg.programName_eng}
         </div>
 
-        <div style={{ margintop: "10px", padding: "5px 0px", fontSize: "15px", display: "flex" }}>
+        <div
+          style={{
+            margintop: "10px",
+            padding: "5px 0px",
+            fontSize: "15px",
+            display: "flex",
+          }}
+        >
           <img
             className="org_icon"
             src={require("../../img/community.svg").default}
           />
-          {moreInfoProg.community?.map(item => {
-            return item.community_arm + ', '
+          {moreInfoProg.community?.map((item) => {
+            return item.community_arm + ", ";
           })}
         </div>
 
@@ -80,10 +93,9 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
             className="org_icon"
             src={require("../../img/organization.svg").default}
           />
-          {moreInfoProg.organization.map(item => {
-            return item.organizationName_arm + ', '
+          {moreInfoProg.organization.map((item) => {
+            return item.organizationName_arm + ", ";
           })}
-
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
@@ -91,9 +103,8 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
             className="org_icon"
             src={require("../../img/sphere.svg").default}
           />
-          {categMoreInfo.map(item => {
-
-            return item + ', '
+          {categMoreInfo.map((item) => {
+            return item + ", ";
           })}
         </div>
 
@@ -103,21 +114,20 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
             src={require("../../img/support.svg").default}
           />
 
-          {suppForMoreInfo.map(item => {
-            return item.name + ', '
+          {suppForMoreInfo.map((item) => {
+            return item.name + ", ";
           })}
         </div>
 
-
-        <div className="desc" style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}>
-
+        <div
+          className="desc"
+          style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}
+        >
           <img
             className="org_icon"
             src={require("../../img/description.svg").default}
           />
-          <div >
-            {moreInfoProg.description_arm}
-          </div>
+          <div>{moreInfoProg.description_arm}</div>
         </div>
 
         <div style={{ padding: "5px 0px", fontSize: "15px" }}>
@@ -126,18 +136,27 @@ function MoreInfo({ suppForMoreInfo, moreInfoProg, startDate, endDate, moreInfoS
             src={require("../../img/ongoing.svg").default}
           />
           {moreInfoProg.status}
-
         </div>
 
+        {moreInfoProg.donorName ? (
+          <div
+            style={{ padding: "5px 0px", fontSize: "15px", display: "flex" }}
+          >
+            <img
+              className="org_icon"
+              src={require("../../img/organization.svg").default}
+            />
+            {moreInfoProg.donorName}
+          </div>
+        ) : null}
         <div style={{ padding: "5px 0px", fontSize: "15px" }}>
           <img
             className="org_icon"
             src={require("../../img/donor.svg").default}
           />
-          Դոնոր խմբի անդամ <b>{moreInfoProg.isDonor ? 'է' : 'չէ'}</b>
+          Դոնոր խմբի անդամ <b>{moreInfoProg.isDonor ? "է" : "չէ"}</b>
         </div>
       </div>
-
     </div>
   );
 }
@@ -151,16 +170,15 @@ const mapStateToProps = (state) => {
     isSelect: state.prog.isSelect,
     array: state.moreInfo.array,
     program: state.prog.program,
-    categMoreInfo: state.moreInfo.categMoreInfo
-
+    categMoreInfo: state.moreInfo.categMoreInfo,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     moreInfoShow: (show) => dispatch(moreInfoShow(show)),
     editSupMoreInfo: (sup) => dispatch(editSupMoreInfo(sup)),
-    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog))
-  }
-}
+    changeSupMoreInfo: (prog) => dispatch(changeSupMoreInfo(prog)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoreInfo);

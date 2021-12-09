@@ -1,0 +1,6 @@
+.select-items {
+  max-height: 200px;
+  width: 360px;
+  /* /* overflow-x: scroll; */
+  overflow-y: auto;
+}
