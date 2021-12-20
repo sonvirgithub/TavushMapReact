@@ -135,13 +135,7 @@ textarea:focus {
 }
 
 .start_date_label {
-  /* display: flex; */
-  margin-top: 20px;
-  margin-bottom: -50px;
-  width: 50px;
-  float: left;
-  margin-top: 20px;
-  margin-left: 55px;
+  display: flex;
 }
 .dateEnd {
   /* display: flex; */
@@ -155,7 +149,7 @@ textarea:focus {
 
 .dateStart {
   width: 150px;
-  margin-left: 50px;
+  float: left;
   border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 4px;
@@ -221,7 +215,6 @@ textarea:focus {
 }
 
 .save {
-  padding-top: 10px;
   height: 45px;
   margin-right: 74px;
   width: 130px;
@@ -372,7 +365,7 @@ ul {
 
 .cities {
   margin-top: 20px;
-  margin-left: -280px;
+  margin-left: -250px;
   margin-bottom: 5px;
 }
 
@@ -448,13 +441,14 @@ ul {
   width: 250px;
   text-align: left;
 }
-
+.display_flex_around {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 72px;
+}
 .react-datepicker__input-container {
   width: 150px;
   height: 48px;
-  margin-top: 50px;
-  /* padding-top: 50px; */
-  margin-left: -95px;
 }
 
 .react-datepicker__day--selected,
@@ -619,7 +613,8 @@ input {
 }
 
 .start {
-  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .cancel:hover {
@@ -635,7 +630,6 @@ input {
 }
 
 .save:hover {
-  background: #05558f;
   border-radius: 4px;
   opacity: 50%;
   font-style: normal;
@@ -678,14 +672,11 @@ input {
 .inputiError {
   display: block;
   color: red;
-  margin-right: 180px;
   font-size: 13px;
 }
 
 .start_date_err {
   height: 20px;
-  margin-left: 45px;
-  width: 200px;
   display: table-caption !important;
 }
 
@@ -722,9 +713,6 @@ input {
 .star_start_date {
   width: 8px;
   height: 10px;
-  margin-top: -20px;
-  display: flex;
-  margin-left: 50px;
 }
 html {
   scroll-behavior: smooth;

@@ -700,7 +700,7 @@ function AddProgram({
           </div>
 
           <div className="project_name">
-            <label className="support_type" id="10">
+            <label className="cities" id="10">
               Համայնք(ներ)
               <img
                 className="star"
@@ -802,7 +802,7 @@ function AddProgram({
           </div>
 
           {/* date-eri inputnery */}
-          <div className="display_flex">
+          <div className="display_flex_around">
             <div className="start">
               <label className="start_date_label" id="4">
                 Սկիզբ
@@ -825,8 +825,8 @@ function AddProgram({
               </label>
             </div>
 
-            <div className="end">
-              <label className="end_date_label">Ավարտ</label>
+            <div className="start">
+              <label className="start_date_label">Ավարտ</label>
               <DatePicker
                 selected={program.end_date}
                 startDate={program.end_date}
@@ -834,7 +834,7 @@ function AddProgram({
                   setProgram({ ...program, end_date: date });
                   selectEndDate();
                 }}
-                className="dateEnd"
+                className="dateStart"
                 closeOnScroll={true}
               />
             </div>
@@ -1179,18 +1179,25 @@ function AddProgram({
             />
           </div>
         </Modal.Body>
-        <Modal.Footer style={{ justifyContent: "space-between" }}>
-          <button variant="secondary" className="cancel" onClick={cancel}>
+        <Modal.Footer
+          className="display_flex_around"
+          style={{ justifyContent: "space-between" }}
+        >
+          <button
+            variant="secondary"
+            className="btn btn-secondary"
+            onClick={cancel}
+          >
             Չեղարկել
           </button>
-          <a
+          <button
             variant="primary"
-            className={`${saveClassName} save`}
+            className={`btn btn-primary`}
             href={`#${scrollId}`}
             onClick={addProject}
           >
             Հաստատել
-          </a>
+          </button>
         </Modal.Footer>
       </Modal>
     </div>

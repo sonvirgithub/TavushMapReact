@@ -483,7 +483,7 @@ function EditProgram({
             </div>
 
             {/* date-eri inputnery */}
-            <div className="display_flex">
+            <div className="display_flex_around">
               <div className="start">
                 <label className="start_date_label" id="3">
                   Սկիզբ
@@ -494,6 +494,7 @@ function EditProgram({
                 </label>
 
                 <DatePicker
+                  id="start"
                   selected={store.getState().prog.program.startDate}
                   startDate={store.getState().prog.program.startDate}
                   onChange={(date) =>
@@ -511,8 +512,8 @@ function EditProgram({
                   {program[3].editError}
                 </label>
               </div>
-              <div className="end">
-                <label className="end_date_label">Ավարտ</label>
+              <div className="start">
+                <label className="start_date_label">Ավարտ</label>
                 <DatePicker
                   selected={store.getState().prog.program.endDate}
                   startDate={store.getState().prog.program.endDate}
@@ -525,7 +526,7 @@ function EditProgram({
                     );
                     selectEndDate();
                   }}
-                  className="dateEnd"
+                  className="dateStart"
                   closeOnScroll={true}
                 />
               </div>
@@ -727,24 +728,27 @@ function EditProgram({
         ) : (
           <></>
         )}
-        <Modal.Footer style={{ justifyContent: "space-between" }}>
+        <Modal.Footer
+          className="display_flex_around"
+          style={{ justifyContent: "space-between" }}
+        >
           <button
-            className="cancel"
+            className="btn btn-secondary"
             onClick={() => {
               handleClose();
             }}
           >
             Չեղարկել
           </button>
-          <a
-            className={`${saveClassName} save`}
+          <button
+            className={`btn btn-primary`}
             href={`#${scrollId}`}
             onClick={() => {
               handleSubmit();
             }}
           >
             Հաստատել
-          </a>
+          </button>
         </Modal.Footer>
       </Modal>
     </>
