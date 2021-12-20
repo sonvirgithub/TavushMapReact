@@ -336,7 +336,7 @@ function EditProgram({
       const day = submitProgram.startDate.getDate();
       startDate = `${year}-${month}-${day}`;
     }
-    submitProgram.donorId = donor.id;
+    submitProgram.donorId = donor?.id;
 
     const isValid = validate();
     if (isValid) {

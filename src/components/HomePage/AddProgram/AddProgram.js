@@ -235,7 +235,7 @@ function AddProgram({
       description_arm: program.description_arm,
       description_eng: program.description_eng,
       statusid,
-      donorId: donor.id,
+      donorId: donor?.id,
       isdonor: program.isdonor,
       language,
     };
@@ -280,7 +280,7 @@ function AddProgram({
               community: communityName,
               organization: orgName,
               support: support,
-              donorId: donor.id,
+              donorId: donor?.id,
             };
 
             progAddSuccess(prog);
